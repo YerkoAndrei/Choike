@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Collections.Generic;
 using Choike.Clases;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using System.Windows.Input;
 
 namespace Choike
 {
@@ -21,7 +22,6 @@ namespace Choike
 
         private List<Canción> cancionesActuales;
         private List<Carpeta> carpetasActuales;
-        private List<int> listaAleatoria;
 
         private bool pausa;
         private bool repetirCanción;
@@ -41,8 +41,8 @@ namespace Choike
 
             // Valores predeterminados
             pausa = false;
-            repetirCanción = false;
             aleatorio = true;
+            repetirCanción = false;
             índiceActual = 0;
 
             volumen.Value = 0.5;
@@ -50,7 +50,6 @@ namespace Choike
 
             carpetaActual = new Carpeta();
             cancionActual = new Canción();
-            listaAleatoria = new List<int>();
 
             cancionesActuales = new List<Canción>();
             carpetasActuales = new List<Carpeta>();
@@ -81,8 +80,40 @@ namespace Choike
             }));
         }
 
+
         // --- Botones ---
 
+
+        private void EnTecla(object sender, KeyEventArgs e)
+        {
+            switch(e.Key)
+            {
+                case Key.Space:
+                case Key.MediaPlayPause:
+                    EnClicPausa(sender, e);
+                    break;
+                case Key.MediaNextTrack:
+                    EnClicSiguiente(sender, e);
+                    break;
+                case Key.MediaPreviousTrack:
+                    EnClicAnterior(sender, e);
+                    break;
+                case Key.MediaStop:
+                    EnClicDetener(sender, e);
+                    break;
+                case Key.VolumeMute:
+                    EnClicSilencio(sender, e);
+                    break;
+                case Key.PageUp:
+                    mediaPlayer.Volume += volumen.Value;
+                    volumen.Value = volumen.LargeChange;
+                    break;
+                case Key.PageDown:
+                    mediaPlayer.Volume -= volumen.Value;
+                    volumen.Value = volumen.LargeChange;
+                    break;
+            }
+        }
 
         private void EnClicPausa(object sender, RoutedEventArgs e)
         {
@@ -99,9 +130,9 @@ namespace Choike
             var nuevoÍndice = índiceActual - 1;
 
             if (nuevoÍndice < 0)
-                nuevoÍndice = listaAleatoria.Count - 1;
+                nuevoÍndice = cancionesActuales.Count - 1;
 
-            listaCanciones.SelectedIndex = listaAleatoria[nuevoÍndice];
+            listaCanciones.SelectedIndex = cancionesActuales[nuevoÍndice].Índice;
             pausa = false;
         }
 
@@ -109,10 +140,10 @@ namespace Choike
         {
             var nuevoÍndice = índiceActual += 1;
 
-            if (nuevoÍndice >= listaAleatoria.Count)
+            if (nuevoÍndice >= cancionesActuales.Count)
                 nuevoÍndice = 0;
 
-            listaCanciones.SelectedIndex = listaAleatoria[nuevoÍndice];
+            listaCanciones.SelectedIndex = cancionesActuales[nuevoÍndice].Índice;
             pausa = false;
 
         }
@@ -132,6 +163,18 @@ namespace Choike
         private void EnClicAleatorio(object sender, RoutedEventArgs e)
         {
             aleatorio = !aleatorio;
+
+            if(aleatorio)
+            {
+                var random = new Random();
+                cancionesActuales = cancionesActuales.OrderBy(o => random.Next()).ToList();
+                índiceActual = 0;
+            }
+            else
+            {
+                cancionesActuales = cancionesActuales.OrderBy(o => o.Índice).ToList();
+                índiceActual = 0;
+            }
         }
 
         private void EnClicRepetir(object sender, RoutedEventArgs e)
@@ -174,20 +217,7 @@ namespace Choike
 
         private void SiguienteCanción(object sender, EventArgs e)
         {
-            var nombreArchivo = cancionesActuales[listaCanciones.SelectedIndex].Ruta;
-            var nuevoÍndice = índiceActual += 1;
-
-            if (nuevoÍndice >= listaAleatoria.Count)
-                nuevoÍndice = 0;
-
-            listaCanciones.SelectedIndex = listaAleatoria[nuevoÍndice];
-
-            MostrarDatosCanción(nombreArchivo);
-
-            // Reproducción
-            mediaPlayer.Open(new Uri(nombreArchivo));
-            mediaPlayer.Play();
-            pausa = false;
+            EnClicSiguiente(null, null);
         }
 
 
@@ -243,9 +273,6 @@ namespace Choike
 
             AgregarCanciones(carpeta.Ruta);
             ActualizarListaCanciones();
-
-            if (carpeta.Ruta == carpetaActual.Ruta)
-                listaCanciones.SelectedIndex = cancionActual.Índice;
         }
 
         private void EnClicEliminarCarpeta(object sender, RoutedEventArgs e)
@@ -284,14 +311,12 @@ namespace Choike
                 nuevoArchivo.NombreCompleto = nuevoArchivo.Nombre + " - " + nuevoArchivo.Autor + " - " + nuevoArchivo.Duración;
 
                 cancionesActuales.Add(nuevoArchivo);
-
-                listaAleatoria.Add(i);
             }
 
             if (aleatorio)
             {
                 var random = new Random();
-                listaAleatoria = listaAleatoria.OrderBy(x => random.Next()).ToList();
+                cancionesActuales = cancionesActuales.OrderBy(o => random.Next()).ToList();
                 índiceActual = 0;
             }
         }
