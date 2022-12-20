@@ -1,0 +1,89 @@
+﻿using System;
+using System.IO;
+using System.Linq;
+using System.Collections.Generic;
+using System.Windows.Media.Imaging;
+using System.Windows.Media;
+using Newtonsoft.Json;
+
+namespace Choike.Clases
+{
+    public class Constantes
+    {
+        public static string extensionesMúsica = "*.mp3";
+        private static string archivoGuardado = "\\listaCarpetas.choike";
+
+        public static ImageSource ByteAImagen(byte[] byteData)
+        {
+            try
+            {
+                BitmapImage bitImg = new BitmapImage();
+                MemoryStream ms = new MemoryStream(byteData);
+                bitImg.BeginInit();
+                bitImg.StreamSource = ms;
+                bitImg.EndInit();
+
+                ImageSource imgSrc = bitImg as ImageSource;
+                return imgSrc;
+            }
+            catch
+            {
+                return ObtenerSinCarátula();
+            }
+        }
+
+        public static ImageSource ObtenerSinCarátula()
+        {
+            BitmapImage bitImg = new BitmapImage();
+
+            bitImg.BeginInit();
+            bitImg.UriSource = new Uri("C:\\Users\\YerkoAndrei\\Desktop\\Proyectos\\Choike mp3\\Choike mp3\\Arte\\SinCarátula.png");
+            bitImg.EndInit();
+
+            ImageSource imgSrc = bitImg as ImageSource;
+            return imgSrc;
+        }
+
+        public static ImageSource ObtenerCarátulaDañada()
+        {
+            BitmapImage bitImg = new BitmapImage();
+
+            bitImg.BeginInit();
+            bitImg.UriSource = new Uri("C:\\Users\\YerkoAndrei\\Desktop\\Proyectos\\Choike mp3\\Choike mp3\\Arte\\CarátulaDañada.png");
+            bitImg.EndInit();
+
+            ImageSource imgSrc = bitImg as ImageSource;
+            return imgSrc;
+        }
+
+        public static List<Carpeta> CargarCarpetasGuardadas()
+        {
+            var carpetasGuardadas = Directory.GetCurrentDirectory() + archivoGuardado;
+
+            if (!File.Exists(carpetasGuardadas))
+                return new List<Carpeta>();
+
+            try
+            {
+                // Carpetas guardadas
+                var json = File.ReadAllText(carpetasGuardadas);
+                var array = JsonConvert.DeserializeObject<Carpeta[]>(json);
+                array = array.OrderBy(o => o.Nombre).ToArray();
+
+                return array.ToList();
+            }
+            catch
+            {
+                return new List<Carpeta>();
+            }
+        }
+
+        public static void ActualizarCarpetasGuardadas(List<Carpeta> listaCarpetas)
+        {
+            var carpetasGuardadas = Directory.GetCurrentDirectory() + archivoGuardado;
+
+            var json = JsonConvert.SerializeObject(listaCarpetas.ToArray());
+            File.WriteAllText(carpetasGuardadas, json);
+        }
+    }
+}
