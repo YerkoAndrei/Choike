@@ -1,0 +1,72 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        x:Class="Choike.MainWindow"
+        mc:Ignorable="d"
+        FontSize="30"
+        Title="Choike" Height="720" Width="1280">
+    <Window.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#141400"/>
+            <GradientStop Color="Black" Offset="1"/>
+            <GradientStop Color="#FF141400" Offset="0.6"/>
+        </LinearGradientBrush>
+    </Window.Background>
+    <Grid>
+        <!--Lista Carpetas-->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="400" Margin="0,0,0,205">
+            <ListBox x:Name="listaCarpetas" SelectionMode="Single" SelectionChanged="EnClicElegirCarpeta"/>
+        </StackPanel>
+
+        <!--Botones Carpetas-->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="400" Height="100" Margin="0,499,0,105">
+            <Button Width="100" Click="EnClicAgregarCarpeta" >
+                <Label Content="+"/>
+            </Button>
+            <Button Width="100" Click="EnClicEliminarCarpeta" >
+                <Label Content="-"/>
+            </Button>
+        </StackPanel>
+
+        <!--Lista Canciones-->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Width="400" Margin="0,0,0,100" >
+            <ListBox x:Name="listaCanciones" SelectionMode="Single" SelectionChanged="EnClicElegirCanción" />
+        </StackPanel>
+
+        <!--Info Canción-->
+        <StackPanel Orientation="Vertical" VerticalAlignment="Top" Width="400" Height="150">
+            <TextBlock x:Name="nombreCanción" HorizontalAlignment="Center" Foreground="White" Text="Canción" FontSize="50"/>
+            <TextBlock x:Name="nombreArtista" HorizontalAlignment="Center" Foreground="White" Text="Artista" />
+        </StackPanel>
+
+        <!--Carátula-->
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Width="400" Height="400">
+            <Image x:Name="imgCarátula" Source="Arte/SinCarátula.png"/>
+        </StackPanel>
+
+        <!--Barra Canción-->
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Height="33" Margin="0,599,0,0" >
+            <TextBlock x:Name="duraciónActual" HorizontalAlignment="Left" Foreground="White" Text="00:00" />
+            <Slider x:Name="porcentajeDuraciónActual" HorizontalAlignment="Center" Width="866"
+                    Maximum="1" SmallChange="0.005" LargeChange="0.01" 
+                    TickPlacement="TopLeft" TickFrequency="0.01"
+                    ValueChanged="EnCambioTiempo"/>
+            <TextBlock x:Name="duraciónCompleta" HorizontalAlignment="Right" Foreground="White" Text="00:00" />
+        </StackPanel>
+
+        <!--Barra Inferior-->
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Height="72" Margin="0,632,0,0">
+            <Button Width="100" Content="Anterior" Click="EnClicAnterior"/>
+            <Button Width="100" Content="Pausa" Click="EnClicPausa"/>
+            <Button Width="100" Content="Siguiente" Click="EnClicSiguiente"/>
+            <Button Width="100" Content="Silencio" Click="EnClicSilencio"/>
+            <Button Width="100" Content="Detener" Click="EnClicDetener"/>
+            <Button Width="100" Content="Aleatorio" Click="EnClicAleatorio"/>
+            <Button Width="100" Content="Repetir" Click="EnClicRepetir"/>
+
+            <Slider x:Name="volumen" VerticalAlignment="Center" Width="200" Maximum="1" SmallChange="0.01" LargeChange="0.1" ValueChanged="EnCambioVolumen"/>
+        </StackPanel>
+    </Grid>
+</Window>
