@@ -5,68 +5,128 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         x:Class="Choike.MainWindow"
         mc:Ignorable="d"
-        FontSize="30"
-        Title="Choike" Height="720" Width="1280" KeyDown="EnTecla">
+        FontSize="20"
+        Title="Choike" Height="720" Width="1280" KeyDown="EnTecla" Foreground="#FF141414">
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
             <GradientStop Color="#141400"/>
             <GradientStop Color="Black" Offset="1"/>
-            <GradientStop Color="#FF141400" Offset="0.6"/>
+            <GradientStop Color="#FF282800" Offset="0.3"/>
         </LinearGradientBrush>
     </Window.Background>
     <Grid>
-        <!--Lista Carpetas-->
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="400" Margin="0,0,0,205">
-            <ListBox x:Name="listaCarpetas" SelectionMode="Single" SelectionChanged="EnClicElegirCarpeta"/>
-        </StackPanel>
+        <!--Definiciones-->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="6*" />
+            <ColumnDefinition Width="4*" />
+        </Grid.ColumnDefinitions>
 
-        <!--Botones Carpetas-->
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="400" Height="100" Margin="0,499,0,105">
-            <Button Width="100" Click="EnClicAgregarCarpeta" >
-                <Label Content="+"/>
-            </Button>
-            <Button Width="100" Click="EnClicEliminarCarpeta" >
-                <Label Content="-"/>
-            </Button>
-        </StackPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="8.5*" />
+            <RowDefinition Height="1.5*" />
+        </Grid.RowDefinitions>
 
-        <!--Lista Canciones-->
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Width="400" Margin="0,0,0,100" >
-            <ListBox x:Name="listaCanciones" SelectionMode="Single" SelectionChanged="EnClicElegirCanción" />
-        </StackPanel>
+        <!--Carpetas-->
+        <Grid Grid.Row="0" Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2.5*"/>
+                <ColumnDefinition Width="7.5*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions >
+                <RowDefinition Height="9*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            
+            <!--Lista Carpetas-->
+            <ListBox Grid.Row="0" Grid.Column="0" SelectionMode="Single" Background="Transparent" BorderBrush="Yellow" Foreground="White"
+                        x:Name="listaCarpetas" SelectionChanged="EnClicElegirCarpeta"/>
 
-        <!--Info Canción-->
-        <StackPanel Orientation="Vertical" VerticalAlignment="Top" Width="400" Height="150">
-            <TextBlock x:Name="nombreCanción" HorizontalAlignment="Center" Foreground="White" Text="Canción" FontSize="50"/>
-            <TextBlock x:Name="nombreArtista" HorizontalAlignment="Center" Foreground="White" Text="Artista" />
-        </StackPanel>
+            <!--Botones Carpetas-->
+            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" >
+                <Button Height="60" Width="60" Click="EnClicAgregarCarpeta"  FontWeight="Bold" FontSize="30" Content="+"/>
+                <Button Height="60" Width="60" Click="EnClicEliminarCarpeta" FontWeight="Bold" FontSize="30" Content="-"/>
+            </StackPanel>
 
-        <!--Carátula-->
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Width="400" Height="400">
-            <Image x:Name="imgCarátula" Source="Arte/SinCarátula.png"/>
-        </StackPanel>
+            <!--Lista Canciones Carpetas-->
+            <ListBox Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" SelectionMode="Single" Background="Transparent" BorderBrush="Yellow" Foreground="White"
+                     x:Name="listaCancionesEnCarpeta" SelectionChanged="EnClicElegirCanciónEnCarpeta"/>
+        </Grid>
 
-        <!--Barra Canción-->
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Height="33" Margin="0,599,0,0" >
-            <TextBlock x:Name="duraciónActual" HorizontalAlignment="Left" Foreground="White" Text="00:00" />
-            <Slider x:Name="porcentajeDuraciónActual" HorizontalAlignment="Center" Width="866"
+
+        <!--Canciones-->
+        <Grid Grid.Row="0" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3.5*"/>
+                <RowDefinition Height="6.5*"/>
+            </Grid.RowDefinitions>
+            
+            <!--Info Canción-->
+            <StackPanel Grid.Row="0" Orientation="Horizontal">                    
+                <!--Carátula-->
+                <Image HorizontalAlignment="Left" Source="Arte/SinCarátula.png"
+                        x:Name="imgCarátula"/>
+
+                <!--Info-->
+                <StackPanel Orientation="Vertical">
+                    <TextBlock x:Name="nombreCanción" HorizontalAlignment="Left" Foreground="White" Text="Canción" FontSize="50"/>
+                    <TextBlock x:Name="nombreArtista" HorizontalAlignment="Left" Foreground="White" Text="Artista" FontSize="30"/>
+                </StackPanel>
+            </StackPanel>
+
+
+            <!--Lista Canciones-->
+            <ListBox Grid.Row="1" SelectionMode="Single" Background="Transparent" BorderBrush="Yellow" Foreground="White"
+                     x:Name="listaCanciones" SelectionChanged="EnClicElegirCanción"/>
+        </Grid>
+
+
+        <!--Control-->
+        <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="8*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="7*"/>
+            </Grid.RowDefinitions>
+
+            <!--Tiempo Canción-->
+            <TextBlock Grid.Row="0" Grid.Column="0" x:Name="duraciónActual" HorizontalAlignment="Right" Foreground="White" FontSize="25" Text="00:00" />
+            <TextBlock Grid.Row="0" Grid.Column="2" x:Name="duraciónCompleta" HorizontalAlignment="Left" Foreground="White" FontSize="25" Text="00:00" />
+
+            <Slider Grid.Row="0" Grid.Column="1"
                     Maximum="1" SmallChange="0.005" LargeChange="0.01" 
-                    TickPlacement="TopLeft" TickFrequency="0.01"
-                    ValueChanged="EnCambioTiempo"/>
-            <TextBlock x:Name="duraciónCompleta" HorizontalAlignment="Right" Foreground="White" Text="00:00" />
-        </StackPanel>
+                    TickPlacement="Both" TickFrequency="0.01"
+                    x:Name="porcentajeDuraciónActual" ValueChanged="EnCambioTiempo"/>
 
-        <!--Barra Inferior-->
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Height="72" Margin="0,632,0,0">
-            <Button Width="100" Content="Anterior" Click="EnClicAnterior"/>
-            <Button Width="100" Content="Pausa" Click="EnClicPausa"/>
-            <Button Width="100" Content="Siguiente" Click="EnClicSiguiente"/>
-            <Button Width="100" Content="Silencio" Click="EnClicSilencio"/>
-            <Button Width="100" Content="Detener" Click="EnClicDetener"/>
-            <Button Width="100" Content="Aleatorio" Click="EnClicAleatorio"/>
-            <Button Width="100" Content="Repetir" Click="EnClicRepetir"/>
+            <!--Botones Controler-->
+            <Grid Grid.Row="1" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="12*"/>
+                    <ColumnDefinition Width="12*"/>
+                    <ColumnDefinition Width="12*"/>
+                    <ColumnDefinition Width="12*"/>
+                    <ColumnDefinition Width="12*"/>
+                    <ColumnDefinition Width="12*"/>
+                    <ColumnDefinition Width="12*"/>
+                    <ColumnDefinition Width="16*"/>
+                </Grid.ColumnDefinitions>
 
-            <Slider x:Name="volumen" VerticalAlignment="Center" Width="200" Maximum="1" SmallChange="0.01" LargeChange="0.1" ValueChanged="EnCambioVolumen"/>
-        </StackPanel>
+                <Button Grid.Column="0" Content="Detener" Click="EnClicDetener"/>
+                <Button Grid.Column="1" Content="Anterior" Click="EnClicAnterior"/>
+                <Button Grid.Column="2" Content="Pausa" Click="EnClicPausa"/>
+                <Button Grid.Column="3" Content="Siguiente" Click="EnClicSiguiente"/>
+                <Button Grid.Column="4" Content="Aleatorio" Click="EnClicAleatorio"/>
+                <Button Grid.Column="5" Content="Repetir" Click="EnClicRepetir"/>
+                <Button Grid.Column="6" Content="Silencio" Click="EnClicSilencio"/>
+
+                <Slider Grid.Column="7" VerticalAlignment="Center"
+                        Maximum="1" SmallChange="0.01" LargeChange="0.1"
+                        x:Name="volumen" ValueChanged="EnCambioVolumen"/>
+            </Grid>
+        </Grid>
     </Grid>
+    
 </Window>
