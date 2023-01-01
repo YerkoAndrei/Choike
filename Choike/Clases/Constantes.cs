@@ -37,7 +37,7 @@ namespace Choike.Clases
             BitmapImage bitImg = new BitmapImage();
 
             bitImg.BeginInit();
-            bitImg.UriSource = new Uri("C:\\Users\\YerkoAndrei\\Desktop\\Proyectos\\Choike mp3\\Choike mp3\\Arte\\SinCarátula.png");
+            bitImg.UriSource = new Uri("C:\\Users\\YerkoAndrei\\Desktop\\Proyectos\\Choike\\Choike\\Arte\\SinCarátula.png");
             bitImg.EndInit();
 
             ImageSource imgSrc = bitImg as ImageSource;
@@ -49,7 +49,7 @@ namespace Choike.Clases
             BitmapImage bitImg = new BitmapImage();
 
             bitImg.BeginInit();
-            bitImg.UriSource = new Uri("C:\\Users\\YerkoAndrei\\Desktop\\Proyectos\\Choike mp3\\Choike mp3\\Arte\\CarátulaDañada.png");
+            bitImg.UriSource = new Uri("C:\\Users\\YerkoAndrei\\Desktop\\Proyectos\\Choike\\Choike\\Arte\\CarátulaDañada.png");
             bitImg.EndInit();
 
             ImageSource imgSrc = bitImg as ImageSource;
