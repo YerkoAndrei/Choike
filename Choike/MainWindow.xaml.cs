@@ -5,11 +5,12 @@ using System.Linq;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Collections.Generic;
-using Choike.Clases;
 using Microsoft.WindowsAPICodePack.Dialogs;
-using System.Windows.Input;
+using Choike.Clases;
+using TagLib.Ape;
 
 namespace Choike
 {
@@ -70,6 +71,7 @@ namespace Choike
         private void IntervaloTiempo(object sender, EventArgs e)
         {
             // intento multi hilo?
+            /*
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
                 if (mediaPlayer.IsMuted)
@@ -78,6 +80,7 @@ namespace Choike
                 duraciónActual.Text = Constantes.TimeSpanATexto(mediaPlayer.Position);
                 porcentajeDuraciónActual.Value = (mediaPlayer.Position.TotalSeconds / cancionActual.Duración.TotalSeconds);
             }));
+            */
         }
 
 
@@ -104,13 +107,21 @@ namespace Choike
                 case Key.VolumeMute:
                     EnClicSilencio(sender, e);
                     break;
+                case Key.VolumeUp:
                 case Key.PageUp:
                     mediaPlayer.Volume += volumen.Value;
                     volumen.Value = volumen.LargeChange;
                     break;
+                case Key.VolumeDown:
                 case Key.PageDown:
                     mediaPlayer.Volume -= volumen.Value;
                     volumen.Value = volumen.LargeChange;
+                    break;
+                case Key.F9:
+                    EnClicAleatorio(sender, e);
+                    break;
+                case Key.F10:
+                    EnClicRepetir(sender, e);
                     break;
             }
         }
@@ -128,26 +139,19 @@ namespace Choike
         private void EnClicAnterior(object sender, RoutedEventArgs e)
         {
             var nuevoÍndice = índiceActual - 1;
-
             if (nuevoÍndice < 0)
                 nuevoÍndice = cancionesActuales.Count - 1;
 
-            listaCanciones.SelectedIndex = cancionesActuales[nuevoÍndice].Índice;
-            índiceActual = nuevoÍndice;
-            pausa = false;
-
+            EnfocarCanción(nuevoÍndice);
         }
 
         private void EnClicSiguiente(object sender, RoutedEventArgs e)
         {
             var nuevoÍndice = índiceActual += 1;
-
             if (nuevoÍndice >= cancionesActuales.Count)
                 nuevoÍndice = 0;
 
-            listaCanciones.SelectedIndex = cancionesActuales[nuevoÍndice].Índice;
-            índiceActual = nuevoÍndice;
-            pausa = false;
+            EnfocarCanción(nuevoÍndice);
         }
 
         private void EnClicSilencio(object sender, RoutedEventArgs e)
@@ -160,22 +164,30 @@ namespace Choike
         {
             mediaPlayer.Stop();
             contador.Stop();
+
+            listaCanciones.SelectedIndex = -1;
+            índiceActual = 0;
+
+            // Datos
+            nombreArtista.Text = "Artista";
+            nombreCanción.Text = "Canción";
+            nombreAlbum.Text = "Álbum";
+            imgCarátula.Source = Constantes.ObtenerSinCarátula();
         }
 
         private void EnClicAleatorio(object sender, RoutedEventArgs e)
         {
             aleatorio = !aleatorio;
 
-            if(aleatorio)
+            if (aleatorio)
             {
-                var random = new Random();
-                cancionesActuales = cancionesActuales.OrderBy(o => random.Next()).ToList();
+                AleatorizarCanciones();
                 índiceActual = 0;
             }
             else
             {
                 cancionesActuales = cancionesActuales.OrderBy(o => o.Índice).ToList();
-                índiceActual = 0;
+                índiceActual = listaCanciones.SelectedIndex;
             }
         }
 
@@ -197,6 +209,16 @@ namespace Choike
             mediaPlayer.Position = TimeSpan.FromSeconds(porcentajeDuraciónActual.Value * cancionActual.Duración.TotalSeconds);
         }
 
+        private void EnfocarCanción(int nuevoÍndice)
+        {
+            listaCanciones.SelectedItem = cancionesActuales[nuevoÍndice];
+            índiceActual = nuevoÍndice;
+
+            listaCanciones.ScrollIntoView(listaCanciones.SelectedItem);
+            pausa = false;
+        }
+
+
         // --- Órden canciones ---
 
 
@@ -217,30 +239,21 @@ namespace Choike
             pausa = false;
         }
 
-        private void EnClicElegirCanciónEnCarpeta(object sender, SelectionChangedEventArgs e)
-        {
-            if (listaCancionesEnCarpeta.SelectedIndex < 0)
-                return;
-
-            var canción = cancionesActuales[listaCancionesEnCarpeta.SelectedIndex];
-
-            MostrarDatosCanción(canción, canción.Ruta);
-
-            // Reproducción
-            mediaPlayer.Open(new Uri(canción.Ruta));
-            mediaPlayer.MediaEnded += new EventHandler(SiguienteCanción);
-            mediaPlayer.Play();
-            contador.Start();
-            pausa = false;
-
-            ActualizarListaCanciones();
-        }
-                
         private void SiguienteCanción(object sender, EventArgs e)
         {
-            EnClicSiguiente(null, null);
+            if (repetirCanción)
+            {
+                EnClicElegirCanción(null, null);
+            }
+            else
+                EnClicSiguiente(null, null);
         }
 
+        private void AleatorizarCanciones()
+        {
+            var random = new Random();
+            cancionesActuales = cancionesActuales.OrderBy(o => random.Next()).ToList();
+        }
 
         // --- Carpetas ---
 
@@ -284,6 +297,11 @@ namespace Choike
             }
         }
 
+        private void EnClicAgregarAutor(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         private void EnClicElegirCarpeta(object sender, RoutedEventArgs e)
         {
             if (listaCarpetas.SelectedIndex < 0)
@@ -293,8 +311,9 @@ namespace Choike
             carpetaActual = carpeta;
 
             AgregarCanciones(carpeta.Ruta);
-            //ActualizarListaCanciones();
-            ActualizarListaCancionesEnCarpeta();
+            ActualizarListaCanciones();
+
+            // PENDIENTE: enfocar si estaba reproduciendo
         }
 
         private void EnClicEliminarCarpeta(object sender, RoutedEventArgs e)
@@ -326,21 +345,27 @@ namespace Choike
                     }
                 }
 
-                nuevaCanción.Índice = i;
+                // Info
                 nuevaCanción.Ruta = archivosMúsica[i];
                 nuevaCanción.Nombre = tagLib.Tag.Title;
-                nuevaCanción.Album = tagLib.Tag.Album;
+                nuevaCanción.Álbum = tagLib.Tag.Album;
                 nuevaCanción.Duración = tagLib.Properties.Duration;
+                nuevaCanción.DuraciónFormateada = Constantes.TimeSpanATexto(nuevaCanción.Duración);
 
                 cancionesActuales.Add(nuevaCanción);
             }
 
-            if (aleatorio)
+            // Crea índice real de canciones
+            cancionesActuales = cancionesActuales.OrderBy(o => o.Nombre).ToList();
+            cancionesActuales = cancionesActuales.OrderBy(o => o.Autor).ToList();
+
+            for (int i = 0; i < cancionesActuales.Count; i++)
             {
-                var random = new Random();
-                cancionesActuales = cancionesActuales.OrderBy(o => random.Next()).ToList();
-                índiceActual = 0;
+                cancionesActuales[i].Índice = i;
             }
+
+            if (aleatorio)
+                AleatorizarCanciones();
         }
 
         // --- Interfaz ---
@@ -373,16 +398,18 @@ namespace Choike
             // Datos
             nombreArtista.Text = cancionActual.Autor;
             nombreCanción.Text = cancionActual.Nombre;
-            nombreAlbum.Text = cancionActual.Album;
+            nombreAlbum.Text = cancionActual.Álbum;
             duraciónCompleta.Text = Constantes.TimeSpanATexto(cancionActual.Duración);
         }
 
         private void ActualizarListaCarpeta()
         {
+            listaCarpetas.ItemsSource = null;
             listaCarpetas.Items.Clear();
             listaCarpetas.SelectedIndex = -1;
             listaCanciones.SelectedIndex = -1;
 
+            // PENDIENTE: Agregar color a cada tipo
             carpetasActuales = carpetasActuales.OrderBy(o => o.Nombre).ToList();
 
             for (int i = 0; i < carpetasActuales.Count; i++)
@@ -393,52 +420,14 @@ namespace Choike
 
         private void ActualizarListaCanciones()
         {
+            listaCanciones.ItemsSource = null;
             listaCanciones.Items.Clear();
             listaCanciones.SelectedIndex = -1;
 
+            listaCanciones.ItemsSource = cancionesActuales.OrderBy(o => o.Índice);
+
             if(aleatorio)
-            {
-                // corregir
-                cancionesActuales = cancionesActuales.OrderBy(o => o.Índice).ToList();
-            }
-            else
-            {
-                cancionesActuales = cancionesActuales.OrderBy(o => o.Nombre).ToList();
-                cancionesActuales = cancionesActuales.OrderBy(o => o.Autor).ToList();
-            }
-
-            var infoCanciones = new List<InfoCanción>();
-            for (int i = 0; i < cancionesActuales.Count; i++)
-            {
-                var nuevaCanción = new InfoCanción();
-                nuevaCanción.Autor = cancionesActuales[i].Autor;
-                nuevaCanción.Nombre = cancionesActuales[i].Nombre;
-                nuevaCanción.Duración = Constantes.TimeSpanATexto(cancionesActuales[i].Duración);
-                infoCanciones.Add(nuevaCanción);
-            }
-
-            listaCanciones.ItemsSource = infoCanciones;
-        }
-
-        private void ActualizarListaCancionesEnCarpeta()
-        {
-            listaCancionesEnCarpeta.Items.Clear();
-            listaCancionesEnCarpeta.SelectedIndex = -1;
-
-            cancionesActuales = cancionesActuales.OrderBy(o => o.Nombre).ToList();
-            cancionesActuales = cancionesActuales.OrderBy(o => o.Autor).ToList();
-
-            var infoCanciones = new List<InfoCanción>();
-            for (int i = 0; i < cancionesActuales.Count; i++)
-            {
-                var nuevaCanción = new InfoCanción();
-                nuevaCanción.Autor = cancionesActuales[i].Autor;
-                nuevaCanción.Nombre = cancionesActuales[i].Nombre;
-                nuevaCanción.Duración = Constantes.TimeSpanATexto(cancionesActuales[i].Duración);
-                infoCanciones.Add(nuevaCanción);
-            }
-
-            listaCancionesEnCarpeta.ItemsSource = infoCanciones;
+                AleatorizarCanciones();
         }
     }
 }

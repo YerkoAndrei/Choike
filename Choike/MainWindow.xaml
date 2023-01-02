@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         x:Class="Choike.MainWindow"
         mc:Ignorable="d"
-        FontSize="20"
+        FontSize="18"
         Title="Choike" Height="720" Width="1280" KeyDown="EnTecla" Foreground="#FF141414">
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -18,8 +18,8 @@
     <Grid>
         <!--Definiciones-->
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="6*" />
-            <ColumnDefinition Width="4*" />
+            <ColumnDefinition Width="7*" />
+            <ColumnDefinition Width="3*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="8.5*" />
@@ -39,47 +39,43 @@
             </Grid.RowDefinitions>
 
             <!--Lista Carpetas-->
-            <ListBox Grid.Row="0" Grid.Column="0" SelectionMode="Single" Background="Transparent" BorderBrush="#7F3C3CFA" Foreground="White"
+            <ListBox Grid.Row="0" Grid.Column="0" SelectionMode="Single" Background="Transparent" BorderBrush="#7F3C3CFA" Foreground="White" Margin="5,5,2,5"
                         x:Name="listaCarpetas" SelectionChanged="EnClicElegirCarpeta"/>
 
             <!--Botones Carpetas-->
-            <Grid Grid.Row="1" Grid.Column="0" >
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="4*"/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="4*"/>
-                    <ColumnDefinition Width="1*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="2*"/>
-                    <RowDefinition Height="6*"/>
-                    <RowDefinition Height="2*"/>
-                </Grid.RowDefinitions>
-
-                <Button Grid.Row="1" Grid.Column="1" Click="EnClicAgregarCarpeta" BorderBrush="#FF3C3CFA" Background="#FF3C3CFA" >
-                    <TextBlock TextWrapping="Wrap" FontSize="30" VerticalAlignment="Bottom" Text="+" UseLayoutRounding="False"/>
+            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" Grid.RowSpan="2" Margin="5,5,5,5" HorizontalAlignment="Center">
+                <Button BorderBrush="#FF3C3CFA" Background="#FF3C3CFA" Margin="2,0,2,0"
+                        Click="EnClicAgregarCarpeta">
+                    <TextBlock FontSize="30" FontFamily="Verdana" VerticalAlignment="Bottom" Text="📁+" />
                 </Button>
-                <Button Grid.Row="1" Grid.Column="3" Click="EnClicEliminarCarpeta" BorderBrush="#FF3C3CFA" Background="#FF3C3CFA">
-                    <TextBlock TextWrapping="Wrap" FontSize="30" VerticalAlignment="Bottom" Text="-"/>
+                <Button BorderBrush="#FF3C3CFA" Background="#FF3C3CFA" Margin="2,0,2,0"
+                        Click="EnClicAgregarAutor">
+                    <TextBlock FontSize="30" FontFamily="Verdana" VerticalAlignment="Bottom" Text="🎙+" />
                 </Button>
-            </Grid>
+                <Button BorderBrush="#FF3C3CFA" Background="#FF3C3CFA" Margin="2,0,2,0"
+                        Click="EnClicEliminarCarpeta">
+                    <TextBlock FontSize="30" FontFamily="Verdana" VerticalAlignment="Bottom" Text=" - " />
+                </Button>
+            </StackPanel>
 
-            <!--Lista Canciones en Carpetas-->
-            <ListBox Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" SelectionMode="Single" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="Transparent" BorderBrush="#7F3C3CFA" Foreground="White"
-                     x:Name="listaCancionesEnCarpeta" SelectionChanged="EnClicElegirCanciónEnCarpeta">                
+            <!--Lista Canciones-->
+            <ListBox Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" SelectionMode="Single" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     Background="Transparent" BorderBrush="#7F3C3CFA" Foreground="White" Margin="2,5,5,5"
+                     x:Name="listaCanciones" SelectionChanged="EnClicElegirCanción">                
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="4.5*" MinWidth="100"/>
-                                <ColumnDefinition Width="4.5*"/>
+                                <ColumnDefinition Width="4*" MinWidth="100"/>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="2*"/>
                                 <ColumnDefinition Width="1*" MinWidth="50"/>
                             </Grid.ColumnDefinitions>
 
                             <TextBlock Grid.Column="0" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" Foreground="White" Text="{Binding Nombre}" />
                             <TextBlock Grid.Column="1" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" Foreground="#FFC8C8C8" Text="{Binding Autor}" />
-                            <TextBlock Grid.Column="2" TextTrimming="CharacterEllipsis" HorizontalAlignment="Right" Foreground="White"  Text="{Binding Duración}" />
+                            <TextBlock Grid.Column="2" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" Foreground="#FFC8C8C8" Text="{Binding Album}" FontStyle="Italic"/>
+                            <TextBlock Grid.Column="3" TextTrimming="CharacterEllipsis" HorizontalAlignment="Right" Foreground="White"  Text="{Binding DuraciónFormateada}" />
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
@@ -90,49 +86,24 @@
         <!--Canciones-->
         <Grid Grid.Row="0" Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="3.5*"/>
-                <RowDefinition Height="6.5*"/>
+                <RowDefinition Height="5*"/>
+                <RowDefinition Height="5*"/>
             </Grid.RowDefinitions>
 
+            <!--Carátula-->
+            <Image Grid.Row="0" HorizontalAlignment="Center" Margin="5,5,5,5"
+                    x:Name="imgCarátula" Source="C:\Users\YerkoAndrei\Desktop\Proyectos\Choike\Choike\Arte\SinCarátula.png"/>
+
             <!--Info Canción-->
-            <Grid Grid.Row="0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="4.5*"/>
-                    <ColumnDefinition Width="5.5*"/>
-                </Grid.ColumnDefinitions>
-
-                <!--Carátula-->
-                <Image Grid.Column="0" HorizontalAlignment="Left" Source="C:\Users\YerkoAndrei\Desktop\Proyectos\Choike\Choike\Arte\SinCarátula.png"
-                        x:Name="imgCarátula"/>
-
-                <!--Info-->
-                <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
-                    <TextBlock x:Name="nombreCanción" HorizontalAlignment="Left" Foreground="White" TextWrapping="Wrap" FontSize="30" Text="Canción"/>
-                    <TextBlock x:Name="nombreArtista" HorizontalAlignment="Left" Foreground="#FFC8C8C8" TextWrapping="Wrap" FontSize="25" Text="Artista"/>
-                    <TextBlock HorizontalAlignment="Left" Foreground="Transparent"/>
-                    <TextBlock x:Name="nombreAlbum" HorizontalAlignment="Left" Foreground="#FFC8C8C8" TextWrapping="Wrap" FontStyle="Italic" FontSize="25" Text="Album"/>
-                </StackPanel>
-            </Grid>
-
-            <!--Lista Canciones-->
-            <ListBox Grid.Row="1" SelectionMode="Single" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="Transparent" BorderBrush="#7F3C3CFA" Foreground="White"
-                     x:Name="listaCanciones" SelectionChanged="EnClicElegirCanción">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="4.5*" MinWidth="100"/>
-                                <ColumnDefinition Width="4.5*"/>
-                                <ColumnDefinition Width="1*" MinWidth="50"/>
-                            </Grid.ColumnDefinitions>
-
-                            <TextBlock Grid.Column="0" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" Foreground="White" Text="{Binding Nombre}" />
-                            <TextBlock Grid.Column="1" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" Foreground="#FFC8C8C8" Text="{Binding Autor}" />
-                            <TextBlock Grid.Column="2" TextTrimming="CharacterEllipsis" HorizontalAlignment="Right" Foreground="White"  Text="{Binding Duración}" />
-                        </Grid>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+            <StackPanel Grid.Row="1" Orientation="Vertical" VerticalAlignment="Center">
+                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" FontSize="30" Foreground="White" Margin="60,0,0,0"
+                           x:Name="nombreCanción" Text="Canción"/>
+                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" FontSize="25" Foreground="#FFC8C8C8" Margin="60,0,0,0"
+                           x:Name="nombreArtista" Text="Autor"/>
+                <TextBlock HorizontalAlignment="Left" Foreground="Transparent"/>
+                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" FontSize="25" Foreground="#FFC8C8C8" FontStyle="Italic" Margin="60,0,0,0"
+                           x:Name="nombreAlbum" Text="Álbum"/>
+            </StackPanel>
         </Grid>
 
 
@@ -152,7 +123,7 @@
             <TextBlock Grid.Row="0" Grid.Column="0" x:Name="duraciónActual" HorizontalAlignment="Center" Foreground="White" FontSize="25" Text="00:00" />
             <TextBlock Grid.Row="0" Grid.Column="2" x:Name="duraciónCompleta" HorizontalAlignment="Center" Foreground="White" FontSize="25" Text="00:00" />
 
-            <Slider Grid.Row="0" Grid.Column="1"
+            <Slider Grid.Row="0" Grid.Column="1" 
                     Maximum="1" SmallChange="0.005" LargeChange="0.01" 
                     TickPlacement="Both" TickFrequency="0.01"
                     x:Name="porcentajeDuraciónActual" ValueChanged="EnCambioTiempo"/>
@@ -160,27 +131,48 @@
             <!--Botones Control-->
             <Grid Grid.Row="1" Grid.Column="1">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="12*"/>
-                    <ColumnDefinition Width="12*"/>
-                    <ColumnDefinition Width="12*"/>
-                    <ColumnDefinition Width="12*"/>
-                    <ColumnDefinition Width="12*"/>
-                    <ColumnDefinition Width="12*"/>
-                    <ColumnDefinition Width="12*"/>
+                    <ColumnDefinition Width="8*"/>
+                    <ColumnDefinition Width="8*"/>
+                    <ColumnDefinition Width="16*"/>
+                    <ColumnDefinition Width="20*"/>
+                    <ColumnDefinition Width="16*"/>
+                    <ColumnDefinition Width="8*"/>
+                    <ColumnDefinition Width="8*"/>
                     <ColumnDefinition Width="16*"/>
                 </Grid.ColumnDefinitions>
 
-                <Button Grid.Column="0" Content="Aleatorio" Click="EnClicAleatorio"/>
-                <Button Grid.Column="1" Content="Detener" Click="EnClicDetener"/>
-                <Button Grid.Column="2" Content="Anterior" Click="EnClicAnterior"/>
-                <Button Grid.Column="3" Content="Pausa" Click="EnClicPausa"/>
-                <Button Grid.Column="4" Content="Siguiente" Click="EnClicSiguiente"/>
-                <Button Grid.Column="5" Content="Repetir" Click="EnClicRepetir"/>
-                <Button Grid.Column="6" Content="Silencio" Click="EnClicSilencio"/>
+                <Button Grid.Column="0" BorderBrush="#FF3C3CFA" Background="#FF3C3CFA" Foreground="Black" Margin="6,3,6,3"
+                        Click="EnClicAleatorio">
+                    <TextBlock FontSize="50" FontFamily="Verdana" Text="🔀"/>
+                </Button>
+                <Button Grid.Column="1" BorderBrush="#FF3C3CFA" Background="#FF3C3CFA" Foreground="Black" Margin="6,3,6,3"
+                        Click="EnClicDetener">
+                    <TextBlock FontSize="50" FontFamily="Verdana" Text="⏹"/>
+                </Button>
+                <Button Grid.Column="2" BorderBrush="#FF3C3CFA" Background="#FF3C3CFA" Foreground="Black" Margin="6,3,6,3"
+                        Click="EnClicAnterior">
+                    <TextBlock FontSize="50" FontFamily="Verdana" Text="⏪"/>
+                </Button>
+                <Button Grid.Column="3" BorderBrush="#FF3C3CFA" Background="#FF3C3CFA" Foreground="Black" Margin="6,3,6,3"
+                       Click="EnClicPausa">
+                    <TextBlock FontSize="50" FontFamily="Verdana" Text="⏯"/>
+                </Button>
+                <Button Grid.Column="4" BorderBrush="#FF3C3CFA" Background="#FF3C3CFA" Foreground="Black" Margin="6,3,6,3"
+                        Click="EnClicSiguiente">
+                    <TextBlock FontSize="50" FontFamily="Verdana" Text="⏩"/>
+                </Button>
+                <Button Grid.Column="5" BorderBrush="#FF3C3CFA" Background="#FF3C3CFA" Foreground="Black" Margin="6,3,6,3"
+                        Click="EnClicRepetir">
+                    <TextBlock FontSize="50" FontFamily="Verdana" Text="🔂"/>
+                </Button>
+                <Button Grid.Column="6" BorderBrush="#FF3C3CFA" Background="#FF3C3CFA" Foreground="Black" Margin="6,3,6,3"
+                         Click="EnClicSilencio">
+                    <TextBlock FontSize="50" FontFamily="Verdana" Text="🔇"/>
+                </Button>
 
-                <Slider Grid.Column="7" VerticalAlignment="Center"
-                        Maximum="1" SmallChange="0.01" LargeChange="0.1"
-                        x:Name="volumen" ValueChanged="EnCambioVolumen"/>
+                <Slider Grid.Column="7" VerticalAlignment="Center" BorderBrush="#FF3C3CFA" Background="#FF3C3CFA" Foreground="Black" Margin="10,0,10,0"
+                        Maximum="1" SmallChange="0.01" LargeChange="0.1" TickPlacement="Both" TickFrequency="0.25"
+                        x:Name="volumen" ValueChanged="EnCambioVolumen" />
             </Grid>
         </Grid>
     </Grid>
