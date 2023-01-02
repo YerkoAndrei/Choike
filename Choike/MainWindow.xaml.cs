@@ -75,7 +75,7 @@ namespace Choike
                 if (mediaPlayer.IsMuted)
                     return;
 
-                duraciónActual.Text = $"{(int)mediaPlayer.Position.TotalMinutes:00}:{mediaPlayer.Position.Seconds:00}";
+                duraciónActual.Text = Constantes.TimeSpanATexto(mediaPlayer.Position);
                 porcentajeDuraciónActual.Value = (mediaPlayer.Position.TotalSeconds / cancionActual.Duración.TotalSeconds);
             }));
         }
@@ -219,6 +219,9 @@ namespace Choike
 
         private void EnClicElegirCanciónEnCarpeta(object sender, SelectionChangedEventArgs e)
         {
+            if (listaCancionesEnCarpeta.SelectedIndex < 0)
+                return;
+
             var canción = cancionesActuales[listaCancionesEnCarpeta.SelectedIndex];
 
             MostrarDatosCanción(canción, canción.Ruta);
@@ -311,26 +314,25 @@ namespace Choike
             for (int i = 0; i < archivosMúsica.Length; i++)
             {
                 var tagLib = TagLib.File.Create(archivosMúsica[i]);
-                var nuevoArchivo = new Canción();
+                var nuevaCanción = new Canción();
 
                 if (tagLib.Tag.Performers.Length > 0)
                 {
-                    nuevoArchivo.Autor = tagLib.Tag.Performers[0];
+                    nuevaCanción.Autor = tagLib.Tag.Performers[0];
 
                     for (int ii = 1; ii < tagLib.Tag.Performers.Length; ii++)
                     {
-                        nuevoArchivo.Autor += " & " + tagLib.Tag.Performers[ii];
+                        nuevaCanción.Autor += " & " + tagLib.Tag.Performers[ii];
                     }
                 }
 
-                nuevoArchivo.Índice = i;
-                nuevoArchivo.Ruta = archivosMúsica[i];
-                nuevoArchivo.Nombre = tagLib.Tag.Title;
-                nuevoArchivo.Duración = tagLib.Properties.Duration;
-                nuevoArchivo.NombreCompleto = nuevoArchivo.Nombre + " - " + nuevoArchivo.Autor + " - " +
-                                            $"{(int)nuevoArchivo.Duración.TotalMinutes:00}:{nuevoArchivo.Duración.Seconds:00}";
+                nuevaCanción.Índice = i;
+                nuevaCanción.Ruta = archivosMúsica[i];
+                nuevaCanción.Nombre = tagLib.Tag.Title;
+                nuevaCanción.Album = tagLib.Tag.Album;
+                nuevaCanción.Duración = tagLib.Properties.Duration;
 
-                cancionesActuales.Add(nuevoArchivo);
+                cancionesActuales.Add(nuevaCanción);
             }
 
             if (aleatorio)
@@ -371,7 +373,8 @@ namespace Choike
             // Datos
             nombreArtista.Text = cancionActual.Autor;
             nombreCanción.Text = cancionActual.Nombre;
-            duraciónCompleta.Text = $"{(int)cancionActual.Duración.TotalMinutes:00}:{cancionActual.Duración.Seconds:00}";
+            nombreAlbum.Text = cancionActual.Album;
+            duraciónCompleta.Text = Constantes.TimeSpanATexto(cancionActual.Duración);
         }
 
         private void ActualizarListaCarpeta()
@@ -404,12 +407,17 @@ namespace Choike
                 cancionesActuales = cancionesActuales.OrderBy(o => o.Autor).ToList();
             }
 
+            var infoCanciones = new List<InfoCanción>();
             for (int i = 0; i < cancionesActuales.Count; i++)
             {
-                listaCanciones.Items.Add(cancionesActuales[i].NombreCompleto);
+                var nuevaCanción = new InfoCanción();
+                nuevaCanción.Autor = cancionesActuales[i].Autor;
+                nuevaCanción.Nombre = cancionesActuales[i].Nombre;
+                nuevaCanción.Duración = Constantes.TimeSpanATexto(cancionesActuales[i].Duración);
+                infoCanciones.Add(nuevaCanción);
             }
 
-
+            listaCanciones.ItemsSource = infoCanciones;
         }
 
         private void ActualizarListaCancionesEnCarpeta()
@@ -420,10 +428,17 @@ namespace Choike
             cancionesActuales = cancionesActuales.OrderBy(o => o.Nombre).ToList();
             cancionesActuales = cancionesActuales.OrderBy(o => o.Autor).ToList();
 
+            var infoCanciones = new List<InfoCanción>();
             for (int i = 0; i < cancionesActuales.Count; i++)
             {
-                listaCancionesEnCarpeta.Items.Add(cancionesActuales[i].NombreCompleto);
+                var nuevaCanción = new InfoCanción();
+                nuevaCanción.Autor = cancionesActuales[i].Autor;
+                nuevaCanción.Nombre = cancionesActuales[i].Nombre;
+                nuevaCanción.Duración = Constantes.TimeSpanATexto(cancionesActuales[i].Duración);
+                infoCanciones.Add(nuevaCanción);
             }
+
+            listaCancionesEnCarpeta.ItemsSource = infoCanciones;
         }
     }
 }

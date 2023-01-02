@@ -85,5 +85,10 @@ namespace Choike.Clases
             var json = JsonConvert.SerializeObject(listaCarpetas.ToArray());
             File.WriteAllText(carpetasGuardadas, json);
         }
+
+        public static string TimeSpanATexto(TimeSpan timeSpan)
+        {
+            return $"{(int)timeSpan.TotalMinutes:00}:{timeSpan.Seconds:00}";
+        }
     }
 }
