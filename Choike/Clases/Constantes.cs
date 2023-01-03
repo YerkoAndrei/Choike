@@ -1,4 +1,5 @@
-﻿using System;
+﻿// YerkoAndrei
+using System;
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
@@ -12,6 +13,15 @@ namespace Choike.Clases
     {
         public static string extensionesMúsica = "*.mp3";
         private static string archivoGuardado = "\\listaCarpetas.choike";
+
+        private static string colorCarpeta = "#ffc8ff";
+        private static string colorAutor = "#ffffc8";
+
+        public enum TipoCarpeta
+        {
+            carpeta,
+            autor,
+        }
 
         public static ImageSource ByteAImagen(byte[] byteData)
         {
@@ -68,7 +78,6 @@ namespace Choike.Clases
                 // Carpetas guardadas
                 var json = File.ReadAllText(carpetasGuardadas);
                 var array = JsonConvert.DeserializeObject<Carpeta[]>(json);
-                array = array.OrderBy(o => o.Nombre).ToArray();
 
                 return array.ToList();
             }
@@ -89,6 +98,18 @@ namespace Choike.Clases
         public static string TimeSpanATexto(TimeSpan timeSpan)
         {
             return $"{(int)timeSpan.TotalMinutes:00}:{timeSpan.Seconds:00}";
+        }
+
+        public static string ObtenerColorPorTipoCarpeta(TipoCarpeta tipoCarpeta)
+        {
+            switch(tipoCarpeta)
+            {
+                default:
+                case TipoCarpeta.carpeta:
+                    return colorCarpeta;
+                case TipoCarpeta.autor:
+                    return colorAutor;
+            }
         }
     }
 }

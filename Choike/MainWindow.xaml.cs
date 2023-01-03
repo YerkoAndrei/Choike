@@ -10,13 +10,9 @@ using System.Windows.Media;
 using System.Collections.Generic;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Choike.Clases;
-using TagLib.Ape;
 
 namespace Choike
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         private MediaPlayer mediaPlayer;
@@ -62,10 +58,7 @@ namespace Choike
 
             // Carpetas guardadas
             carpetasActuales = Constantes.CargarCarpetasGuardadas();
-            foreach (var carpeta in carpetasActuales)
-            {
-                listaCarpetas.Items.Add(carpeta.Nombre);
-            }
+            ActualizarListaCarpetas();
         }
 
         private void IntervaloTiempo(object sender, EventArgs e)
@@ -74,11 +67,7 @@ namespace Choike
             /*
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
-                if (mediaPlayer.IsMuted)
-                    return;
-
-                duraciónActual.Text = Constantes.TimeSpanATexto(mediaPlayer.Position);
-                porcentajeDuraciónActual.Value = (mediaPlayer.Position.TotalSeconds / cancionActual.Duración.TotalSeconds);
+                MostrarEstadoCanción();
             }));
             */
         }
@@ -227,7 +216,7 @@ namespace Choike
             if (listaCanciones.SelectedIndex < 0)
                 return;
 
-            var canción = cancionesActuales[listaCanciones.SelectedIndex];
+            var canción = (Canción)listaCanciones.SelectedItem;
 
             MostrarDatosCanción(canción, canción.Ruta);
 
@@ -255,6 +244,7 @@ namespace Choike
             cancionesActuales = cancionesActuales.OrderBy(o => random.Next()).ToList();
         }
 
+
         // --- Carpetas ---
 
 
@@ -275,17 +265,16 @@ namespace Choike
                 if (!Directory.Exists(rutaCarpeta))
                     return;
 
-                // Archivos
-                var archivosMúsica = Directory.GetFiles(rutaCarpeta, Constantes.extensionesMúsica);
-
                 // Evita repetir carpetas
                 if (carpetasActuales.Any(o => o.Ruta == rutaCarpeta))
                     return;
 
                 // Agregar carpeta seleccionada
                 var nuevaCarpeta = new Carpeta();
+                nuevaCarpeta.Tipo = Constantes.TipoCarpeta.carpeta;
                 nuevaCarpeta.Ruta = rutaCarpeta;
                 nuevaCarpeta.Nombre = nombreCarpeta;
+                nuevaCarpeta.Color = Constantes.ObtenerColorPorTipoCarpeta(nuevaCarpeta.Tipo);
 
                 carpetasActuales.Add(nuevaCarpeta);
                 carpetaActual = nuevaCarpeta;
@@ -293,13 +282,61 @@ namespace Choike
                 // Agregar canciones de carpeta
                 Constantes.ActualizarCarpetasGuardadas(carpetasActuales);
                 AgregarCanciones(rutaCarpeta);
-                ActualizarListaCarpeta();
+                ActualizarListaCarpetas();
             }
         }
 
         private void EnClicAgregarAutor(object sender, RoutedEventArgs e)
         {
+            var dialog = new CommonOpenFileDialog();
+            dialog.DefaultDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            dialog.Multiselect = false;
 
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                var rutaArchivo = dialog.FileName;
+                var rutaCortada = rutaArchivo.Split('\\');
+                var rutaCarpeta = rutaArchivo.Replace(rutaCortada[rutaCortada.Length - 1], string.Empty);
+
+                // Si la carpeta existe
+                if (!Directory.Exists(rutaCarpeta))
+                    return;
+
+                // Si contiene autores
+                var tagLib = TagLib.File.Create(rutaArchivo);
+                if (tagLib.Tag.Performers.Length <= 0)
+                    return;
+
+                var nombreAutor = tagLib.Tag.Performers[0];
+
+                // Evita repetir autor
+                if (carpetasActuales.Any(o => o.Nombre == nombreAutor))
+                    return;
+
+                // Agregar autor seleccionado
+                var nuevaCarpeta = new Carpeta();
+                nuevaCarpeta.Tipo = Constantes.TipoCarpeta.autor;
+                nuevaCarpeta.Ruta = rutaCarpeta;
+                nuevaCarpeta.Nombre = nombreAutor;
+                nuevaCarpeta.Color = Constantes.ObtenerColorPorTipoCarpeta(nuevaCarpeta.Tipo);
+
+                carpetasActuales.Add(nuevaCarpeta);
+                carpetaActual = nuevaCarpeta;
+
+                // Agregar canciones de autor
+                Constantes.ActualizarCarpetasGuardadas(carpetasActuales);
+                AgregarCanciones(rutaCarpeta);
+                ActualizarListaCarpetas();
+            }
+        }
+
+        private void EnClicEliminarCarpeta(object sender, RoutedEventArgs e)
+        {
+            var rutaCarpeta = carpetasActuales[listaCarpetas.SelectedIndex];
+            carpetasActuales.Remove(rutaCarpeta);
+
+            Constantes.ActualizarCarpetasGuardadas(carpetasActuales);
+            ActualizarListaCarpetas();
         }
 
         private void EnClicElegirCarpeta(object sender, RoutedEventArgs e)
@@ -313,16 +350,16 @@ namespace Choike
             AgregarCanciones(carpeta.Ruta);
             ActualizarListaCanciones();
 
-            // PENDIENTE: enfocar si estaba reproduciendo
-        }
+            // Volver a enfocar
+            if (string.IsNullOrEmpty(cancionActual.Ruta))
+                return;
 
-        private void EnClicEliminarCarpeta(object sender, RoutedEventArgs e)
-        {
-            var rutaCarpeta = carpetasActuales[listaCarpetas.SelectedIndex];
-            carpetasActuales.Remove(rutaCarpeta);
-
-            Constantes.ActualizarCarpetasGuardadas(carpetasActuales);
-            ActualizarListaCarpeta();
+            if (cancionActual.Ruta.Contains(carpetaActual.Nombre))
+            {
+                // PENDIENTE
+                //listaCanciones.SelectedItem = cancionesActuales[índiceActual];
+                listaCanciones.ScrollIntoView(listaCanciones.SelectedItem);
+            }
         }
 
         private void AgregarCanciones(string carpeta)
@@ -345,10 +382,18 @@ namespace Choike
                     }
                 }
 
+                // Si solo busca autor
+                if (carpetaActual.Tipo == Constantes.TipoCarpeta.autor)
+                {
+                    if (!nuevaCanción.Autor.Contains(carpetaActual.Nombre))
+                        continue;
+                }
+
                 // Info
                 nuevaCanción.Ruta = archivosMúsica[i];
                 nuevaCanción.Nombre = tagLib.Tag.Title;
                 nuevaCanción.Álbum = tagLib.Tag.Album;
+                nuevaCanción.Detalles = tagLib.Properties.AudioBitrate + "kbps";
                 nuevaCanción.Duración = tagLib.Properties.Duration;
                 nuevaCanción.DuraciónFormateada = Constantes.TimeSpanATexto(nuevaCanción.Duración);
 
@@ -368,11 +413,17 @@ namespace Choike
                 AleatorizarCanciones();
         }
 
+
         // --- Interfaz ---
 
-        private void MostrarEstadoCanción(string nombreArchivo)
-        {
 
+        private void MostrarEstadoCanción()
+        {
+            if (mediaPlayer.IsMuted)
+                return;
+
+            duraciónActual.Text = Constantes.TimeSpanATexto(mediaPlayer.Position);
+            porcentajeDuraciónActual.Value = (mediaPlayer.Position.TotalSeconds / cancionActual.Duración.TotalSeconds);
         }
 
         private void MostrarDatosCanción(Canción canción, string nombreArchivo)
@@ -399,23 +450,21 @@ namespace Choike
             nombreArtista.Text = cancionActual.Autor;
             nombreCanción.Text = cancionActual.Nombre;
             nombreAlbum.Text = cancionActual.Álbum;
+            nombreDetalles.Text = cancionActual.Detalles;
             duraciónCompleta.Text = Constantes.TimeSpanATexto(cancionActual.Duración);
         }
 
-        private void ActualizarListaCarpeta()
+        private void ActualizarListaCarpetas()
         {
             listaCarpetas.ItemsSource = null;
             listaCarpetas.Items.Clear();
             listaCarpetas.SelectedIndex = -1;
             listaCanciones.SelectedIndex = -1;
 
-            // PENDIENTE: Agregar color a cada tipo
             carpetasActuales = carpetasActuales.OrderBy(o => o.Nombre).ToList();
+            carpetasActuales = carpetasActuales.OrderBy(o => o.Tipo).ToList();
 
-            for (int i = 0; i < carpetasActuales.Count; i++)
-            {
-                listaCarpetas.Items.Add(carpetasActuales[i].Nombre);
-            }
+            listaCarpetas.ItemsSource = carpetasActuales;
         }
 
         private void ActualizarListaCanciones()
