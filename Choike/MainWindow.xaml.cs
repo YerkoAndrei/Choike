@@ -30,6 +30,8 @@ namespace Choike
 
         private Timer contador;
 
+        public Color ColorBase = Color.FromRgb(120, 120, 100);
+
         public MainWindow()
         {
             InitializeComponent();
@@ -52,7 +54,7 @@ namespace Choike
             carpetasActuales = new List<Carpeta>();
 
             contador = new Timer();
-            contador.Interval = 10;
+            contador.Interval = 100;
             contador.Enabled = false;
             contador.Elapsed += new ElapsedEventHandler(IntervaloTiempo);
 
@@ -440,10 +442,12 @@ namespace Choike
             {
                 var imagenÁlbum = (byte[])(imágenes[0].Data.Data);
                 imgCarátula.Source = Constantes.ByteAImagen(imagenÁlbum);
+                colorCanción.Color = Constantes.ObtenerColorDominante(imagenÁlbum);
             }
             else
             {
                 imgCarátula.Source = Constantes.ObtenerSinCarátula();
+                colorCanción.Color = Constantes.ObtenerColorGris();
             }
 
             // Datos
