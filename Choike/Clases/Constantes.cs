@@ -6,6 +6,10 @@ using System.Collections.Generic;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using Newtonsoft.Json;
+using System.Drawing;
+using Color = System.Windows.Media.Color;
+using System.ComponentModel;
+using System.Drawing.Drawing2D;
 
 namespace Choike.Clases
 {
@@ -110,6 +114,58 @@ namespace Choike.Clases
                 case TipoCarpeta.autor:
                     return colorAutor;
             }
+        }
+
+        public static Color ObtenerColorDominante(byte[] byteData)
+        {
+            try
+            {                
+                MemoryStream ms = new MemoryStream(byteData);
+                Bitmap bitmap = new Bitmap(ms);
+
+                float r = 0;
+                float g = 0;
+                float b = 0;
+                int total = 0;
+
+                // Revisa pixel por pixel
+                for (int x = 0; x < bitmap.Width; x++)
+                {
+                    for (int y = 0; y < bitmap.Height; y++)
+                    {
+                        var clr = bitmap.GetPixel(x, y);
+                        
+                        // Se salta pixeles blancos y negros
+                        if ((clr.R > 250 && clr.G > 250 && clr.B > 250) || 
+                            (clr.R < 5 && clr.G < 5 && clr.B < 5))
+                        {
+                            total++;
+                            continue;
+                        }
+                        
+                        r += clr.R;
+                        g += clr.G;
+                        b += clr.B;
+
+                        total++;
+                    }
+                }
+
+                r /= total;
+                g /= total;
+                b /= total;
+                
+                return Color.FromRgb((byte)r, (byte)g, (byte)b);
+            }
+            catch
+            {
+                return ObtenerColorGris();
+            }
+        }
+
+        public static Color ObtenerColorGris()
+        {
+            return Color.FromRgb(120, 120, 100);
         }
     }
 }
