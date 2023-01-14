@@ -4,6 +4,8 @@
              xmlns:local="clr-namespace:Choike"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <FontFamily x:Key="OpenMoji">pack://application:,,,/Fuentes/OpenMoji-Black.ttf#OpenMoji</FontFamily>
+        <FontFamily x:Key="AvrileSansUI">pack://application:,,,/Fuentes/AvrileSansUI-Regular.ttf#AvrileSansUI</FontFamily>
+        <FontFamily x:Key="AvrileSerif">pack://application:,,,/Fuentes/AvrileSerif-Bold.ttf#AvrileSerif</FontFamily>
     </Application.Resources>
 </Application>

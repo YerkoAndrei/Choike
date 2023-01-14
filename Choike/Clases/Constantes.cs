@@ -101,7 +101,10 @@ namespace Choike.Clases
 
         public static string TimeSpanATexto(TimeSpan timeSpan)
         {
-            return $"{(int)timeSpan.TotalMinutes:00}:{timeSpan.Seconds:00}";
+            if(timeSpan.Hours > 0)
+                return $"{(int)timeSpan.TotalHours:00}:{(int)timeSpan.Minutes:00}:{timeSpan.Seconds:00}";
+            else
+                return $"{(int)timeSpan.TotalMinutes:00}:{timeSpan.Seconds:00}";
         }
 
         public static string ObtenerColorPorTipoCarpeta(TipoCarpeta tipoCarpeta)
