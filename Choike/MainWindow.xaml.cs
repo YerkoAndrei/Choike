@@ -12,7 +12,6 @@ using System.Windows.Interop;
 using System.Collections.Generic;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Choike.Clases;
-using System.Threading.Tasks;
 
 namespace Choike
 {
@@ -107,12 +106,13 @@ namespace Choike
 
         private void IntervaloTiempo(object sender, EventArgs e)
         {
+            // TaskCanceledException
             try
             {
                 if (Application.Current != null)
                     Application.Current.Dispatcher.Invoke(mostrarEstadoCanción);
             }
-            catch(TaskCanceledException excepción) { }
+            catch{ }
         }
 
 
