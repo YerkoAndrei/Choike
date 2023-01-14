@@ -9,7 +9,6 @@
         Height="720" Width="1280"
         Title="Choike"
         FontSize="18"
-        KeyDown="EnTecla"
         SizeChanged="EnCambioTamaño"
         Background="Black"
         WindowStartupLocation="CenterScreen"
@@ -380,25 +379,32 @@
                 </Grid.ColumnDefinitions>
 
                 <Button Grid.Column="0" Margin="6,3,6,7" Click="EnClicAleatorio">
-                    <TextBlock FontSize="{DynamicResource fuenteBotonesControl}" x:Name="botónAleatorio" Text="🔀"/>
+                    <TextBlock FontSize="{DynamicResource fuenteBotonesControl}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                               x:Name="botónAleatorio" Text="🔀"/>
                 </Button>
                 <Button Grid.Column="1" Margin="6,3,6,7" Click="EnClicRepetir">
-                    <TextBlock FontSize="{DynamicResource fuenteBotonesControl}" x:Name="botónRepetir" Text="🔂"/>
+                    <TextBlock FontSize="{DynamicResource fuenteBotonesControl}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                               x:Name="botónRepetir" Text="🔂"/>
                 </Button>
                 <Button Grid.Column="2" Margin="6,3,6,7" Click="EnClicDetener">
-                    <TextBlock FontSize="{DynamicResource fuenteBotonesControl}" Text="⏹"/>
+                    <TextBlock FontSize="{DynamicResource fuenteBotonesControl}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                               Text="⏹"/>
                 </Button>
                 <Button Grid.Column="3" Margin="6,3,6,7" Click="EnClicAnterior">
-                    <TextBlock FontSize="{DynamicResource fuenteBotonesControl}" Text="⏪"/>
+                    <TextBlock FontSize="{DynamicResource fuenteBotonesControl}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                               Text="⏪"/>
                 </Button>
                 <Button Grid.Column="4" Margin="6,3,6,7" Click="EnClicPausa">
-                    <TextBlock FontSize="{DynamicResource fuenteBotonesControl}" x:Name="botónPausa" Text="⏯"/>
+                    <TextBlock FontSize="{DynamicResource fuenteBotonesControl}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                               x:Name="botónPausa" Text="⏯"/>
                 </Button>
                 <Button Grid.Column="5" Margin="6,3,6,7" Click="EnClicSiguiente">
-                    <TextBlock FontSize="{DynamicResource fuenteBotonesControl}" Text="⏩"/>
+                    <TextBlock FontSize="{DynamicResource fuenteBotonesControl}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                               Text="⏩"/>
                 </Button>
                 <Button Grid.Column="6" Margin="6,3,6,7" Click="EnClicSilencio" Style="{StaticResource BotónRedondo}">
-                    <TextBlock FontSize="{DynamicResource fuenteVolumen}" x:Name="botónSilencio" Text="🔊"/>
+                    <TextBlock FontSize="{DynamicResource fuenteVolumen}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                               x:Name="botónSilencio" Text="🔊"/>
                 </Button>
 
                 <Slider Grid.Column="7" Margin="10,0,10,0"

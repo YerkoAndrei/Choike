@@ -6,12 +6,13 @@ using System.Timers;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Interop;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Interop;
 using System.Collections.Generic;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Choike.Clases;
+using System.Threading.Tasks;
 
 namespace Choike
 {
@@ -36,10 +37,10 @@ namespace Choike
         private Timer contador;
         private Action mostrarEstadoCanción;
 
-        public Color ColorBase = Color.FromRgb(120, 120, 100);
         public Color ColorResaltado = Color.FromRgb(200, 200, 100);
         public Brush BrochaResaltado;
 
+        // Tamaños fuentes dinámicas
         public double fuentePrincipal = 155;        // 18
 
         public double fuenteBotonesControl = 50;    // 52
@@ -52,11 +53,11 @@ namespace Choike
         public double fuenteAutorCanción = 130;     // 20
         public double fuenteÁlbumCanción = 130;     // 20
 
+        // Botones fuera de foco
+        private OyenteTeclado oyente;
+
         public MainWindow()
         {
-            // PENDIENTE
-            // botones sin mirar ventana
-
             InitializeComponent();
 
             mediaPlayer = new MediaPlayer();
@@ -82,7 +83,7 @@ namespace Choike
             mediaPlayer.Volume = volumen.Value;
 
             // Tiempo canción
-            mostrarEstadoCanción = () =>{ MostrarEstadoCanción(); };
+            mostrarEstadoCanción = () => { MostrarEstadoCanción(); };
 
             contador = new Timer();
             contador.Interval = 100;
@@ -97,54 +98,26 @@ namespace Choike
             // Carpetas guardadas
             carpetasActuales = Constantes.CargarCarpetasGuardadas();
             ActualizarListaCarpetas();
+
+            // Escuchar teclado
+            oyente = new OyenteTeclado();
+            oyente.OnKeyPressed += EnTecla;
+            oyente.VincularTeclado();
         }
 
         private void IntervaloTiempo(object sender, EventArgs e)
         {
-            if(Application.Current != null)
-                Application.Current.Dispatcher.Invoke(mostrarEstadoCanción);
+            try
+            {
+                if (Application.Current != null)
+                    Application.Current.Dispatcher.Invoke(mostrarEstadoCanción);
+            }
+            catch(TaskCanceledException excepción) { }
         }
 
 
         // --- Botones ---
 
-
-        private void EnTecla(object sender, KeyEventArgs e)
-        {
-            switch(e.Key)
-            {
-                case Key.MediaPlayPause:
-                case Key.Pause:
-                    EnClicPausa(sender, e);
-                    break;
-                case Key.MediaNextTrack:
-                    EnClicSiguiente(sender, e);
-                    break;
-                case Key.MediaPreviousTrack:
-                    EnClicAnterior(sender, e);
-                    break;
-                case Key.MediaStop:
-                    EnClicDetener(sender, e);
-                    break;
-                case Key.VolumeMute:
-                    EnClicSilencio(sender, e);
-                    break;
-                case Key.PageUp:
-                    volumen.Value += volumen.LargeChange;
-                    mediaPlayer.Volume = volumen.Value;
-                    break;
-                case Key.PageDown:
-                    volumen.Value -= volumen.LargeChange;
-                    mediaPlayer.Volume = volumen.Value;
-                    break;
-                case Key.F9:
-                    EnClicAleatorio(sender, e);
-                    break;
-                case Key.F10:
-                    EnClicRepetir(sender, e);
-                    break;
-            }
-        }
 
         private void EnClicPausa(object sender, RoutedEventArgs e)
         {
@@ -312,10 +285,10 @@ namespace Choike
         {
             if (repetirCanción)
             {
-                EnClicElegirCanción(null, null);
+                EnClicElegirCanción(sender, null);
             }
             else
-                EnClicSiguiente(null, null);
+                EnClicSiguiente(sender, null);
         }
 
         private void AleatorizarCanciones()
@@ -638,6 +611,8 @@ namespace Choike
         private void EnClicCerrar(object sender, RoutedEventArgs e)
         {
             mediaPlayer.Stop();
+            oyente.DesvincularTeclado();
+
             Application.Current.Shutdown();
         }
 
@@ -684,6 +659,46 @@ namespace Choike
             Application.Current.Resources.Add("fuenteNombreCanción",  (anchoPantalla / fuenteNombreCanción) * multiplicador);
             Application.Current.Resources.Add("fuenteAutorCanción",  (anchoPantalla / fuenteAutorCanción) * multiplicador);
             Application.Current.Resources.Add("fuenteÁlbumCanción",  (anchoPantalla / fuenteÁlbumCanción) * multiplicador);
+        }
+
+
+        // --- Botones fuera de foco ---
+
+        void EnTecla(object sender, KeyPressedArgs e)
+        {
+            switch (e.KeyPressed)
+            {
+                case Key.MediaPlayPause:
+                case Key.Pause:
+                    EnClicPausa(sender, null);
+                    break;
+                case Key.MediaNextTrack:
+                    EnClicSiguiente(sender, null);
+                    break;
+                case Key.MediaPreviousTrack:
+                    EnClicAnterior(sender, null);
+                    break;
+                case Key.MediaStop:
+                    EnClicDetener(sender, null);
+                    break;
+                case Key.VolumeMute:
+                    EnClicSilencio(sender, null);
+                    break;
+                case Key.PageUp:
+                    volumen.Value += volumen.LargeChange;
+                    mediaPlayer.Volume = volumen.Value;
+                    break;
+                case Key.PageDown:
+                    volumen.Value -= volumen.LargeChange;
+                    mediaPlayer.Volume = volumen.Value;
+                    break;
+                case Key.F9:
+                    EnClicAleatorio(sender, null);
+                    break;
+                case Key.F10:
+                    EnClicRepetir(sender, null);
+                    break;
+            }
         }
     }
 }

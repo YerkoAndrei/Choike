@@ -2,14 +2,12 @@
 using System;
 using System.IO;
 using System.Linq;
-using System.Collections.Generic;
-using System.Windows.Media.Imaging;
-using System.Windows.Media;
-using Newtonsoft.Json;
 using System.Drawing;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 using Color = System.Windows.Media.Color;
-using System.ComponentModel;
-using System.Drawing.Drawing2D;
 
 namespace Choike.Clases
 {
