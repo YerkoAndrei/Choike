@@ -4,9 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Timers;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Interop;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Collections.Generic;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Choike.Clases;
@@ -21,31 +23,51 @@ namespace Choike
         private List<Carpeta> carpetasActuales;
 
         private bool pausa;
-        private bool repetirCanción;
+        private bool parado;
         private bool aleatorio;
+        private bool repetirCanción;
+        private bool moviendoTiempoCanción;
 
         private Carpeta carpetaActual;
         private Canción cancionActual;
+        private double volumenAnterior;
         private int índiceActual;
 
         private Timer contador;
+        private Action mostrarEstadoCanción;
 
         public Color ColorBase = Color.FromRgb(120, 120, 100);
+        public Color ColorResaltado = Color.FromRgb(200, 200, 100);
+        public Brush BrochaResaltado;
+
+        public double fuentePrincipal = 155;        // 18
+
+        public double fuenteBotonesControl = 50;    // 52
+        public double fuenteBotonesCarpeta = 80;    // 32
+        public double fuenteVolumen = 58;           // 50
+        public double fuenteNúmeroVolumen = 170;    // 15
+        public double fuenteTiempoCanción = 110;    // 25
+
+        public double fuenteNombreCanción = 85;     // 30
+        public double fuenteAutorCanción = 130;     // 20
+        public double fuenteÁlbumCanción = 130;     // 20
 
         public MainWindow()
         {
+            // PENDIENTE
+            // botones sin mirar ventana
+
             InitializeComponent();
 
             mediaPlayer = new MediaPlayer();
 
             // Valores predeterminados
             pausa = false;
+            parado = true;
             aleatorio = true;
             repetirCanción = false;
+            moviendoTiempoCanción = false;
             índiceActual = 0;
-
-            volumen.Value = 0.5;
-            mediaPlayer.Volume = volumen.Value;
 
             carpetaActual = new Carpeta();
             cancionActual = new Canción();
@@ -53,10 +75,24 @@ namespace Choike
             cancionesActuales = new List<Canción>();
             carpetasActuales = new List<Carpeta>();
 
+            BrochaResaltado = (SolidColorBrush)new BrushConverter().ConvertFrom(ColorResaltado.ToString());
+
+            // Volumen predeterminado
+            volumen.Value = 0.75;
+            mediaPlayer.Volume = volumen.Value;
+
+            // Tiempo canción
+            mostrarEstadoCanción = () =>{ MostrarEstadoCanción(); };
+
             contador = new Timer();
             contador.Interval = 100;
             contador.Enabled = false;
             contador.Elapsed += new ElapsedEventHandler(IntervaloTiempo);
+
+            // Interfaz
+            MostrarAleatorio();
+            MostrarVolumen();
+            MostrarRepetir();
 
             // Carpetas guardadas
             carpetasActuales = Constantes.CargarCarpetasGuardadas();
@@ -65,13 +101,8 @@ namespace Choike
 
         private void IntervaloTiempo(object sender, EventArgs e)
         {
-            // intento multi hilo?
-            /*
-            Application.Current.Dispatcher.Invoke(new Action(() =>
-            {
-                MostrarEstadoCanción();
-            }));
-            */
+            if(Application.Current != null)
+                Application.Current.Dispatcher.Invoke(mostrarEstadoCanción);
         }
 
 
@@ -82,8 +113,8 @@ namespace Choike
         {
             switch(e.Key)
             {
-                case Key.Space:
                 case Key.MediaPlayPause:
+                case Key.Pause:
                     EnClicPausa(sender, e);
                     break;
                 case Key.MediaNextTrack:
@@ -98,15 +129,13 @@ namespace Choike
                 case Key.VolumeMute:
                     EnClicSilencio(sender, e);
                     break;
-                case Key.VolumeUp:
                 case Key.PageUp:
-                    mediaPlayer.Volume += volumen.Value;
-                    volumen.Value = volumen.LargeChange;
+                    volumen.Value += volumen.LargeChange;
+                    mediaPlayer.Volume = volumen.Value;
                     break;
-                case Key.VolumeDown:
                 case Key.PageDown:
-                    mediaPlayer.Volume -= volumen.Value;
-                    volumen.Value = volumen.LargeChange;
+                    volumen.Value -= volumen.LargeChange;
+                    mediaPlayer.Volume = volumen.Value;
                     break;
                 case Key.F9:
                     EnClicAleatorio(sender, e);
@@ -119,16 +148,27 @@ namespace Choike
 
         private void EnClicPausa(object sender, RoutedEventArgs e)
         {
+            if (parado)
+                return;
+
             if (pausa)
                 mediaPlayer.Play();
             else
                 mediaPlayer.Pause();
 
             pausa = !pausa;
+
+            if (pausa)
+                botónPausa.Text = "⏵";
+            else
+                botónPausa.Text = "⏸";
         }
 
         private void EnClicAnterior(object sender, RoutedEventArgs e)
         {
+            if (listaCanciones.SelectedIndex < 0)
+                return;
+
             var nuevoÍndice = índiceActual - 1;
             if (nuevoÍndice < 0)
                 nuevoÍndice = cancionesActuales.Count - 1;
@@ -138,6 +178,9 @@ namespace Choike
 
         private void EnClicSiguiente(object sender, RoutedEventArgs e)
         {
+            if (listaCanciones.SelectedIndex < 0)
+                return;
+
             var nuevoÍndice = índiceActual += 1;
             if (nuevoÍndice >= cancionesActuales.Count)
                 nuevoÍndice = 0;
@@ -147,28 +190,49 @@ namespace Choike
 
         private void EnClicSilencio(object sender, RoutedEventArgs e)
         {
-            volumen.Value = 0;
+            if (volumen.Value > 0)
+            {
+                volumenAnterior = volumen.Value;
+                volumen.Value = 0;
+            }
+            else
+                volumen.Value = volumenAnterior;
+
             mediaPlayer.Volume = volumen.Value;
+            MostrarVolumen();
         }
 
         private void EnClicDetener(object sender, RoutedEventArgs e)
         {
+            if (listaCanciones.SelectedIndex < 0)
+                return;
+
+            parado = !parado;
+
             mediaPlayer.Stop();
             contador.Stop();
 
+            duraciónActual.Text = "00:00";
+            duraciónCompleta.Text = "00:00";
+            duraciónObjetivo.Text = string.Empty;
+
+            porcentajeDuraciónActual.Value = 0;
+            botónPausa.Text = "⏯";
             listaCanciones.SelectedIndex = -1;
             índiceActual = 0;
 
             // Datos
-            nombreArtista.Text = "Artista";
             nombreCanción.Text = "Canción";
+            nombreAutor.Text = "Autor";
             nombreAlbum.Text = "Álbum";
+            nombreDetalles.Text = string.Empty;
             imgCarátula.Source = Constantes.ObtenerSinCarátula();
         }
 
         private void EnClicAleatorio(object sender, RoutedEventArgs e)
         {
             aleatorio = !aleatorio;
+            MostrarAleatorio();
 
             if (aleatorio)
             {
@@ -185,18 +249,30 @@ namespace Choike
         private void EnClicRepetir(object sender, RoutedEventArgs e)
         {
             repetirCanción = !repetirCanción;
+            MostrarRepetir();
         }
 
         private void EnCambioVolumen(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             mediaPlayer.Volume = volumen.Value;
+            MostrarVolumen();
         }
 
-        private void EnCambioTiempo(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void EnMoverTiempoCanción(object sender, DragStartedEventArgs e)
+        {
+            if (parado)
+                return;
+
+            moviendoTiempoCanción = true;
+        }
+
+        private void EnCambioTiempoCanción(object sender, DragCompletedEventArgs e)
         {
             if (string.IsNullOrEmpty(cancionActual.Ruta))
                 return;
 
+            duraciónObjetivo.Text = string.Empty;
+            moviendoTiempoCanción = false;
             mediaPlayer.Position = TimeSpan.FromSeconds(porcentajeDuraciónActual.Value * cancionActual.Duración.TotalSeconds);
         }
 
@@ -218,8 +294,9 @@ namespace Choike
             if (listaCanciones.SelectedIndex < 0)
                 return;
 
+            botónPausa.Text = "⏸";
+            duraciónObjetivo.Text = string.Empty;
             var canción = (Canción)listaCanciones.SelectedItem;
-
             MostrarDatosCanción(canción, canción.Ruta);
 
             // Reproducción
@@ -228,6 +305,7 @@ namespace Choike
             mediaPlayer.Play();
             contador.Start();
             pausa = false;
+            parado = false;
         }
 
         private void SiguienteCanción(object sender, EventArgs e)
@@ -254,6 +332,7 @@ namespace Choike
         {
             var dialog = new CommonOpenFileDialog();
             dialog.DefaultDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            dialog.Title = "Agregar Carpeta";
             dialog.Multiselect = false;
             dialog.IsFolderPicker = true;
 
@@ -292,6 +371,7 @@ namespace Choike
         {
             var dialog = new CommonOpenFileDialog();
             dialog.DefaultDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            dialog.Title = "Agregar Autor";
             dialog.Multiselect = false;
 
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
@@ -421,10 +501,17 @@ namespace Choike
 
         private void MostrarEstadoCanción()
         {
-            if (mediaPlayer.IsMuted)
+            if (parado)
                 return;
 
             duraciónActual.Text = Constantes.TimeSpanATexto(mediaPlayer.Position);
+
+            if (moviendoTiempoCanción)
+            {
+                duraciónObjetivo.Text = Constantes.TimeSpanATexto(cancionActual.Duración * porcentajeDuraciónActual.Value);
+                return;
+            }
+
             porcentajeDuraciónActual.Value = (mediaPlayer.Position.TotalSeconds / cancionActual.Duración.TotalSeconds);
         }
 
@@ -451,7 +538,7 @@ namespace Choike
             }
 
             // Datos
-            nombreArtista.Text = cancionActual.Autor;
+            nombreAutor.Text = cancionActual.Autor;
             nombreCanción.Text = cancionActual.Nombre;
             nombreAlbum.Text = cancionActual.Álbum;
             nombreDetalles.Text = cancionActual.Detalles;
@@ -471,6 +558,7 @@ namespace Choike
             listaCarpetas.ItemsSource = carpetasActuales;
         }
 
+
         private void ActualizarListaCanciones()
         {
             listaCanciones.ItemsSource = null;
@@ -481,6 +569,121 @@ namespace Choike
 
             if(aleatorio)
                 AleatorizarCanciones();
+
+            ContrarCancionesEnCarpeta();
+        }
+
+        private void ContrarCancionesEnCarpeta()
+        {
+            var duracion = new TimeSpan();
+
+            for(int i=0; i < cancionesActuales.Count; i++)
+            {
+                duracion += cancionesActuales[i].Duración;
+            }
+
+            cantidadCanciones.Text = cancionesActuales.Count.ToString() + " Canciones";
+            duraciónCanciones.Text = Constantes.TimeSpanATexto(duracion);
+        }
+
+        private void MostrarVolumen()
+        {
+            volumenActual.Text = (volumen.Value * 100).ToString("00");
+
+            if (volumen.Value >= 0.5)
+                botónSilencio.Text = "🔊";
+            else if (volumen.Value > 0)
+                botónSilencio.Text = "🔉";
+            else
+                botónSilencio.Text = "🔇";
+        }
+
+
+        private void MostrarAleatorio()
+        {
+            if (aleatorio)
+                botónAleatorio.Foreground = BrochaResaltado;
+            else
+                botónAleatorio.Foreground = Brushes.Black;
+        }
+
+        private void MostrarRepetir()
+        {
+            if (repetirCanción)
+                botónRepetir.Foreground = BrochaResaltado;
+            else
+                botónRepetir.Foreground = Brushes.Black;
+        }
+
+        // Barra título
+        private void EnClicMinimizar(object sender, RoutedEventArgs e)
+        {
+            Application.Current.MainWindow.WindowState = WindowState.Minimized;
+        }
+
+        private void EnClicMaximizar(object sender, RoutedEventArgs e)
+        {
+            if (Application.Current.MainWindow.WindowState == WindowState.Maximized)
+            {
+                Application.Current.MainWindow.WindowState = WindowState.Normal;
+                botónMaximizar.Text = "🗖";
+            }
+            else
+            {
+                Application.Current.MainWindow.WindowState = WindowState.Maximized;
+                botónMaximizar.Text = "🗗";
+            }
+        }
+
+        private void EnClicCerrar(object sender, RoutedEventArgs e)
+        {
+            mediaPlayer.Stop();
+            Application.Current.Shutdown();
+        }
+
+        public void EnCambioTamaño(object sender, SizeChangedEventArgs e)
+        {
+            var pantallaActual = System.Windows.Forms.Screen.FromHandle(new WindowInteropHelper(this).Handle);
+
+            // Diferencia bordes
+            Application.Current.MainWindow.MaxHeight = pantallaActual.WorkingArea.Height + 14;
+            Application.Current.MainWindow.MaxWidth = pantallaActual.WorkingArea.Width + 14;
+
+            if (Application.Current.MainWindow.WindowState == WindowState.Maximized)
+            {
+                Application.Current.MainWindow.BorderThickness = new Thickness(7);
+                botónMaximizar.Text = "🗗";
+            }
+            else
+                botónMaximizar.Text = "🗖";
+            
+            // Fuentes
+            Application.Current.Resources.Remove("fuentePrincipal");
+
+            Application.Current.Resources.Remove("fuenteBotonesControl");
+            Application.Current.Resources.Remove("fuenteBotonesCarpeta");
+            Application.Current.Resources.Remove("fuenteVolumen");
+            Application.Current.Resources.Remove("fuenteNúmeroVolumen");
+            Application.Current.Resources.Remove("fuenteTiempoCanción");
+
+            Application.Current.Resources.Remove("fuenteNombreCanción");
+            Application.Current.Resources.Remove("fuenteAutorCanción");
+            Application.Current.Resources.Remove("fuenteÁlbumCanción");
+
+            var anchoPantalla = Width + Height;
+            var multiplicador = 1.35;
+
+            Application.Current.Resources.Add("fuentePrincipal", Math.Clamp(((anchoPantalla / fuentePrincipal) * multiplicador), 5, FontSize));
+
+            Application.Current.Resources.Add("fuenteBotonesControl", (anchoPantalla / fuenteBotonesControl) * multiplicador);
+            Application.Current.Resources.Add("fuenteBotonesCarpeta", Math.Clamp(((anchoPantalla / fuenteBotonesCarpeta) * multiplicador), 5, 40));
+            Application.Current.Resources.Add("fuenteVolumen",        (anchoPantalla / fuenteVolumen) * multiplicador);
+            Application.Current.Resources.Add("fuenteNúmeroVolumen",  (anchoPantalla / fuenteNúmeroVolumen) * multiplicador);
+            Application.Current.Resources.Add("fuenteTiempoCanción",  (anchoPantalla / fuenteTiempoCanción) * multiplicador);
+            
+            Application.Current.Resources.Add("fuenteNombreCanción",  (anchoPantalla / fuenteNombreCanción) * multiplicador);
+            Application.Current.Resources.Add("fuenteAutorCanción",  (anchoPantalla / fuenteAutorCanción) * multiplicador);
+            Application.Current.Resources.Add("fuenteÁlbumCanción",  (anchoPantalla / fuenteÁlbumCanción) * multiplicador);
         }
     }
 }
