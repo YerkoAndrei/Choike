@@ -211,33 +211,33 @@
             </Grid.ColumnDefinitions>
 
             <!--Título-->
-            <Image Width="22" Height="22" HorizontalAlignment="Left" Stretch="Uniform" Margin="7,0,0,0"
-                   Source="C:\Users\YerkoAndrei\Desktop\Proyectos\Choike\Choike\Arte\SinCarátula.png"/>
+            <Image Width="22" Height="22" Grid.Column="0" HorizontalAlignment="Left" Stretch="Uniform" Margin="7,0,0,0"
+                   Source="pack://siteoforigin:,,,/Arte/SinCarátula.png"/>
 
             <TextBlock Grid.Column="0" HorizontalAlignment="Center" Foreground="{StaticResource ColorBlanco}" Margin="0,3,0,0"
                        Text="CHOIKE" FontSize="20" FontFamily="Global Serif"/>
 
-            <TextBlock Grid.Column="0" HorizontalAlignment="Center" Foreground="{StaticResource ColorBlanco}" Margin="-105,-1,0,0"
-                       Text="&#x1FAB6;"  FontSize="25" FontFamily="{StaticResource OpenMoji}"/>
+            <Image Width="32" Height="32" Grid.Column="0" HorizontalAlignment="Center" Margin="-100,-2.5,0,0"
+                   Source="pack://siteoforigin:,,,/Arte/1FAB6.png"  />
 
-            <TextBlock Grid.Column="0" HorizontalAlignment="Center" Foreground="{StaticResource ColorBlanco}" Margin="106,-1,0,0"
-                       Text="&#x1FAB6;"  FontSize="25" FontFamily="{StaticResource OpenMoji}" RenderTransformOrigin="0.5,0.5">
-                <TextBlock.RenderTransform>
+            <Image Width="32" Height="32" Grid.Column="0" HorizontalAlignment="Center" Margin="165,-2.5,0,0"
+                   Source="pack://siteoforigin:,,,/Arte/1FAB6.png" >
+                <Image.RenderTransform>
                     <ScaleTransform  ScaleX="-1"/>
-                </TextBlock.RenderTransform>
-            </TextBlock>
+                </Image.RenderTransform>
+            </Image>
 
             <!--Botones-->
             <Button Grid.Column="2" Margin="4,1,4,0" Click="EnClicMinimizar" >
-                <TextBlock Margin="0,-3,0,0" Text="🗕"/>
+                <TextBlock  HorizontalAlignment="Center" Margin="0,-3,0,0" Text="🗕"/>
             </Button>
 
             <Button Grid.Column="3" Margin="4,1,4,0" Click="EnClicMaximizar">
-                <TextBlock Margin="0,-3,0,0" x:Name="botónMaximizar" Text="🗖"/>
+                <TextBlock  HorizontalAlignment="Center" Margin="0,-3,0,0" x:Name="botónMaximizar" Text="🗖"/>
             </Button>
 
             <Button Grid.Column="4" Margin="4,1,4,0" Click="EnClicCerrar" Background="#FFFF5050">
-                <TextBlock Margin="0,-3,0,0" Text="🗙"/>
+                <TextBlock  HorizontalAlignment="Center" Margin="0,-3,0,0" Text="🗙"/>
             </Button>
         </Grid>
         
@@ -327,7 +327,7 @@
 
             <!--Carátula-->
             <Image Grid.Row="0" HorizontalAlignment="Center" Margin="5,5,5,5"
-                    x:Name="imgCarátula" Source="C:\Users\YerkoAndrei\Desktop\Proyectos\Choike\Choike\Arte\SinCarátula.png"/>
+                    x:Name="imgCarátula" Source="pack://siteoforigin:,,,/Arte/SinCarátula.png"/>
 
             <!--Info Canción-->
             <StackPanel Grid.Row="1" Orientation="Vertical" VerticalAlignment="Center" Margin="0,0,0,50">
@@ -379,31 +379,31 @@
                 </Grid.ColumnDefinitions>
 
                 <Button Grid.Column="0" Margin="6,3,6,7" Click="EnClicAleatorio">
-                    <TextBlock FontSize="{DynamicResource fuenteBotonesControl}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                    <TextBlock FontSize="{DynamicResource fuenteBotonesControl}" HorizontalAlignment="Center" Margin="0,-8,0,0"
                                x:Name="botónAleatorio" Text="🔀"/>
                 </Button>
                 <Button Grid.Column="1" Margin="6,3,6,7" Click="EnClicRepetir">
-                    <TextBlock FontSize="{DynamicResource fuenteBotonesControl}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                    <TextBlock FontSize="{DynamicResource fuenteBotonesControl}" HorizontalAlignment="Center" Margin="0,-8,0,0"
                                x:Name="botónRepetir" Text="🔂"/>
                 </Button>
                 <Button Grid.Column="2" Margin="6,3,6,7" Click="EnClicDetener">
-                    <TextBlock FontSize="{DynamicResource fuenteBotonesControl}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                    <TextBlock FontSize="{DynamicResource fuenteBotonesControl}" HorizontalAlignment="Center" Margin="0,-8,0,0"
                                Text="⏹"/>
                 </Button>
                 <Button Grid.Column="3" Margin="6,3,6,7" Click="EnClicAnterior">
-                    <TextBlock FontSize="{DynamicResource fuenteBotonesControl}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                    <TextBlock FontSize="{DynamicResource fuenteBotonesControl}" HorizontalAlignment="Center" Margin="0,-8,0,0"
                                Text="⏪"/>
                 </Button>
                 <Button Grid.Column="4" Margin="6,3,6,7" Click="EnClicPausa">
-                    <TextBlock FontSize="{DynamicResource fuenteBotonesControl}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                    <TextBlock FontSize="{DynamicResource fuenteBotonesControl}" HorizontalAlignment="Center" Margin="0,-8,0,0"
                                x:Name="botónPausa" Text="⏯"/>
                 </Button>
                 <Button Grid.Column="5" Margin="6,3,6,7" Click="EnClicSiguiente">
-                    <TextBlock FontSize="{DynamicResource fuenteBotonesControl}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                    <TextBlock FontSize="{DynamicResource fuenteBotonesControl}" HorizontalAlignment="Center" Margin="0,-8,0,0"
                                Text="⏩"/>
                 </Button>
                 <Button Grid.Column="6" Margin="6,3,6,7" Click="EnClicSilencio" Style="{StaticResource BotónRedondo}">
-                    <TextBlock FontSize="{DynamicResource fuenteVolumen}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                    <TextBlock FontSize="{DynamicResource fuenteVolumen}" HorizontalAlignment="Center" Margin="0,-8,0,0"
                                x:Name="botónSilencio" Text="🔊"/>
                 </Button>
 
