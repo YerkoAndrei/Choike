@@ -16,12 +16,12 @@
         WindowStyle="None"
         AllowsTransparency="True"
         ResizeMode="CanResizeWithGrip"
-        FontFamily="{StaticResource AvrileSansUI}"
+        FontFamily="Segoe UI"
         >
 
     <!--Barra Título-->
     <WindowChrome.WindowChrome>
-        <WindowChrome CaptionHeight="20"/>
+        <WindowChrome CaptionHeight="22"/>
     </WindowChrome.WindowChrome>
     
     <Window.Resources>
@@ -195,7 +195,7 @@
             <ColumnDefinition Width="2.7*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="20" />
+            <RowDefinition Height="24" />
             <RowDefinition Height="8.5*" />
             <RowDefinition Height="1.5*" />
         </Grid.RowDefinitions>
@@ -203,7 +203,8 @@
         <!--Barra Título-->
         <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" WindowChrome.IsHitTestVisibleInChrome="True">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1.85*"/>
+                <ColumnDefinition Width="8.35*"/>
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="50"/>
@@ -211,37 +212,32 @@
             </Grid.ColumnDefinitions>
 
             <!--Título-->
-            <TextBlock Grid.Column="0" HorizontalAlignment="Center" Foreground="{StaticResource ColorBlanco}" Margin="0,1,0,0"
-                       Text="CHOIKE" FontSize="20" FontFamily="{StaticResource AvrileSerif}"/>
+            <Image Width="22" Height="22" HorizontalAlignment="Left" Stretch="Uniform" Margin="7,0,0,0"
+                   Source="C:\Users\YerkoAndrei\Desktop\Proyectos\Choike\Choike\Arte\SinCarátula.png"/>
 
-            <TextBlock Grid.Column="0" HorizontalAlignment="Center" Foreground="{StaticResource ColorBlanco}" Margin="-100,-3,0,0"
-                       Text="&#x1FAB6; "  FontSize="25" FontFamily="{StaticResource OpenMoji}"/>
-            <TextBlock Grid.Column="0" HorizontalAlignment="Center" Foreground="{StaticResource ColorBlanco}" Margin="-150,-3,0,0"
-                       Text="&#x1FAB6; "  FontSize="25" FontFamily="{StaticResource OpenMoji}"/>
+            <TextBlock Grid.Column="0" HorizontalAlignment="Center" Foreground="{StaticResource ColorBlanco}" Margin="0,3,0,0"
+                       Text="CHOIKE" FontSize="20" FontFamily="Global Serif"/>
 
-            <TextBlock Grid.Column="0" HorizontalAlignment="Center" Foreground="{StaticResource ColorBlanco}" Margin="100,-2,0,0"
+            <TextBlock Grid.Column="0" HorizontalAlignment="Center" Foreground="{StaticResource ColorBlanco}" Margin="-105,-1,0,0"
+                       Text="&#x1FAB6;"  FontSize="25" FontFamily="{StaticResource OpenMoji}"/>
+
+            <TextBlock Grid.Column="0" HorizontalAlignment="Center" Foreground="{StaticResource ColorBlanco}" Margin="106,-1,0,0"
                        Text="&#x1FAB6;"  FontSize="25" FontFamily="{StaticResource OpenMoji}" RenderTransformOrigin="0.5,0.5">
                 <TextBlock.RenderTransform>
-                    <RotateTransform Angle="90"/>
-                </TextBlock.RenderTransform>
-            </TextBlock>
-            <TextBlock Grid.Column="0" HorizontalAlignment="Center" Foreground="{StaticResource ColorBlanco}" Margin="150,-2,0,0"
-                       Text="&#x1FAB6;"  FontSize="25" FontFamily="{StaticResource OpenMoji}" RenderTransformOrigin="0.5,0.5">
-                <TextBlock.RenderTransform>
-                    <RotateTransform Angle="90"/>
+                    <ScaleTransform  ScaleX="-1"/>
                 </TextBlock.RenderTransform>
             </TextBlock>
 
             <!--Botones-->
-            <Button Grid.Column="1" Margin="4,1,4,0" Click="EnClicMinimizar" >
+            <Button Grid.Column="2" Margin="4,1,4,0" Click="EnClicMinimizar" >
                 <TextBlock Margin="0,-3,0,0" Text="🗕"/>
             </Button>
 
-            <Button Grid.Column="2" Margin="4,1,4,0" Click="EnClicMaximizar">
+            <Button Grid.Column="3" Margin="4,1,4,0" Click="EnClicMaximizar">
                 <TextBlock Margin="0,-3,0,0" x:Name="botónMaximizar" Text="🗖"/>
             </Button>
 
-            <Button Grid.Column="3" Margin="4,1,4,0" Click="EnClicCerrar" Background="#FFFF5050">
+            <Button Grid.Column="4" Margin="4,1,4,0" Click="EnClicCerrar" Background="#FFFF5050">
                 <TextBlock Margin="0,-3,0,0" Text="🗙"/>
             </Button>
         </Grid>
@@ -267,7 +263,7 @@
 
             <!--Datos carpeta-->
             <Grid Grid.Row="1">
-                <TextBlock x:Name="cantidadCanciones" TextTrimming="CharacterEllipsis" FontSize="{DynamicResource fuentePrincipal}" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="{DynamicResource ColorBlanco}" Margin="5,0,0,0" Text="00 Canciones"/>
+                <TextBlock x:Name="cantidadCanciones" TextTrimming="CharacterEllipsis" FontSize="{DynamicResource fuentePrincipal}" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="{DynamicResource ColorBlanco}" Margin="5,0,0,0" Text="0 Canciones"/>
                 <TextBlock x:Name="duraciónCanciones" TextTrimming="CharacterEllipsis" FontSize="{DynamicResource fuentePrincipal}" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="{DynamicResource ColorBlanco}" Margin="0,0,5,0" Text="00:00"/>
             </Grid>
             

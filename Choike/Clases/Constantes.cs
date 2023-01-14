@@ -58,18 +58,6 @@ namespace Choike.Clases
             return imgSrc;
         }
 
-        public static ImageSource ObtenerCarátulaDañada()
-        {
-            BitmapImage bitImg = new BitmapImage();
-
-            bitImg.BeginInit();
-            bitImg.UriSource = new Uri("C:\\Users\\YerkoAndrei\\Desktop\\Proyectos\\Choike\\Choike\\Arte\\CarátulaDañada.png");
-            bitImg.EndInit();
-
-            ImageSource imgSrc = bitImg as ImageSource;
-            return imgSrc;
-        }
-
         public static List<Carpeta> CargarCarpetasGuardadas()
         {
             var carpetasGuardadas = Directory.GetCurrentDirectory() + archivoGuardado;
