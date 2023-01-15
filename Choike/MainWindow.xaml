@@ -211,16 +211,16 @@
             </Grid.ColumnDefinitions>
 
             <!--Título-->
-            <Image Width="22" Height="22" Grid.Column="0" HorizontalAlignment="Left" Stretch="Uniform" Margin="7,0,0,0"
-                   Source="pack://siteoforigin:,,,/Arte/SinCarátula.png"/>
-
-            <TextBlock Grid.Column="0" HorizontalAlignment="Center" Foreground="{StaticResource ColorBlanco}" Margin="0,3,0,0"
-                       Text="CHOIKE" FontSize="20" FontFamily="Global Serif"/>
+            <Image Width="29" Height="29" Grid.Column="0" HorizontalAlignment="Left" Stretch="Uniform" Margin="7,-2,0,0"
+                   Source="pack://siteoforigin:,,,/Arte/Choike.ico"/>
+            
+            <TextBlock Grid.Column="0" HorizontalAlignment="Center" Foreground="{StaticResource ColorBlanco}" Margin="0,4,0,0"
+                       Text="CHOIKE" FontSize="20" FontFamily="Georgia"/>
 
             <Image Width="32" Height="32" Grid.Column="0" HorizontalAlignment="Center" Margin="-100,-2.5,0,0"
                    Source="pack://siteoforigin:,,,/Arte/1FAB6.png"  />
 
-            <Image Width="32" Height="32" Grid.Column="0" HorizontalAlignment="Center" Margin="165,-2.5,0,0"
+            <Image Width="32" Height="32" Grid.Column="0" HorizontalAlignment="Center" Margin="168,-2.5,0,0"
                    Source="pack://siteoforigin:,,,/Arte/1FAB6.png" >
                 <Image.RenderTransform>
                     <ScaleTransform  ScaleX="-1"/>
