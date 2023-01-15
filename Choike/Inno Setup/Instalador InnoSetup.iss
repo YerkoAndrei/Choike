@@ -24,10 +24,12 @@ DisableProgramGroupPage=yes
 ;PrivilegesRequired=lowest
 OutputDir=C:\Users\YerkoAndrei\Desktop
 OutputBaseFilename=Instalador Choike
-SetupIconFile=C:\Users\YerkoAndrei\Desktop\Proyectos\Choike\Choike\bin\Release\net6.0-windows\publish\win-x86\Arte\Choike.ico
+SetupIconFile=C:\Users\YerkoAndrei\Desktop\Proyectos\Choike\Choike\Arte\Choike.ico
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
+WizardImageFile="C:\Users\YerkoAndrei\Desktop\Proyectos\Choike\Choike\Arte\big.bmp" 
+WizardSmallImageFile="C:\Users\YerkoAndrei\Desktop\Proyectos\Choike\Choike\Arte\small.bmp"
 
 [Languages]
 Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
@@ -37,7 +39,6 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 [Files]
 Source: "C:\Users\YerkoAndrei\Desktop\Proyectos\Choike\Choike\bin\Release\net6.0-windows\publish\win-x86\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\YerkoAndrei\Desktop\Proyectos\Choike\Choike\bin\Release\net6.0-windows\publish\win-x86\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
