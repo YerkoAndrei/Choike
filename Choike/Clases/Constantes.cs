@@ -14,7 +14,7 @@ namespace Choike.Clases
     public class Constantes
     {
         public static string extensionesMúsica = "*.mp3";
-        private static string archivoGuardado = "/listaCarpetas.choike";
+        private static string archivoGuardado = "listaCarpetas.choike";
 
         private static string colorCarpeta = "#ffc8ff";
         private static string colorAutor = "#ffffc8";
@@ -49,7 +49,7 @@ namespace Choike.Clases
             BitmapImage bitImg = new BitmapImage();
 
             bitImg.BeginInit();
-            bitImg.UriSource = new Uri("pack://siteoforigin:,,,/Arte/SinCarátula.png");
+            bitImg.UriSource = new Uri("pack://application:,,,/Arte/SinCarátula.png");
             bitImg.EndInit();
 
             ImageSource imgSrc = bitImg as ImageSource;
@@ -58,15 +58,19 @@ namespace Choike.Clases
 
         public static List<Carpeta> CargarCarpetasGuardadas()
         {
-            var carpetasGuardadas = Directory.GetCurrentDirectory() + archivoGuardado;
+            var carpetasGuardadas = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Choike");
+            var archivoCarpetasGuardadas = Path.Combine(carpetasGuardadas, archivoGuardado);
 
-            if (!File.Exists(carpetasGuardadas))
+            if (!Directory.Exists(carpetasGuardadas))
+                Directory.CreateDirectory(carpetasGuardadas);
+
+            if (!File.Exists(archivoCarpetasGuardadas))
                 return new List<Carpeta>();
 
             try
             {
                 // Carpetas guardadas
-                var json = File.ReadAllText(carpetasGuardadas);
+                var json = File.ReadAllText(archivoCarpetasGuardadas);
                 var array = JsonConvert.DeserializeObject<Carpeta[]>(json);
 
                 return array.ToList();
@@ -79,10 +83,14 @@ namespace Choike.Clases
 
         public static void ActualizarCarpetasGuardadas(List<Carpeta> listaCarpetas)
         {
-            var carpetasGuardadas = Directory.GetCurrentDirectory() + archivoGuardado;
+            var carpetasGuardadas = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Choike");
+            var archivoCarpetasGuardadas = Path.Combine(carpetasGuardadas, archivoGuardado);
+
+            if (!Directory.Exists(carpetasGuardadas))
+                Directory.CreateDirectory(carpetasGuardadas);
 
             var json = JsonConvert.SerializeObject(listaCarpetas.ToArray());
-            File.WriteAllText(carpetasGuardadas, json);
+            File.WriteAllText(archivoCarpetasGuardadas, json);
         }
 
         public static string TimeSpanATexto(TimeSpan timeSpan)

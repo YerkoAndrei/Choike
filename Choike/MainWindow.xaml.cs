@@ -29,7 +29,7 @@ namespace Choike
         private bool moviendoTiempoCanción;
 
         private Carpeta carpetaActual;
-        private Canción cancionActual;
+        private Canción canciónActual;
         private double volumenAnterior;
         private int índiceActual;
 
@@ -70,7 +70,7 @@ namespace Choike
             índiceActual = 0;
 
             carpetaActual = new Carpeta();
-            cancionActual = new Canción();
+            canciónActual = new Canción();
 
             cancionesActuales = new List<Canción>();
             carpetasActuales = new List<Carpeta>();
@@ -139,7 +139,7 @@ namespace Choike
 
         private void EnClicAnterior(object sender, RoutedEventArgs e)
         {
-            if (listaCanciones.SelectedIndex < 0)
+            if (parado)
                 return;
 
             var nuevoÍndice = índiceActual - 1;
@@ -151,7 +151,7 @@ namespace Choike
 
         private void EnClicSiguiente(object sender, RoutedEventArgs e)
         {
-            if (listaCanciones.SelectedIndex < 0)
+            if (parado)
                 return;
 
             var nuevoÍndice = índiceActual += 1;
@@ -177,7 +177,7 @@ namespace Choike
 
         private void EnClicDetener(object sender, RoutedEventArgs e)
         {
-            if (listaCanciones.SelectedIndex < 0)
+            if (parado)
                 return;
 
             parado = !parado;
@@ -241,12 +241,12 @@ namespace Choike
 
         private void EnCambioTiempoCanción(object sender, DragCompletedEventArgs e)
         {
-            if (string.IsNullOrEmpty(cancionActual.Ruta))
+            if (string.IsNullOrEmpty(canciónActual.Ruta))
                 return;
 
             duraciónObjetivo.Text = string.Empty;
             moviendoTiempoCanción = false;
-            mediaPlayer.Position = TimeSpan.FromSeconds(porcentajeDuraciónActual.Value * cancionActual.Duración.TotalSeconds);
+            mediaPlayer.Position = TimeSpan.FromSeconds(porcentajeDuraciónActual.Value * canciónActual.Duración.TotalSeconds);
         }
 
         private void EnfocarCanción(int nuevoÍndice)
@@ -406,13 +406,15 @@ namespace Choike
             ActualizarListaCanciones();
 
             // Volver a enfocar
-            if (string.IsNullOrEmpty(cancionActual.Ruta))
+            if (string.IsNullOrEmpty(canciónActual.Ruta))
                 return;
 
-            if (cancionActual.Ruta.Contains(carpetaActual.Nombre))
+            if (canciónActual.Ruta.Contains(carpetaActual.Nombre))
             {
-                // PENDIENTE
-                //listaCanciones.SelectedItem = cancionesActuales[índiceActual];
+                listaCanciones.SelectedItem = canciónActual.Índice;
+
+                listaCanciones.UpdateLayout();
+                listaCanciones.Focus();
                 listaCanciones.ScrollIntoView(listaCanciones.SelectedItem);
             }
         }
@@ -424,7 +426,17 @@ namespace Choike
 
             for (int i = 0; i < archivosMúsica.Length; i++)
             {
-                var tagLib = TagLib.File.Create(archivosMúsica[i]);
+                TagLib.File tagLib;
+
+                try
+                {
+                    tagLib = TagLib.File.Create(archivosMúsica[i]);
+                }
+                catch
+                {
+                    continue;
+                }
+
                 var nuevaCanción = new Canción();
 
                 if (tagLib.Tag.Performers.Length > 0)
@@ -481,16 +493,16 @@ namespace Choike
 
             if (moviendoTiempoCanción)
             {
-                duraciónObjetivo.Text = Constantes.TimeSpanATexto(cancionActual.Duración * porcentajeDuraciónActual.Value);
+                duraciónObjetivo.Text = Constantes.TimeSpanATexto(canciónActual.Duración * porcentajeDuraciónActual.Value);
                 return;
             }
 
-            porcentajeDuraciónActual.Value = (mediaPlayer.Position.TotalSeconds / cancionActual.Duración.TotalSeconds);
+            porcentajeDuraciónActual.Value = (mediaPlayer.Position.TotalSeconds / canciónActual.Duración.TotalSeconds);
         }
 
         private void MostrarDatosCanción(Canción canción, string nombreArchivo)
         {
-            cancionActual = canción;
+            canciónActual = canción;
 
             // Carátula
             TagLib.File tagLibFile = TagLib.File.Create(nombreArchivo);
@@ -511,11 +523,11 @@ namespace Choike
             }
 
             // Datos
-            nombreAutor.Text = cancionActual.Autor;
-            nombreCanción.Text = cancionActual.Nombre;
-            nombreAlbum.Text = cancionActual.Álbum;
-            nombreDetalles.Text = cancionActual.Detalles;
-            duraciónCompleta.Text = Constantes.TimeSpanATexto(cancionActual.Duración);
+            nombreAutor.Text = canciónActual.Autor;
+            nombreCanción.Text = canciónActual.Nombre;
+            nombreAlbum.Text = canciónActual.Álbum;
+            nombreDetalles.Text = canciónActual.Detalles;
+            duraciónCompleta.Text = Constantes.TimeSpanATexto(canciónActual.Duración);
         }
 
         private void ActualizarListaCarpetas()
@@ -543,10 +555,10 @@ namespace Choike
             if(aleatorio)
                 AleatorizarCanciones();
 
-            ContrarCancionesEnCarpeta();
+            ContarCancionesEnCarpeta();
         }
 
-        private void ContrarCancionesEnCarpeta()
+        private void ContarCancionesEnCarpeta()
         {
             var duracion = new TimeSpan();
 
