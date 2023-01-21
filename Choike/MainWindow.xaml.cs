@@ -43,7 +43,7 @@ namespace Choike
         public double fuentePrincipal = 155;            // 18
 
         public double fuenteBotonesControlPequeño = 45; // 52
-        public double fuenteBotonesControlGrande = 35;  // 52
+        public double fuenteBotonesControlGrande = 36;  // 52
         public double fuenteBotonesCarpeta = 80;        // 32
         public double fuenteVolumen = 58;               // 50
         public double fuenteNúmeroVolumen = 170;        // 15
