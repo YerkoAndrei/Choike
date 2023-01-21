@@ -10,6 +10,7 @@
         Title="Choike"
         FontSize="18"
         SizeChanged="EnCambioTamaño"
+        StateChanged="EnCambioEstado"
         Background="Black"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
@@ -285,7 +286,7 @@
                 </Button>
             </Grid>
         </Grid>
-        
+
         <!--Lista Canciones-->
         <Grid Grid.Row="1" Grid.Column="1">
             <ListBox Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" AlternationCount="2" SelectionMode="Single" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
@@ -379,32 +380,110 @@
                 </Grid.ColumnDefinitions>
 
                 <Button Grid.Column="0" Margin="6,3,6,7" Click="EnClicAleatorio">
-                    <TextBlock FontSize="{DynamicResource fuenteBotonesControl}" HorizontalAlignment="Center" Margin="0,-8,0,0"
+                    <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="8*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="2*"/>
+                            <RowDefinition Height="8*"/>
+                            <RowDefinition Height="2*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="1" Grid.Column="1" FontSize="{DynamicResource fuenteBotonesControlPequeño}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-8,0,0"
                                x:Name="botónAleatorio" Text="🔀"/>
+                    </Grid>
                 </Button>
                 <Button Grid.Column="1" Margin="6,3,6,7" Click="EnClicRepetir">
-                    <TextBlock FontSize="{DynamicResource fuenteBotonesControl}" HorizontalAlignment="Center" Margin="0,-8,0,0"
+                    <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="8*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="3*"/>
+                            <RowDefinition Height="8*"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="1" Grid.Column="1" FontSize="{DynamicResource fuenteBotonesControlPequeño}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-8,0,0"
                                x:Name="botónRepetir" Text="🔂"/>
+                    </Grid>
                 </Button>
                 <Button Grid.Column="2" Margin="6,3,6,7" Click="EnClicDetener">
-                    <TextBlock FontSize="{DynamicResource fuenteBotonesControl}" HorizontalAlignment="Center" Margin="0,-8,0,0"
+                    <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="8*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="2*"/>
+                            <RowDefinition Height="8*"/>
+                            <RowDefinition Height="2*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="1" Grid.Column="1" FontSize="{DynamicResource fuenteBotonesControlPequeño}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-8,0,0"
                                Text="⏹"/>
+                    </Grid>
                 </Button>
                 <Button Grid.Column="3" Margin="6,3,6,7" Click="EnClicAnterior">
-                    <TextBlock FontSize="{DynamicResource fuenteBotonesControl}" HorizontalAlignment="Center" Margin="0,-8,0,0"
+                    <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3.5*"/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="3.5*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="2*"/>
+                            <RowDefinition Height="6*"/>
+                            <RowDefinition Height="2*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="1" Grid.Column="1" FontSize="{DynamicResource fuenteBotonesControlGrande}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-8,0,0"
                                Text="⏪"/>
+                    </Grid>
                 </Button>
                 <Button Grid.Column="4" Margin="6,3,6,7" Click="EnClicPausa">
-                    <TextBlock FontSize="{DynamicResource fuenteBotonesControl}" HorizontalAlignment="Center" Margin="0,-8,0,0"
+                    <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="4*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="2*"/>
+                            <RowDefinition Height="6*"/>
+                            <RowDefinition Height="2*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="1" Grid.Column="1" FontSize="{DynamicResource fuenteBotonesControlGrande}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-8,0,0"
                                x:Name="botónPausa" Text="⏯"/>
+                    </Grid>
                 </Button>
                 <Button Grid.Column="5" Margin="6,3,6,7" Click="EnClicSiguiente">
-                    <TextBlock FontSize="{DynamicResource fuenteBotonesControl}" HorizontalAlignment="Center" Margin="0,-8,0,0"
+                    <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3.5*"/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="3.5*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="2*"/>
+                            <RowDefinition Height="6*"/>
+                            <RowDefinition Height="2*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="1" Grid.Column="1" FontSize="{DynamicResource fuenteBotonesControlGrande}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-8,0,0"
                                Text="⏩"/>
+                    </Grid>
                 </Button>
                 <Button Grid.Column="6" Margin="6,3,6,7" Click="EnClicSilencio" Style="{StaticResource BotónRedondo}">
-                    <TextBlock FontSize="{DynamicResource fuenteVolumen}" HorizontalAlignment="Center" Margin="0,-8,0,0"
-                               x:Name="botónSilencio" Text="🔊"/>
+                    <TextBlock Grid.Row="1" Grid.Column="1" FontSize="{DynamicResource fuenteVolumen}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-8,0,0"
+                            x:Name="botónSilencio" Text="🔊"/>
                 </Button>
 
                 <Slider Grid.Column="7" Margin="10,0,10,0"

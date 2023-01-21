@@ -40,17 +40,18 @@ namespace Choike
         public Brush BrochaResaltado;
 
         // Tamaños fuentes dinámicas
-        public double fuentePrincipal = 155;        // 18
+        public double fuentePrincipal = 155;            // 18
 
-        public double fuenteBotonesControl = 50;    // 52
-        public double fuenteBotonesCarpeta = 80;    // 32
-        public double fuenteVolumen = 58;           // 50
-        public double fuenteNúmeroVolumen = 170;    // 15
-        public double fuenteTiempoCanción = 110;    // 25
+        public double fuenteBotonesControlPequeño = 45; // 52
+        public double fuenteBotonesControlGrande = 35;  // 52
+        public double fuenteBotonesCarpeta = 80;        // 32
+        public double fuenteVolumen = 58;               // 50
+        public double fuenteNúmeroVolumen = 170;        // 15
+        public double fuenteTiempoCanción = 110;        // 25
 
-        public double fuenteNombreCanción = 85;     // 30
-        public double fuenteAutorCanción = 130;     // 20
-        public double fuenteÁlbumCanción = 130;     // 20
+        public double fuenteNombreCanción = 85;         // 30
+        public double fuenteAutorCanción = 130;         // 20
+        public double fuenteÁlbumCanción = 130;         // 20
 
         // Botones fuera de foco
         private OyenteTeclado oyente;
@@ -609,15 +610,11 @@ namespace Choike
         private void EnClicMaximizar(object sender, RoutedEventArgs e)
         {
             if (Application.Current.MainWindow.WindowState == WindowState.Maximized)
-            {
                 Application.Current.MainWindow.WindowState = WindowState.Normal;
-                botónMaximizar.Text = "🗖";
-            }
             else
-            {
                 Application.Current.MainWindow.WindowState = WindowState.Maximized;
-                botónMaximizar.Text = "🗗";
-            }
+
+            EnCambioTamaño(sender, null);
         }
 
         private void EnClicCerrar(object sender, RoutedEventArgs e)
@@ -626,6 +623,11 @@ namespace Choike
             oyente.DesvincularTeclado();
 
             Application.Current.Shutdown();
+        }
+
+        private void EnCambioEstado(object sender, EventArgs e)
+        {
+            EnCambioTamaño(sender, null);
         }
 
         public void EnCambioTamaño(object sender, SizeChangedEventArgs e)
@@ -647,7 +649,8 @@ namespace Choike
             // Fuentes
             Application.Current.Resources.Remove("fuentePrincipal");
 
-            Application.Current.Resources.Remove("fuenteBotonesControl");
+            Application.Current.Resources.Remove("fuenteBotonesControlPequeño");
+            Application.Current.Resources.Remove("fuenteBotonesControlGrande");
             Application.Current.Resources.Remove("fuenteBotonesCarpeta");
             Application.Current.Resources.Remove("fuenteVolumen");
             Application.Current.Resources.Remove("fuenteNúmeroVolumen");
@@ -662,7 +665,8 @@ namespace Choike
 
             Application.Current.Resources.Add("fuentePrincipal", Math.Clamp(((anchoPantalla / fuentePrincipal) * multiplicador), 5, FontSize));
 
-            Application.Current.Resources.Add("fuenteBotonesControl", (anchoPantalla / fuenteBotonesControl) * multiplicador);
+            Application.Current.Resources.Add("fuenteBotonesControlPequeño", (anchoPantalla / fuenteBotonesControlPequeño) * multiplicador);
+            Application.Current.Resources.Add("fuenteBotonesControlGrande", (anchoPantalla / fuenteBotonesControlGrande) * multiplicador);
             Application.Current.Resources.Add("fuenteBotonesCarpeta", Math.Clamp(((anchoPantalla / fuenteBotonesCarpeta) * multiplicador), 5, 40));
             Application.Current.Resources.Add("fuenteVolumen",        (anchoPantalla / fuenteVolumen) * multiplicador);
             Application.Current.Resources.Add("fuenteNúmeroVolumen",  (anchoPantalla / fuenteNúmeroVolumen) * multiplicador);
