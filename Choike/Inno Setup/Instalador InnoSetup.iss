@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Choike"
-#define MyAppVersion "1.1"
+#define MyAppVersion "1.2"
 #define MyAppPublisher "YerkoAndrei"
 #define MyAppURL "https://github.com/YerkoAndrei"
 #define MyAppExeName "Choike.exe"
