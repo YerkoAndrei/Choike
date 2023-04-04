@@ -205,10 +205,9 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1.85*"/>
                 <ColumnDefinition Width="8.35*"/>
-                <ColumnDefinition Width="50"/>
-                <ColumnDefinition Width="50"/>
-                <ColumnDefinition Width="50"/>
-                <ColumnDefinition Width="4"/>
+                <ColumnDefinition Width="45"/>
+                <ColumnDefinition Width="45"/>
+                <ColumnDefinition Width="45"/>
             </Grid.ColumnDefinitions>
 
             <!--Título-->
@@ -229,15 +228,15 @@
             </Image>
 
             <!--Botones-->
-            <Button Grid.Column="2" Margin="4,1,4,0" Click="EnClicMinimizar" >
+            <Button Grid.Column="2" Margin="1,0,1,0" Click="EnClicMinimizar" >
                 <TextBlock  HorizontalAlignment="Center" Margin="0,-3,0,0" Text="🗕"/>
             </Button>
 
-            <Button Grid.Column="3" Margin="4,1,4,0" Click="EnClicMaximizar">
+            <Button Grid.Column="3" Margin="1,0,1,0" Click="EnClicMaximizar">
                 <TextBlock  HorizontalAlignment="Center" Margin="0,-3,0,0" x:Name="botónMaximizar" Text="🗖"/>
             </Button>
 
-            <Button Grid.Column="4" Margin="4,1,4,0" Click="EnClicCerrar" Background="#FFFF5050">
+            <Button Grid.Column="4" Margin="1,0,1,0" Click="EnClicCerrar" Background="#FFFF5050">
                 <TextBlock  HorizontalAlignment="Center" Margin="0,-3,0,0" Text="🗙"/>
             </Button>
         </Grid>
@@ -392,11 +391,11 @@
                             <RowDefinition Height="2*"/>
                         </Grid.RowDefinitions>
 
-                        <TextBlock Grid.Row="1" Grid.Column="1" FontSize="{DynamicResource fuenteBotonesControlPequeño}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-8,0,0"
+                        <TextBlock Grid.Row="1" Grid.Column="1" FontSize="{DynamicResource fuenteBotonesControlPequeño}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-9,0,0"
                                x:Name="botónAleatorio" Text="🔀"/>
                     </Grid>
                 </Button>
-                <Button Grid.Column="1" Margin="6,3,6,7" Click="EnClicRepetir">
+                <Button Grid.Column="1" Margin="6,0,6,7" Click="EnClicRepetir">
                     <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*"/>
@@ -409,7 +408,7 @@
                             <RowDefinition Height="1*"/>
                         </Grid.RowDefinitions>
 
-                        <TextBlock Grid.Row="1" Grid.Column="1" FontSize="{DynamicResource fuenteBotonesControlPequeño}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-8,0,0"
+                        <TextBlock Grid.Row="1" Grid.Column="1" FontSize="{DynamicResource fuenteBotonesControlPequeño}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-9,0,0"
                                x:Name="botónRepetir" Text="🔂"/>
                     </Grid>
                 </Button>
@@ -426,7 +425,7 @@
                             <RowDefinition Height="2*"/>
                         </Grid.RowDefinitions>
 
-                        <TextBlock Grid.Row="1" Grid.Column="1" FontSize="{DynamicResource fuenteBotonesControlPequeño}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-8,0,0"
+                        <TextBlock Grid.Row="1" Grid.Column="1" FontSize="{DynamicResource fuenteBotonesControlPequeño}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-9,0,0"
                                Text="⏹"/>
                     </Grid>
                 </Button>
@@ -443,7 +442,7 @@
                             <RowDefinition Height="1*"/>
                         </Grid.RowDefinitions>
 
-                        <TextBlock Grid.Row="1" Grid.Column="1" FontSize="{DynamicResource fuenteBotonesControlGrande}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-8,0,0"
+                        <TextBlock Grid.Row="1" Grid.Column="1" FontSize="{DynamicResource fuenteBotonesControlGrande}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-9,0,0"
                                Text="⏪"/>
                     </Grid>
                 </Button>
@@ -460,7 +459,7 @@
                             <RowDefinition Height="1*"/>
                         </Grid.RowDefinitions>
 
-                        <TextBlock Grid.Row="1" Grid.Column="1" FontSize="{DynamicResource fuenteBotonesControlGrande}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-12,0,0"
+                        <TextBlock Grid.Row="1" Grid.Column="1" FontSize="{DynamicResource fuenteBotonesControlGrande}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-13,0,0"
                                x:Name="botónPausa" Text="⏯"/>
                     </Grid>
                 </Button>
@@ -477,12 +476,12 @@
                             <RowDefinition Height="1*"/>
                         </Grid.RowDefinitions>
 
-                        <TextBlock Grid.Row="1" Grid.Column="1" FontSize="{DynamicResource fuenteBotonesControlGrande}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-8,0,0"
+                        <TextBlock Grid.Row="1" Grid.Column="1" FontSize="{DynamicResource fuenteBotonesControlGrande}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-9,0,0"
                                Text="⏩"/>
                     </Grid>
                 </Button>
                 <Button Grid.Column="6" Margin="6,3,6,7" Click="EnClicSilencio" Style="{StaticResource BotónRedondo}">
-                    <TextBlock Grid.Row="1" Grid.Column="1" FontSize="{DynamicResource fuenteVolumen}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-8,0,0"
+                    <TextBlock Grid.Row="1" Grid.Column="1" FontSize="{DynamicResource fuenteVolumen}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-7,0,0"
                             x:Name="botónSilencio" Text="🔊"/>
                 </Button>
 
