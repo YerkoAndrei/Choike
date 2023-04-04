@@ -78,6 +78,10 @@ namespace Choike
 
             BrochaResaltado = (SolidColorBrush)new BrushConverter().ConvertFrom(ColorResaltado.ToString());
 
+            // Carga
+            imgCarga.Focusable = false;
+            imgCarga.Opacity = 0;
+
             // Volumen predeterminado
             volumen.Value = 0.75;
             mediaPlayer.Volume = volumen.Value;
@@ -424,6 +428,9 @@ namespace Choike
 
         private void AgregarCanciones(string carpeta)
         {
+            // Carga
+            imgCarga.Opacity = 1;
+
             var archivosMúsica = Directory.GetFiles(carpeta, Constantes.extensionesMúsica);
             cancionesActuales = new List<Canción>();
 
@@ -481,6 +488,9 @@ namespace Choike
 
             if (aleatorio)
                 AleatorizarCanciones();
+
+            // Carga
+            imgCarga.Opacity = 0;
         }
 
 
@@ -585,7 +595,6 @@ namespace Choike
             else
                 botónSilencio.Text = "🔇";
         }
-
 
         private void MostrarAleatorio()
         {

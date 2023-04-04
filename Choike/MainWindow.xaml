@@ -310,7 +310,13 @@
                 </ListBox.ItemTemplate>
             </ListBox>
         </Grid>
-
+        
+        <!--Pantalla carga-->
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Image Grid.Row="0" HorizontalAlignment="Center" Margin="200,200,200,200"
+                    x:Name="imgCarga" Source="pack://application:,,,/Arte/Choike.ico"/>
+        </Grid>
+        
         <!--Canciones-->
         <Grid Grid.Row="1" Grid.Column="2">
             <Grid.Background>
