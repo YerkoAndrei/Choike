@@ -43,7 +43,7 @@ namespace Choike
         public double fuentePrincipal = 155;            // 18
 
         public double fuenteBotonesControlPequeño = 45; // 52
-        public double fuenteBotonesControlGrande = 36;  // 52
+        public double fuenteBotonesControlGrande = 38;  // 52
         public double fuenteBotonesCarpeta = 80;        // 32
         public double fuenteVolumen = 58;               // 50
         public double fuenteNúmeroVolumen = 170;        // 15
@@ -272,6 +272,8 @@ namespace Choike
             duraciónObjetivo.Text = string.Empty;
             var canción = (Canción)listaCanciones.SelectedItem;
             MostrarDatosCanción(canción, canción.Ruta);
+
+            índiceActual = listaCanciones.SelectedIndex;
 
             // Reproducción
             mediaPlayer.Open(new Uri(canción.Ruta));
