@@ -45,14 +45,14 @@
                     <Setter Property="Background" Value="Transparent" ></Setter>
                 </Trigger>
                 <Trigger Property="ItemsControl.AlternationIndex" Value="1">
-                    <Setter Property="Background" Value="{DynamicResource ColorCasiNegro}"></Setter>
+                    <Setter Property="Background" Value="{StaticResource ColorCasiNegro}"></Setter>
                 </Trigger>
             </Style.Triggers>
         </Style>
 
         <!--Botones-->
         <Style TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="{DynamicResource ColorBase}"/>
+            <Setter Property="Background" Value="{StaticResource ColorBase}"/>
             <Setter Property="Foreground" Value="Black"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Style.Resources>
@@ -63,7 +63,7 @@
         </Style>
 
         <Style x:Key="BotónRedondo" TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="{DynamicResource ColorBase}"/>
+            <Setter Property="Background" Value="{StaticResource ColorBase}"/>
             <Setter Property="Foreground" Value="Black"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Style.Resources>
@@ -88,14 +88,14 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Thumb}">
-                        <Border x:Name="barra" CornerRadius="2" Background="{DynamicResource ColorBase}"/>
+                        <Border x:Name="barra" CornerRadius="2" Background="{StaticResource ColorBase}"/>
 
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter Property="Background" TargetName="barra" Value="{StaticResource ColorResaltado}" />
                             </Trigger>
                             <Trigger Property="IsMouseOver" Value="False">
-                                <Setter Property="Background" TargetName="barra" Value="{DynamicResource ColorBase}" />
+                                <Setter Property="Background" TargetName="barra" Value="{StaticResource ColorBase}" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -126,14 +126,14 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Thumb}">
-                        <Border x:Name="círculo" Height="25" Width="25" CornerRadius="100" Background="{DynamicResource ColorBlanco}"/>
+                        <Border x:Name="círculo" Height="25" Width="25" CornerRadius="100" Background="{StaticResource ColorBlanco}"/>
 
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter Property="Background" TargetName="círculo" Value="{StaticResource ColorResaltado}" />
                             </Trigger>
                             <Trigger Property="IsMouseOver" Value="False">
-                                <Setter Property="Background" TargetName="círculo" Value="{DynamicResource ColorBlanco}" />
+                                <Setter Property="Background" TargetName="círculo" Value="{StaticResource ColorBlanco}" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -164,7 +164,7 @@
                                 <Border.Background>
                                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                                         <GradientStop Color="{StaticResource GradienteAvanceCanción}" Offset="{Binding RelativeSource={RelativeSource AncestorType={x:Type Slider}}, Path=Value}" />
-                                        <GradientStop Color="{DynamicResource GradienteBase}" Offset="{Binding RelativeSource={RelativeSource AncestorType={x:Type Slider}}, Path=Value}" />
+                                        <GradientStop Color="{StaticResource GradienteBase}" Offset="{Binding RelativeSource={RelativeSource AncestorType={x:Type Slider}}, Path=Value}" />
                                     </LinearGradientBrush>
                                 </Border.Background>
                             </Border>
@@ -251,8 +251,9 @@
 
             <!--Lista Carpetas-->
             <ListBox Grid.Row="0" AlternationCount="2" SelectionMode="Single" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                     Background="Transparent" BorderBrush="{DynamicResource ColorBase}" Foreground="{DynamicResource ColorBlanco}" Margin="5,5,2,5"
-                     x:Name="listaCarpetas" SelectionChanged="EnClicElegirCarpeta">
+                     Background="Transparent" BorderBrush="{StaticResource ColorBase}" Foreground="{StaticResource ColorBlanco}" Margin="5,5,2,5"
+                     x:Name="listaCarpetas" SelectionChanged="EnClicElegirCarpeta"
+                     VirtualizingStackPanel.IsVirtualizing="True" ScrollViewer.IsDeferredScrollingEnabled="True">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" FontSize="{DynamicResource fuentePrincipal}" Foreground="{Binding Color}" Text="{Binding Nombre}" />
@@ -262,8 +263,8 @@
 
             <!--Datos carpeta-->
             <Grid Grid.Row="1">
-                <TextBlock x:Name="cantidadCanciones" TextTrimming="CharacterEllipsis" FontSize="{DynamicResource fuentePrincipal}" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="{DynamicResource ColorBlanco}" Margin="5,0,0,0" Text="0 Canciones"/>
-                <TextBlock x:Name="duraciónCanciones" TextTrimming="CharacterEllipsis" FontSize="{DynamicResource fuentePrincipal}" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="{DynamicResource ColorBlanco}" Margin="0,0,5,0" Text="00:00"/>
+                <TextBlock x:Name="cantidadCanciones" TextTrimming="CharacterEllipsis" FontSize="{DynamicResource fuentePrincipal}" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="{StaticResource ColorBlanco}" Margin="5,0,0,0" Text="0 Canciones"/>
+                <TextBlock x:Name="duraciónCanciones" TextTrimming="CharacterEllipsis" FontSize="{DynamicResource fuentePrincipal}" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="{StaticResource ColorBlanco}" Margin="0,0,5,0" Text="00:00"/>
             </Grid>
             
             <!--Botones Carpetas-->
@@ -289,8 +290,9 @@
         <!--Lista Canciones-->
         <Grid Grid.Row="1" Grid.Column="1">
             <ListBox Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" AlternationCount="2" SelectionMode="Single" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                     Background="Transparent" BorderBrush="{DynamicResource ColorBase}" Foreground="{DynamicResource ColorBlanco}" Margin="2,5,5,5"
-                     x:Name="listaCanciones" SelectionChanged="EnClicElegirCanción">
+                     Background="Transparent" BorderBrush="{StaticResource ColorBase}" Foreground="{StaticResource ColorBlanco}" Margin="2,5,5,5"
+                     x:Name="listaCanciones" SelectionChanged="EnClicElegirCanción"
+                     VirtualizingStackPanel.IsVirtualizing="True">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -301,27 +303,21 @@
                                 <ColumnDefinition Width="1*" MinWidth="50"/>
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock Grid.Column="0" TextTrimming="CharacterEllipsis" FontSize="{DynamicResource fuentePrincipal}" HorizontalAlignment="Left" Foreground="{DynamicResource ColorBlanco}" Text="{Binding Nombre}" />
-                            <TextBlock Grid.Column="1" TextTrimming="CharacterEllipsis" FontSize="{DynamicResource fuentePrincipal}" HorizontalAlignment="Left" Foreground="{DynamicResource ColorGris}" Text="{Binding Autor}" />
-                            <TextBlock Grid.Column="2" TextTrimming="CharacterEllipsis" FontSize="{DynamicResource fuentePrincipal}" HorizontalAlignment="Left" Foreground="{DynamicResource ColorGrisOscruro}" Text="{Binding Álbum}" FontStyle="Italic"/>
-                            <TextBlock Grid.Column="3" TextTrimming="CharacterEllipsis" FontSize="{DynamicResource fuentePrincipal}" HorizontalAlignment="Right" Foreground="{DynamicResource ColorBlanco}" Text="{Binding DuraciónFormateada}" />
+                            <TextBlock Grid.Column="0" TextTrimming="CharacterEllipsis" FontSize="{DynamicResource fuentePrincipal}" HorizontalAlignment="Left" Foreground="{StaticResource ColorBlanco}" Text="{Binding Nombre}" />
+                            <TextBlock Grid.Column="1" TextTrimming="CharacterEllipsis" FontSize="{DynamicResource fuentePrincipal}" HorizontalAlignment="Left" Foreground="{StaticResource ColorGris}" Text="{Binding Autor}" />
+                            <TextBlock Grid.Column="2" TextTrimming="CharacterEllipsis" FontSize="{DynamicResource fuentePrincipal}" HorizontalAlignment="Left" Foreground="{StaticResource ColorGrisOscruro}" Text="{Binding Álbum}" FontStyle="Italic"/>
+                            <TextBlock Grid.Column="3" TextTrimming="CharacterEllipsis" FontSize="{DynamicResource fuentePrincipal}" HorizontalAlignment="Right" Foreground="{StaticResource ColorBlanco}" Text="{Binding DuraciónFormateada}" />
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
         </Grid>
         
-        <!--Pantalla carga-->
-        <Grid Grid.Row="1" Grid.Column="1">
-            <Image Grid.Row="0" HorizontalAlignment="Center" Margin="200,200,200,200"
-                    x:Name="imgCarga" Source="pack://application:,,,/Arte/Choike.ico"/>
-        </Grid>
-        
         <!--Canciones-->
         <Grid Grid.Row="1" Grid.Column="2">
             <Grid.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop x:Name="colorCanción" Color="{DynamicResource GradienteBase}" Offset="0.05"/>
+                    <GradientStop x:Name="colorCanción" Color="{StaticResource GradienteBase}" Offset="0.05"/>
                     <GradientStop Color="Black" Offset="0"/>
                     <GradientStop Color="Black" Offset="0.6"/>
                 </LinearGradientBrush>
@@ -337,15 +333,15 @@
 
             <!--Info Canción-->
             <StackPanel Grid.Row="1" Orientation="Vertical" VerticalAlignment="Center" Margin="0,0,0,50">
-                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" FontSize="{DynamicResource fuenteNombreCanción}" Foreground="{DynamicResource ColorBlanco}" Margin="50,0,10,0"
+                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" FontSize="{DynamicResource fuenteNombreCanción}" Foreground="{StaticResource ColorBlanco}" Margin="50,0,10,0"
                            x:Name="nombreCanción" Text="Canción"/>
-                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" FontSize="{DynamicResource fuenteAutorCanción}" Foreground="{DynamicResource ColorGris}" Margin="50,0,10,0"
+                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" FontSize="{DynamicResource fuenteAutorCanción}" Foreground="{StaticResource ColorGris}" Margin="50,0,10,0"
                            x:Name="nombreAutor" Text="Autor"/>
                 <TextBlock HorizontalAlignment="Left" Foreground="Transparent"/>
-                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" FontSize="{DynamicResource fuenteÁlbumCanción}" Foreground="{DynamicResource ColorGris}" FontStyle="Italic" Margin="50,0,10,0"
+                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" FontSize="{DynamicResource fuenteÁlbumCanción}" Foreground="{StaticResource ColorGris}" FontStyle="Italic" Margin="50,0,10,0"
                            x:Name="nombreAlbum" Text="Álbum"/>
             </StackPanel>
-            <TextBlock Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="{DynamicResource fuentePrincipal}" TextWrapping="Wrap" Foreground="{DynamicResource ColorGrisOscruro}" Margin="50,0,10,2"
+            <TextBlock Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="{DynamicResource fuentePrincipal}" TextWrapping="Wrap" Foreground="{StaticResource ColorGrisOscruro}" Margin="50,0,10,2"
                            x:Name="nombreDetalles" Text="Detalles"/>
         </Grid>
         
@@ -362,10 +358,10 @@
             </Grid.RowDefinitions>
 
             <!--Tiempo Canción-->
-            <TextBlock Grid.Row="0" Grid.Column="0" x:Name="duraciónActual" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{DynamicResource ColorBlanco}" FontSize="{DynamicResource fuenteTiempoCanción}" Text="00:00" Margin="10,0,0,0"/>
-            <TextBlock Grid.Row="0" Grid.Column="2" x:Name="duraciónCompleta" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{DynamicResource ColorBlanco}" FontSize="{DynamicResource fuenteTiempoCanción}" Text="00:00" Margin="0,0,10,0"/>
+            <TextBlock Grid.Row="0" Grid.Column="0" x:Name="duraciónActual" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{StaticResource ColorBlanco}" FontSize="{DynamicResource fuenteTiempoCanción}" Text="00:00" Margin="10,0,0,0"/>
+            <TextBlock Grid.Row="0" Grid.Column="2" x:Name="duraciónCompleta" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{StaticResource ColorBlanco}" FontSize="{DynamicResource fuenteTiempoCanción}" Text="00:00" Margin="0,0,10,0"/>
 
-            <TextBlock Grid.Row="1" Grid.Column="0" x:Name="duraciónObjetivo" VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="{DynamicResource ColorBlanco}" FontSize="{DynamicResource fuenteTiempoCanción}" Text="00:00" Margin="10,0,0,0"/>
+            <TextBlock Grid.Row="1" Grid.Column="0" x:Name="duraciónObjetivo" VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="{StaticResource ColorBlanco}" FontSize="{DynamicResource fuenteTiempoCanción}" Text="00:00" Margin="10,0,0,0"/>
             
             <Slider Grid.Row="0" Grid.Column="1"
                     Maximum="1" SmallChange="0.005" LargeChange="0.01" TickFrequency="0.1"
@@ -495,7 +491,7 @@
                         Maximum="1" SmallChange="0.05" LargeChange="0.05" TickFrequency="0.25"
                         x:Name="volumen" ValueChanged="EnCambioVolumen" />
 
-                <TextBlock Grid.Column="7" FontSize="{DynamicResource fuenteNúmeroVolumen}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Foreground="{DynamicResource ColorBlanco}" Margin="0,0,0,2.5"
+                <TextBlock Grid.Column="7" FontSize="{DynamicResource fuenteNúmeroVolumen}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Foreground="{StaticResource ColorBlanco}" Margin="0,0,0,2.5"
                            x:Name="volumenActual" Text="75"/>
             </Grid>
         </Grid>
