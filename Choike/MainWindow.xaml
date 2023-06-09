@@ -397,7 +397,7 @@
                                x:Name="botónAleatorio" Text="🔀"/>
                     </Grid>
                 </Button>
-                <Button Grid.Column="1" Margin="6,0,6,7" Click="EnClicRepetir">
+                <Button Grid.Column="1" Margin="6,3,6,7" Click="EnClicRepetir">
                     <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*"/>
