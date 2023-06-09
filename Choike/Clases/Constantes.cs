@@ -19,6 +19,28 @@ namespace Choike.Clases
         private static string colorCarpeta = "#ffc8ff";
         private static string colorAutor = "#ffffc8";
 
+        public static EnumerationOptions enumerationOptions = new EnumerationOptions
+        {
+            // Solo normal
+            AttributesToSkip = FileAttributes.ReadOnly | 
+                               FileAttributes.Hidden |
+                               FileAttributes.System |
+                               FileAttributes.Directory |
+                               FileAttributes.Device |
+                               FileAttributes.Temporary |
+                               FileAttributes.SparseFile |
+                               FileAttributes.ReparsePoint |
+                               FileAttributes.Compressed |
+                               FileAttributes.Offline |
+                               FileAttributes.NotContentIndexed |
+                               FileAttributes.Encrypted |
+                               FileAttributes.IntegrityStream |
+                               FileAttributes.NoScrubData,
+            IgnoreInaccessible = true,
+            RecurseSubdirectories = false,
+            ReturnSpecialDirectories = false,
+        };
+
         public enum TipoCarpeta
         {
             carpeta,

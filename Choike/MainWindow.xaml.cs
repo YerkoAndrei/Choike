@@ -12,6 +12,7 @@ using System.Windows.Interop;
 using System.Collections.Generic;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Choike.Clases;
+using static Choike.Clases.Constantes;
 
 namespace Choike
 {
@@ -78,10 +79,6 @@ namespace Choike
 
             BrochaResaltado = (SolidColorBrush)new BrushConverter().ConvertFrom(ColorResaltado.ToString());
 
-            // Carga
-            imgCarga.Focusable = false;
-            imgCarga.Opacity = 0;
-
             // Volumen predeterminado
             volumen.Value = 0.75;
             mediaPlayer.Volume = volumen.Value;
@@ -100,7 +97,7 @@ namespace Choike
             MostrarRepetir();
 
             // Carpetas guardadas
-            carpetasActuales = Constantes.CargarCarpetasGuardadas();
+            carpetasActuales = CargarCarpetasGuardadas();
             ActualizarListaCarpetas();
 
             // Escuchar teclado
@@ -204,7 +201,7 @@ namespace Choike
             nombreAutor.Text = "Autor";
             nombreAlbum.Text = "Álbum";
             nombreDetalles.Text = string.Empty;
-            imgCarátula.Source = Constantes.ObtenerSinCarátula();
+            imgCarátula.Source = ObtenerSinCarátula();
         }
 
         private void EnClicAleatorio(object sender, RoutedEventArgs e)
@@ -332,16 +329,16 @@ namespace Choike
 
                 // Agregar carpeta seleccionada
                 var nuevaCarpeta = new Carpeta();
-                nuevaCarpeta.Tipo = Constantes.TipoCarpeta.carpeta;
+                nuevaCarpeta.Tipo = TipoCarpeta.carpeta;
                 nuevaCarpeta.Ruta = rutaCarpeta;
                 nuevaCarpeta.Nombre = nombreCarpeta;
-                nuevaCarpeta.Color = Constantes.ObtenerColorPorTipoCarpeta(nuevaCarpeta.Tipo);
+                nuevaCarpeta.Color = ObtenerColorPorTipoCarpeta(nuevaCarpeta.Tipo);
 
                 carpetasActuales.Add(nuevaCarpeta);
                 carpetaActual = nuevaCarpeta;
 
                 // Agregar canciones de carpeta
-                Constantes.ActualizarCarpetasGuardadas(carpetasActuales);
+                ActualizarCarpetasGuardadas(carpetasActuales);
                 AgregarCanciones(rutaCarpeta);
                 ActualizarListaCarpetas();
             }
@@ -377,16 +374,16 @@ namespace Choike
 
                 // Agregar autor seleccionado
                 var nuevaCarpeta = new Carpeta();
-                nuevaCarpeta.Tipo = Constantes.TipoCarpeta.autor;
+                nuevaCarpeta.Tipo = TipoCarpeta.autor;
                 nuevaCarpeta.Ruta = rutaCarpeta;
                 nuevaCarpeta.Nombre = nombreAutor;
-                nuevaCarpeta.Color = Constantes.ObtenerColorPorTipoCarpeta(nuevaCarpeta.Tipo);
+                nuevaCarpeta.Color = ObtenerColorPorTipoCarpeta(nuevaCarpeta.Tipo);
 
                 carpetasActuales.Add(nuevaCarpeta);
                 carpetaActual = nuevaCarpeta;
 
                 // Agregar canciones de autor
-                Constantes.ActualizarCarpetasGuardadas(carpetasActuales);
+                ActualizarCarpetasGuardadas(carpetasActuales);
                 AgregarCanciones(rutaCarpeta);
                 ActualizarListaCarpetas();
             }
@@ -397,7 +394,7 @@ namespace Choike
             var rutaCarpeta = carpetasActuales[listaCarpetas.SelectedIndex];
             carpetasActuales.Remove(rutaCarpeta);
 
-            Constantes.ActualizarCarpetasGuardadas(carpetasActuales);
+            ActualizarCarpetasGuardadas(carpetasActuales);
             ActualizarListaCarpetas();
         }
 
@@ -428,16 +425,14 @@ namespace Choike
 
         private void AgregarCanciones(string carpeta)
         {
-            // Carga
-            imgCarga.Opacity = 1;
-
-            var archivosMúsica = Directory.GetFiles(carpeta, Constantes.extensionesMúsica);
+            var archivosMúsica = Directory.GetFiles(carpeta, extensionesMúsica, enumerationOptions);
             cancionesActuales = new List<Canción>();
+
+            TagLib.File tagLib;
+            Canción nuevaCanción;
 
             for (int i = 0; i < archivosMúsica.Length; i++)
             {
-                TagLib.File tagLib;
-
                 try
                 {
                     tagLib = TagLib.File.Create(archivosMúsica[i]);
@@ -447,12 +442,15 @@ namespace Choike
                     continue;
                 }
 
-                var nuevaCanción = new Canción();
+                nuevaCanción = new Canción();
 
+                // Artista
                 if (tagLib.Tag.Performers.Length > 0)
-                {
                     nuevaCanción.Autor = tagLib.Tag.Performers[0];
 
+                // Multiples artistas
+                if (tagLib.Tag.Performers.Length > 1)
+                {
                     for (int ii = 1; ii < tagLib.Tag.Performers.Length; ii++)
                     {
                         nuevaCanción.Autor += " & " + tagLib.Tag.Performers[ii];
@@ -460,7 +458,7 @@ namespace Choike
                 }
 
                 // Si solo busca autor
-                if (carpetaActual.Tipo == Constantes.TipoCarpeta.autor)
+                if (carpetaActual.Tipo == TipoCarpeta.autor)
                 {
                     if (!nuevaCanción.Autor.Contains(carpetaActual.Nombre))
                         continue;
@@ -472,7 +470,7 @@ namespace Choike
                 nuevaCanción.Álbum = tagLib.Tag.Album;
                 nuevaCanción.Detalles = tagLib.Properties.AudioBitrate + "kbps";
                 nuevaCanción.Duración = tagLib.Properties.Duration;
-                nuevaCanción.DuraciónFormateada = Constantes.TimeSpanATexto(nuevaCanción.Duración);
+                nuevaCanción.DuraciónFormateada = TimeSpanATexto(nuevaCanción.Duración);
 
                 cancionesActuales.Add(nuevaCanción);
             }
@@ -488,9 +486,6 @@ namespace Choike
 
             if (aleatorio)
                 AleatorizarCanciones();
-
-            // Carga
-            imgCarga.Opacity = 0;
         }
 
 
@@ -502,11 +497,11 @@ namespace Choike
             if (parado)
                 return;
 
-            duraciónActual.Text = Constantes.TimeSpanATexto(mediaPlayer.Position);
+            duraciónActual.Text = TimeSpanATexto(mediaPlayer.Position);
 
             if (moviendoTiempoCanción)
             {
-                duraciónObjetivo.Text = Constantes.TimeSpanATexto(canciónActual.Duración * porcentajeDuraciónActual.Value);
+                duraciónObjetivo.Text = TimeSpanATexto(canciónActual.Duración * porcentajeDuraciónActual.Value);
                 return;
             }
 
@@ -526,13 +521,13 @@ namespace Choike
             if (imágenes.Length > 0 && imágenes[0].Data.Data != null)
             {
                 var imagenÁlbum = (byte[])(imágenes[0].Data.Data);
-                imgCarátula.Source = Constantes.ByteAImagen(imagenÁlbum);
-                colorCanción.Color = Constantes.ObtenerColorDominante(imagenÁlbum);
+                imgCarátula.Source = ByteAImagen(imagenÁlbum);
+                colorCanción.Color = ObtenerColorDominante(imagenÁlbum);
             }
             else
             {
-                imgCarátula.Source = Constantes.ObtenerSinCarátula();
-                colorCanción.Color = Constantes.ObtenerColorGris();
+                imgCarátula.Source = ObtenerSinCarátula();
+                colorCanción.Color = ObtenerColorGris();
             }
 
             // Datos
@@ -540,7 +535,7 @@ namespace Choike
             nombreCanción.Text = canciónActual.Nombre;
             nombreAlbum.Text = canciónActual.Álbum;
             nombreDetalles.Text = canciónActual.Detalles;
-            duraciónCompleta.Text = Constantes.TimeSpanATexto(canciónActual.Duración);
+            duraciónCompleta.Text = TimeSpanATexto(canciónActual.Duración);
         }
 
         private void ActualizarListaCarpetas()
@@ -581,7 +576,7 @@ namespace Choike
             }
 
             cantidadCanciones.Text = cancionesActuales.Count.ToString() + " Canciones";
-            duraciónCanciones.Text = Constantes.TimeSpanATexto(duracion);
+            duraciónCanciones.Text = TimeSpanATexto(duracion);
         }
 
         private void MostrarVolumen()
