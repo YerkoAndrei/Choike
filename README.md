@@ -13,6 +13,6 @@ Posible futuras funciones.
 ## Contacto
 Yerko Andrei Orellana Abello
 
-Linkein: https://www.linkedin.com/in/yerkoandrei
+Linkedin: https://www.linkedin.com/in/yerkoandrei
 
 Correo:  yerkoandrei@gmail.com
