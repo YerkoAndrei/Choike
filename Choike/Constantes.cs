@@ -10,7 +10,6 @@ using Newtonsoft.Json;
 using Color = System.Windows.Media.Color;
 
 namespace Choike;
-using Clases;
 
 public class Constantes
 {
