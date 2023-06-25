@@ -76,7 +76,7 @@ public partial class MainWindow : Window
         cancionesActuales = new List<Canción>();
         carpetasActuales = new List<Carpeta>();
 
-        BrochaResaltado = (SolidColorBrush)new BrushConverter().ConvertFrom(ColorResaltado.ToString());
+        BrochaResaltado = new SolidColorBrush(ColorResaltado);
 
         // Volumen predeterminado
         volumen.Value = 0.75;
@@ -85,9 +85,11 @@ public partial class MainWindow : Window
         // Tiempo canción
         mostrarEstadoCanción = () => { MostrarEstadoCanción(); };
 
-        contador = new Timer();
-        contador.Interval = 100;
-        contador.Enabled = false;
+        contador = new Timer
+        {
+            Interval = 100,
+            Enabled = false
+        };
         contador.Elapsed += new ElapsedEventHandler(IntervaloTiempo);
 
         // Interfaz
@@ -288,10 +290,10 @@ public partial class MainWindow : Window
     {
         if (repetirCanción)
         {
-            EnClicElegirCanción(sender, null);
+            EnClicElegirCanción(sender, (SelectionChangedEventArgs)e);
         }
         else
-            EnClicSiguiente(sender, null);
+            EnClicSiguiente(sender, (SelectionChangedEventArgs)e);
     }
 
     private void AleatorizarCanciones()
@@ -306,11 +308,13 @@ public partial class MainWindow : Window
 
     private void EnClicAgregarCarpeta(object sender, RoutedEventArgs e)
     {
-        var dialog = new CommonOpenFileDialog();
-        dialog.DefaultDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-        dialog.Title = "Agregar Carpeta";
-        dialog.Multiselect = false;
-        dialog.IsFolderPicker = true;
+        var dialog = new CommonOpenFileDialog
+        {
+            DefaultDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+            Title = "Agregar Carpeta",
+            Multiselect = false,
+            IsFolderPicker = true
+        };
 
         if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
         {
@@ -327,10 +331,12 @@ public partial class MainWindow : Window
                 return;
 
             // Agregar carpeta seleccionada
-            var nuevaCarpeta = new Carpeta();
-            nuevaCarpeta.Tipo = TipoCarpeta.carpeta;
-            nuevaCarpeta.Ruta = rutaCarpeta;
-            nuevaCarpeta.Nombre = nombreCarpeta;
+            var nuevaCarpeta = new Carpeta
+            {
+                Tipo = TipoCarpeta.carpeta,
+                Ruta = rutaCarpeta,
+                Nombre = nombreCarpeta
+            };
             nuevaCarpeta.Color = ObtenerColorPorTipoCarpeta(nuevaCarpeta.Tipo);
 
             carpetasActuales.Add(nuevaCarpeta);
@@ -345,10 +351,12 @@ public partial class MainWindow : Window
 
     private void EnClicAgregarAutor(object sender, RoutedEventArgs e)
     {
-        var dialog = new CommonOpenFileDialog();
-        dialog.DefaultDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-        dialog.Title = "Agregar Autor";
-        dialog.Multiselect = false;
+        var dialog = new CommonOpenFileDialog
+        {
+            DefaultDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+            Title = "Agregar Autor",
+            Multiselect = false
+        };
 
         if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
         {
@@ -372,10 +380,12 @@ public partial class MainWindow : Window
                 return;
 
             // Agregar autor seleccionado
-            var nuevaCarpeta = new Carpeta();
-            nuevaCarpeta.Tipo = TipoCarpeta.autor;
-            nuevaCarpeta.Ruta = rutaCarpeta;
-            nuevaCarpeta.Nombre = nombreAutor;
+            var nuevaCarpeta = new Carpeta
+            {
+                Tipo = TipoCarpeta.autor,
+                Ruta = rutaCarpeta,
+                Nombre = nombreAutor
+            };
             nuevaCarpeta.Color = ObtenerColorPorTipoCarpeta(nuevaCarpeta.Tipo);
 
             carpetasActuales.Add(nuevaCarpeta);
@@ -470,6 +480,10 @@ public partial class MainWindow : Window
             nuevaCanción.Detalles = tagLib.Properties.AudioBitrate + "kbps";
             nuevaCanción.Duración = tagLib.Properties.Duration;
             nuevaCanción.DuraciónFormateada = TimeSpanATexto(nuevaCanción.Duración);
+
+            // Si no puede leer data
+            if (string.IsNullOrEmpty(nuevaCanción.Nombre) && string.IsNullOrEmpty(nuevaCanción.Autor))
+                nuevaCanción.Nombre = archivosMúsica[i].Split('\\')[^1];
 
             cancionesActuales.Add(nuevaCanción);
         }
@@ -691,19 +705,19 @@ public partial class MainWindow : Window
         {
             case Key.MediaPlayPause:
             case Key.Pause:
-                EnClicPausa(sender, null);
+                EnClicPausa(sender, routedEvent);
                 break;
             case Key.MediaNextTrack:
-                EnClicSiguiente(sender, null);
+                EnClicSiguiente(sender, routedEvent);
                 break;
             case Key.MediaPreviousTrack:
-                EnClicAnterior(sender, null);
+                EnClicAnterior(sender, routedEvent);
                 break;
             case Key.MediaStop:
-                EnClicDetener(sender, null);
+                EnClicDetener(sender, routedEvent);
                 break;
             case Key.VolumeMute:
-                EnClicSilencio(sender, null);
+                EnClicSilencio(sender, routedEvent);
                 break;
             case Key.PageUp:
                 volumen.Value += volumen.LargeChange;
@@ -714,10 +728,10 @@ public partial class MainWindow : Window
                 mediaPlayer.Volume = volumen.Value;
                 break;
             case Key.F9:
-                EnClicAleatorio(sender, null);
+                EnClicAleatorio(sender, routedEvent);
                 break;
             case Key.F10:
-                EnClicRepetir(sender, null);
+                EnClicRepetir(sender, routedEvent);
                 break;
         }
     }

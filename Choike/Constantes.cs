@@ -8,6 +8,8 @@ using System.Windows.Media.Imaging;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Color = System.Windows.Media.Color;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace Choike;
 
@@ -19,8 +21,9 @@ public class Constantes
 
     private static string colorCarpeta = "#ffc8ff";
     private static string colorAutor = "#ffffc8";
-
-    public static EnumerationOptions enumerationOptions = new EnumerationOptions
+    
+    public static RoutedEventArgs routedEvent = new();
+    public static EnumerationOptions enumerationOptions = new()
     {
         // Solo normal
         AttributesToSkip = FileAttributes.ReadOnly |
@@ -52,8 +55,8 @@ public class Constantes
     {
         try
         {
-            BitmapImage bitImg = new BitmapImage();
-            MemoryStream ms = new MemoryStream(byteData);
+            var bitImg = new BitmapImage();
+            var ms = new MemoryStream(byteData);
             bitImg.BeginInit();
             bitImg.StreamSource = ms;
             bitImg.EndInit();
@@ -69,7 +72,7 @@ public class Constantes
 
     public static ImageSource ObtenerSinCarátula()
     {
-        BitmapImage bitImg = new BitmapImage();
+        var bitImg = new BitmapImage();
 
         bitImg.BeginInit();
         bitImg.UriSource = new Uri("pack://application:,,,/Arte/SinCarátula.png");
@@ -96,7 +99,10 @@ public class Constantes
             var json = File.ReadAllText(archivoCarpetasGuardadas);
             var array = JsonConvert.DeserializeObject<Carpeta[]>(json);
 
-            return array.ToList();
+            if(array != null)
+                return array.ToList();
+            else
+                return new List<Carpeta>();
         }
         catch
         {
@@ -140,8 +146,8 @@ public class Constantes
     {
         try
         {
-            MemoryStream ms = new MemoryStream(byteData);
-            Bitmap bitmap = new Bitmap(ms);
+            var ms = new MemoryStream(byteData);
+            var bitmap = new Bitmap(ms);
 
             float r = 0;
             float g = 0;
