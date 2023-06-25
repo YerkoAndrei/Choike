@@ -43,6 +43,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
+            }
         }
         "Release"
         {
@@ -59,6 +75,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
+            }
         }
     }
     "Deployable"
@@ -167,7 +199,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Choike"
         "ProductCode" = "8:{84530DA4-C8BE-49AA-8EBB-47570D3190AC}"
-        "PackageCode" = "8:{9738B5C4-58C5-47CF-928E-3BCF08E51D83}"
+        "PackageCode" = "8:{C83DA6E9-64D4-40A8-8826-4CC0A1805002}"
         "UpgradeCode" = "8:{3A31D9D4-0C2A-4F8A-8D69-50A28B9E94BD}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
@@ -189,8 +221,8 @@
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"
         "TargetPlatform" = "3:0"
-        "PreBuildEvent" = "8:"
-        "PostBuildEvent" = "8:"
+        "PreBuildEvent" = "8:call \"C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.22000.0\\x64\\signtool.exe\" sign /sm /n \"YerkoAndrei\" /t http://timestamp.digicert.com /fd SHA256 \"C:\\Users\\YerkoAndrei\\Desktop\\Proyectos\\Choike\\Choike\\obj\\Release\\net6.0-windows\\apphost.exe\"\r\ncall \"C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.22000.0\\x64\\signtool.exe\" sign /sm /n \"YerkoAndrei\" /t http://timestamp.digicert.com /fd SHA256 \"C:\\Users\\YerkoAndrei\\Desktop\\Proyectos\\Choike\\Choike\\obj\\Release\\net6.0-windows\\Choike.dll\""
+        "PostBuildEvent" = "8:call \"C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.22000.0\\x64\\signtool.exe\" sign /sm /n \"YerkoAndrei\" /t http://timestamp.digicert.com /fd SHA256 $(BuiltOuputPath)"
         "RunPostBuildEvent" = "3:0"
         }
         "Registry"
