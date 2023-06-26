@@ -8,6 +8,7 @@ Me cansé de usar Windows Media asi que me hice un reproductor propio a medida.
 Posible futuras funciones.
 
 ## Descargar Instalador
+Versión: 1.3
 <a href="https://github.com/YerkoAndrei/Choike/raw/main/Instalador/Release/InstaladorChoike.msi">Instalador Choike</a>
 
 ## Contacto
