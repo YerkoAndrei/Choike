@@ -503,7 +503,7 @@ public partial class MainWindow : Window
 
     private void AgregarCanciones(string carpeta)
     {
-        var archivosMúsica = Directory.GetFiles(carpeta, extensionesMúsica, enumerationOptions);
+        string[] archivosMúsica = Directory.GetFiles(carpeta, extensionesMúsica, enumerationOptions);
         cancionesActuales = new List<Canción>();
 
         TagLib.File tagLib;
@@ -547,7 +547,7 @@ public partial class MainWindow : Window
             nuevaCanción.Ruta = archivosMúsica[i];
             nuevaCanción.Nombre = tagLib.Tag.Title;
             nuevaCanción.Álbum = tagLib.Tag.Album;
-            nuevaCanción.Detalles = tagLib.Properties.AudioBitrate + "kbps";
+            nuevaCanción.Detalles = tagLib.Properties.AudioBitrate + " kbps";
             nuevaCanción.Duración = tagLib.Properties.Duration;
             nuevaCanción.DuraciónFormateada = TimeSpanATexto(nuevaCanción.Duración);
 
