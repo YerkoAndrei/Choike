@@ -3,8 +3,7 @@ Choike es un Reproductor de MP3 escrito en C# WPF.
 
 ![lane](https://github.com/YerkoAndrei/Choike/blob/ccfd2e85c7b23b45d42b8d23b7665ff930165802/Choike/Arte/SinCar%C3%A1tula.png)
 
-Me hice un reproductor propio a medida porque cansé de usar Windows Media Player y quedar ciego.
-
+Es básicamente un clon de Windows Media Player pero simplificado, mejorado, con fondo oscuro, offline, y con algunas teclas personalizadas.
 Posible futuras funciones.
 
 ## Descargar Instalador
