@@ -7,7 +7,7 @@ Reproductor de MP3 basado en carpetas, simple, rápido, de fondo oscuro, offline
 
 Posible futuras funciones.
 
-Código Abierto
+Código Abierto.
 
 ## Descargar Instalador
 <a href="https://github.com/YerkoAndrei/Choike/raw/main/Instalador/Release/InstaladorChoike.msi">Instalador Choike</a>
