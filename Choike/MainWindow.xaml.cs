@@ -130,7 +130,10 @@ public partial class MainWindow : Window
     private void EnClicPausa(object sender, RoutedEventArgs e)
     {
         if (parado)
+        {
+            // agregar iniciar aleatorio
             return;
+        }
 
         if (pausa)
             mediaPlayer.Play();
@@ -171,7 +174,7 @@ public partial class MainWindow : Window
         if (parado)
             return;
 
-        var nuevoÍndice = índiceActual += 1;
+        var nuevoÍndice = índiceActual + 1;
         if (nuevoÍndice >= cancionesActuales.Count)
             nuevoÍndice = 0;
 
@@ -225,10 +228,7 @@ public partial class MainWindow : Window
         MostrarAleatorio();
 
         if (aleatorio)
-        {
             AleatorizarCanciones();
-            índiceActual = 0;
-        }
         else
         {
             cancionesActuales = cancionesActuales.OrderBy(o => o.Índice).ToList();
@@ -295,10 +295,9 @@ public partial class MainWindow : Window
 
         // Elige canción al seleccionar en lista
         if (elejidoPorLista && aleatorio)
-        {/*
+        {
             elejidoPorLista = false;
             AleatorizarCanciones();
-            índiceActual = 0;*/
         }
 
         // Reproducción
@@ -320,8 +319,31 @@ public partial class MainWindow : Window
 
     private void AleatorizarCanciones()
     {
-        var random = new Random();
-        cancionesActuales = cancionesActuales.OrderBy(o => random.Next()).ToList();
+        var random = new Random(CalcularSemilla());
+
+        // Primera aleatorización
+        if (listaCanciones.SelectedIndex < 0)
+        {
+            cancionesActuales = cancionesActuales.OrderBy(o => random.Next()).ToList();
+            índiceActual = 0;
+            return;
+        }
+
+        var canción = (Canción)listaCanciones.SelectedItem;
+        var cancionesSinActual = cancionesActuales.Where(o => o.Índice != canción.Índice).ToArray();
+
+        // Aleatorio sin actual
+        cancionesSinActual = cancionesSinActual.OrderBy(o => random.Next()).ToArray();
+
+        // Crea nueva lista con la seleccionada como primera
+        var listaFinal = new List<Canción>
+        {
+            canción
+        };
+        listaFinal.AddRange(cancionesSinActual);
+
+        cancionesActuales = listaFinal;
+        índiceActual = 0;
     }
 
     // Se reconoce primero el clic antes del cambio de lista
@@ -330,6 +352,12 @@ public partial class MainWindow : Window
         elejidoPorLista = true;
     }
 
+    private int CalcularSemilla()
+    {
+        var fecha = DateTime.Parse("08-02-1996");
+        var tiempo = fecha - DateTime.Now;
+        return (int)tiempo.TotalSeconds;
+    }
 
     // --- Carpetas ---
 
