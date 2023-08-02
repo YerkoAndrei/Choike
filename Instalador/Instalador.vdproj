@@ -221,7 +221,7 @@
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"
         "TargetPlatform" = "3:1"
-        "PreBuildEvent" = "8:call \"C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.22000.0\\x64\\signtool.exe\" sign /sm /n \"YerkoAndrei\" /t http://timestamp.digicert.com /fd SHA256 \"C:\\Users\\YerkoAndrei\\Desktop\\Proyectos\\Choike\\Choike\\obj\\Release\\net6.0-windows\\apphost.exe\"\r\ncall \"C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.22000.0\\x64\\signtool.exe\" sign /sm /n \"YerkoAndrei\" /t http://timestamp.digicert.com /fd SHA256 \"C:\\Users\\YerkoAndrei\\Desktop\\Proyectos\\Choike\\Choike\\obj\\Release\\net6.0-windows\\Choike.dll\""
+        "PreBuildEvent" = "8:call \"C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.22000.0\\x64\\signtool.exe\" sign /sm /n \"YerkoAndrei\" /t http://timestamp.digicert.com /fd SHA256 \"C:\\Users\\YerkoAndrei\\Desktop\\Proyectos\\Choike\\Choike\\obj\\x64\\Release\\net6.0-windows\\apphost.exe\"\r\ncall \"C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.22000.0\\x64\\signtool.exe\" sign /sm /n \"YerkoAndrei\" /t http://timestamp.digicert.com /fd SHA256 \"C:\\Users\\YerkoAndrei\\Desktop\\Proyectos\\Choike\\Choike\\obj\\x64\\Release\\net6.0-windows\\Choike.dll\""
         "PostBuildEvent" = "8:call \"C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.22000.0\\x64\\signtool.exe\" sign /sm /n \"YerkoAndrei\" /t http://timestamp.digicert.com /fd SHA256 $(BuiltOuputPath)"
         "RunPostBuildEvent" = "3:0"
         }
