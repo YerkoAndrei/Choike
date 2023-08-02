@@ -10,6 +10,8 @@ Posible futuras funciones.
 ## Descargar Instalador
 <a href="https://github.com/YerkoAndrei/Choike/raw/main/Instalador/Release/InstaladorChoike.msi">Instalador Choike</a>
 
+Versión: 1.3
+
 ## Contacto
 Yerko Andrei Orellana Abello
 
