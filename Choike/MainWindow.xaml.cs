@@ -699,8 +699,6 @@ public partial class MainWindow : Window
             Application.Current.MainWindow.WindowState = WindowState.Normal;
         else
             Application.Current.MainWindow.WindowState = WindowState.Maximized;
-
-        EnCambioTamaño(sender, null);
     }
 
     private void EnClicCerrar(object sender, RoutedEventArgs e)
@@ -709,11 +707,6 @@ public partial class MainWindow : Window
         oyente.DesvincularTeclado();
 
         Application.Current.Shutdown();
-    }
-
-    private void EnCambioEstado(object sender, EventArgs e)
-    {
-        EnCambioTamaño(sender, null);
     }
 
     public void EnCambioTamaño(object sender, SizeChangedEventArgs e)
@@ -746,9 +739,10 @@ public partial class MainWindow : Window
         Application.Current.Resources.Remove("fuenteAutorCanción");
         Application.Current.Resources.Remove("fuenteÁlbumCanción");
 
-        var anchoPantalla = Width + Height;
+        var anchoPantalla = Application.Current.MainWindow.MaxWidth + Application.Current.MainWindow.MaxHeight;
         var multiplicador = 1.35;
 
+        System.Diagnostics.Debug.WriteLine("aaaaaa " + anchoPantalla);
         Application.Current.Resources.Add("fuentePrincipal", Math.Clamp(((anchoPantalla / fuentePrincipal) * multiplicador), 5, FontSize));
 
         Application.Current.Resources.Add("fuenteBotonesControlPequeño", (anchoPantalla / fuenteBotonesControlPequeño) * multiplicador);

@@ -10,7 +10,6 @@
         Title="Choike"
         FontSize="18"
         SizeChanged="EnCambioTamaño"
-        StateChanged="EnCambioEstado"
         Background="Black"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
