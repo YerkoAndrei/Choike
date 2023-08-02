@@ -717,13 +717,20 @@ public partial class MainWindow : Window
         Application.Current.MainWindow.MaxHeight = pantallaActual.WorkingArea.Height + 14;
         Application.Current.MainWindow.MaxWidth = pantallaActual.WorkingArea.Width + 14;
 
+        double anchoPantalla = 0;
+        var multiplicador = 1.35;
+
         if (Application.Current.MainWindow.WindowState == WindowState.Maximized)
         {
+            anchoPantalla = Application.Current.MainWindow.MaxWidth + Application.Current.MainWindow.MaxHeight;
             Application.Current.MainWindow.BorderThickness = new Thickness(7);
             botónMaximizar.Text = "🗗";
         }
         else
+        {
+            anchoPantalla = Width + Height;
             botónMaximizar.Text = "🗖";
+        }
         
         // Fuentes
         Application.Current.Resources.Remove("fuentePrincipal");
@@ -739,10 +746,7 @@ public partial class MainWindow : Window
         Application.Current.Resources.Remove("fuenteAutorCanción");
         Application.Current.Resources.Remove("fuenteÁlbumCanción");
 
-        var anchoPantalla = Application.Current.MainWindow.MaxWidth + Application.Current.MainWindow.MaxHeight;
-        var multiplicador = 1.35;
-
-        System.Diagnostics.Debug.WriteLine("aaaaaa " + anchoPantalla);
+        // Cambio tamaño fuentes
         Application.Current.Resources.Add("fuentePrincipal", Math.Clamp(((anchoPantalla / fuentePrincipal) * multiplicador), 5, FontSize));
 
         Application.Current.Resources.Add("fuenteBotonesControlPequeño", (anchoPantalla / fuenteBotonesControlPequeño) * multiplicador);
