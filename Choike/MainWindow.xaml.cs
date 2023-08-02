@@ -26,6 +26,7 @@ public partial class MainWindow : Window
     private bool parado;
     private bool aleatorio;
     private bool repetirCanción;
+    private bool elejidoPorLista;
     private bool moviendoTiempoCanción;
 
     private Carpeta carpetaActual;
@@ -40,18 +41,18 @@ public partial class MainWindow : Window
     public Brush BrochaResaltado;
 
     // Tamaños fuentes dinámicas
-    public double fuentePrincipal = 155;            // 18
+    public int fuentePrincipal = 155;            // 18
 
-    public double fuenteBotonesControlPequeño = 45; // 52
-    public double fuenteBotonesControlGrande = 38;  // 52
-    public double fuenteBotonesCarpeta = 80;        // 32
-    public double fuenteVolumen = 58;               // 50
-    public double fuenteNúmeroVolumen = 170;        // 15
-    public double fuenteTiempoCanción = 110;        // 25
+    public int fuenteBotonesControlPequeño = 45; // 52
+    public int fuenteBotonesControlGrande = 38;  // 52
+    public int fuenteBotonesCarpeta = 80;        // 32
+    public int fuenteVolumen = 58;               // 50
+    public int fuenteNúmeroVolumen = 170;        // 15
+    public int fuenteTiempoCanción = 110;        // 25
 
-    public double fuenteNombreCanción = 85;         // 30
-    public double fuenteAutorCanción = 130;         // 20
-    public double fuenteÁlbumCanción = 130;         // 20
+    public int fuenteNombreCanción = 85;         // 30
+    public int fuenteAutorCanción = 130;         // 20
+    public int fuenteÁlbumCanción = 130;         // 20
 
     // Botones fuera de foco
     private OyenteTeclado oyente;
@@ -67,6 +68,7 @@ public partial class MainWindow : Window
         parado = true;
         aleatorio = true;
         repetirCanción = false;
+        elejidoPorLista = false;
         moviendoTiempoCanción = false;
         índiceActual = 0;
 
@@ -109,6 +111,9 @@ public partial class MainWindow : Window
 
     private void IntervaloTiempo(object sender, EventArgs e)
     {
+        if (parado || pausa)
+            return;
+
         // TaskCanceledException
         try
         {
@@ -145,11 +150,20 @@ public partial class MainWindow : Window
         if (parado)
             return;
 
-        var nuevoÍndice = índiceActual - 1;
-        if (nuevoÍndice < 0)
-            nuevoÍndice = cancionesActuales.Count - 1;
+        // Mitad final repite canción
+        var mitadFinal = (mediaPlayer.Position.TotalSeconds / canciónActual.Duración.TotalSeconds) > 0.5;
+        if (mitadFinal)
+        {
+            EnfocarCanción(índiceActual);
+        }
+        else
+        {
+            var nuevoÍndice = índiceActual - 1;
+            if (nuevoÍndice < 0)
+                nuevoÍndice = cancionesActuales.Count - 1;
 
-        EnfocarCanción(nuevoÍndice);
+            EnfocarCanción(nuevoÍndice);
+        }
     }
 
     private void EnClicSiguiente(object sender, RoutedEventArgs e)
@@ -254,6 +268,10 @@ public partial class MainWindow : Window
 
     private void EnfocarCanción(int nuevoÍndice)
     {
+        // Permite repetir canción
+        if(nuevoÍndice == índiceActual)
+            listaCanciones.SelectedItem = null;
+
         listaCanciones.SelectedItem = cancionesActuales[nuevoÍndice];
         índiceActual = nuevoÍndice;
 
@@ -265,7 +283,7 @@ public partial class MainWindow : Window
     // --- Órden canciones ---
 
 
-    private void EnClicElegirCanción(object sender, SelectionChangedEventArgs e)
+    private void EnSeleccionarCanción(object sender, SelectionChangedEventArgs e)
     {
         if (listaCanciones.SelectedIndex < 0)
             return;
@@ -275,7 +293,13 @@ public partial class MainWindow : Window
         var canción = (Canción)listaCanciones.SelectedItem;
         MostrarDatosCanción(canción, canción.Ruta);
 
-        índiceActual = listaCanciones.SelectedIndex;
+        // Elige canción al seleccionar en lista
+        if (elejidoPorLista && aleatorio)
+        {/*
+            elejidoPorLista = false;
+            AleatorizarCanciones();
+            índiceActual = 0;*/
+        }
 
         // Reproducción
         mediaPlayer.Open(new Uri(canción.Ruta));
@@ -289,9 +313,7 @@ public partial class MainWindow : Window
     private void SiguienteCanción(object sender, EventArgs e)
     {
         if (repetirCanción)
-        {
-            EnClicElegirCanción(sender, (SelectionChangedEventArgs)e);
-        }
+            EnSeleccionarCanción(sender, (SelectionChangedEventArgs)e);
         else
             EnClicSiguiente(sender, (SelectionChangedEventArgs)e);
     }
@@ -300,6 +322,12 @@ public partial class MainWindow : Window
     {
         var random = new Random();
         cancionesActuales = cancionesActuales.OrderBy(o => random.Next()).ToList();
+    }
+
+    // Se reconoce primero el clic antes del cambio de lista
+    private void EnClicCanción(object sender, MouseEventArgs e)
+    {
+        elejidoPorLista = true;
     }
 
 
@@ -440,7 +468,8 @@ public partial class MainWindow : Window
         TagLib.File tagLib;
         Canción nuevaCanción;
 
-        for (int i = 0; i < archivosMúsica.Length; i++)
+        var cantidadCanciones = archivosMúsica.Length;
+        for (int i = 0; i < cantidadCanciones; i++)
         {
             try
             {
@@ -507,9 +536,6 @@ public partial class MainWindow : Window
 
     private void MostrarEstadoCanción()
     {
-        if (parado)
-            return;
-
         duraciónActual.Text = TimeSpanATexto(mediaPlayer.Position);
 
         if (moviendoTiempoCanción)
