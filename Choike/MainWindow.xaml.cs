@@ -131,7 +131,21 @@ public partial class MainWindow : Window
     {
         if (parado)
         {
-            // agregar iniciar aleatorio
+            // Reproduce carpeta aleatoria
+            if (cancionesActuales.Count <= 0)
+            {
+                var aleatorio = new Random(CalcularSemilla()).Next(0, carpetasActuales.Count);
+                carpetaActual = carpetasActuales[aleatorio];
+
+                AgregarCanciones(carpetaActual.Ruta);
+                ActualizarListaCanciones();
+            }
+
+            // Si hay una carpeta seleccionada
+            if (aleatorio)
+                AleatorizarCanciones();
+
+            EnfocarCanción(0);
             return;
         }
 
@@ -319,12 +333,12 @@ public partial class MainWindow : Window
 
     private void AleatorizarCanciones()
     {
-        var random = new Random(CalcularSemilla());
+        var aleatorio = new Random(CalcularSemilla());
 
         // Primera aleatorización
         if (listaCanciones.SelectedIndex < 0)
         {
-            cancionesActuales = cancionesActuales.OrderBy(o => random.Next()).ToList();
+            cancionesActuales = cancionesActuales.OrderBy(o => aleatorio.Next()).ToList();
             índiceActual = 0;
             return;
         }
@@ -333,7 +347,7 @@ public partial class MainWindow : Window
         var cancionesSinActual = cancionesActuales.Where(o => o.Índice != canción.Índice).ToArray();
 
         // Aleatorio sin actual
-        cancionesSinActual = cancionesSinActual.OrderBy(o => random.Next()).ToArray();
+        cancionesSinActual = cancionesSinActual.OrderBy(o => aleatorio.Next()).ToArray();
 
         // Crea nueva lista con la seleccionada como primera
         var listaFinal = new List<Canción>
@@ -358,6 +372,7 @@ public partial class MainWindow : Window
         var tiempo = fecha - DateTime.Now;
         return (int)tiempo.TotalSeconds;
     }
+
 
     // --- Carpetas ---
 
@@ -468,10 +483,8 @@ public partial class MainWindow : Window
         if (listaCarpetas.SelectedIndex < 0)
             return;
 
-        var carpeta = carpetasActuales[listaCarpetas.SelectedIndex];
-        carpetaActual = carpeta;
-
-        AgregarCanciones(carpeta.Ruta);
+        carpetaActual = carpetasActuales[listaCarpetas.SelectedIndex];
+        AgregarCanciones(carpetaActual.Ruta);
         ActualizarListaCanciones();
 
         // Volver a enfocar
