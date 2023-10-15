@@ -693,6 +693,12 @@ public partial class MainWindow : Window
             botónRepetir.Foreground = Brushes.Black;
     }
 
+    private void BloquearBotones(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.PageUp || e.Key == Key.PageDown)
+            e.Handled = true;
+    }
+
     // Barra título
     private void EnClicMinimizar(object sender, RoutedEventArgs e)
     {

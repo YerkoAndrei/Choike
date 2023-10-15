@@ -34,7 +34,7 @@
 
         <Color x:Key="GradienteBase">#FF787864</Color>
         <Color x:Key="GradienteAvanceCanción">#FFC8C864</Color>
-        
+
         <!--Listas-->
         <Style TargetType="{x:Type ListBoxItem}">
             <Setter Property="BorderThickness" Value="0.8"></Setter>
@@ -251,7 +251,7 @@
             <!--Lista Carpetas-->
             <ListBox Grid.Row="0" AlternationCount="2" SelectionMode="Single" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                      Background="Transparent" BorderBrush="{StaticResource ColorBase}" Foreground="{StaticResource ColorBlanco}" Margin="5,5,2,5"
-                     VirtualizingStackPanel.IsVirtualizing="True" ScrollViewer.IsDeferredScrollingEnabled="True"
+                     VirtualizingStackPanel.IsVirtualizing="True" ScrollViewer.IsDeferredScrollingEnabled="True" PreviewKeyDown="BloquearBotones"
                      x:Name="listaCarpetas" SelectionChanged="EnClicElegirCarpeta">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
@@ -290,7 +290,7 @@
         <Grid Grid.Row="1" Grid.Column="1">
             <ListBox Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" AlternationCount="2" SelectionMode="Single" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                      Background="Transparent" BorderBrush="{StaticResource ColorBase}" Foreground="{StaticResource ColorBlanco}" Margin="2,5,5,5"
-                     VirtualizingStackPanel.IsVirtualizing="True"
+                     VirtualizingStackPanel.IsVirtualizing="True" PreviewKeyDown="BloquearBotones"
                      x:Name="listaCanciones" SelectionChanged="EnSeleccionarCanción" PreviewMouseDown="EnClicCanción">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
