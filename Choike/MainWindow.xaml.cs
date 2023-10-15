@@ -30,6 +30,10 @@ public partial class MainWindow : Window
     private bool moviendoTiempoCanción;
     private bool bloquearCambioCanción;
 
+    private bool tamañoTiempoNormalActual;
+    private bool tamañoTiempoNormalCompleta;
+    private bool tamañoTiempoNormalObjetivo;
+
     private Carpeta carpetaActual;
     private Canción canciónActual;
     private double volumenAnterior;
@@ -49,7 +53,10 @@ public partial class MainWindow : Window
     public int fuenteBotonesCarpeta = 80;        // 32
     public int fuenteVolumen = 58;               // 50
     public int fuenteNúmeroVolumen = 170;        // 15
-    public int fuenteTiempoCanción = 110;        // 25
+
+    public int fuenteTiempoActual = 110;         // 25
+    public int fuenteTiempoCompleta = 110;       // 25
+    public int fuenteTiempoObjetivo = 110;       // 25
 
     public int fuenteNombreCanción = 85;         // 30
     public int fuenteAutorCanción = 130;         // 20
@@ -72,6 +79,10 @@ public partial class MainWindow : Window
         elejidoPorLista = false;
         moviendoTiempoCanción = false;
         índiceActual = 0;
+
+        tamañoTiempoNormalActual = true;
+        tamañoTiempoNormalCompleta = true;
+        tamañoTiempoNormalObjetivo = true;
 
         carpetaActual = new Carpeta();
         canciónActual = new Canción();
@@ -584,10 +595,22 @@ public partial class MainWindow : Window
     private void MostrarEstadoCanción()
     {
         duraciónActual.Text = TimeSpanATexto(mediaPlayer.Position);
-
+       
+        // Más de una hora
+        if (duraciónActual.Text.Length > 5 && tamañoTiempoNormalActual)
+            EnCambioTamaño(null, null);
+        else if (duraciónActual.Text.Length <= 5 && !tamañoTiempoNormalActual)
+            EnCambioTamaño(null, null);
+        
         if (moviendoTiempoCanción)
         {
             duraciónObjetivo.Text = TimeSpanATexto(canciónActual.Duración * porcentajeDuraciónActual.Value);
+            
+            // Más de una hora
+            if (duraciónObjetivo.Text.Length > 5 && tamañoTiempoNormalObjetivo)
+                EnCambioTamaño(null, null);
+            else if (duraciónObjetivo.Text.Length <= 5 && !tamañoTiempoNormalObjetivo)
+                EnCambioTamaño(null, null);
             return;
         }
 
@@ -622,6 +645,12 @@ public partial class MainWindow : Window
         nombreAlbum.Text = canciónActual.Álbum;
         nombreDetalles.Text = canciónActual.Detalles;
         duraciónCompleta.Text = TimeSpanATexto(canciónActual.Duración);
+
+        // Más de una hora
+        if (duraciónCompleta.Text.Length > 5 && tamañoTiempoNormalCompleta)
+            EnCambioTamaño(null, null);
+        else if(duraciónCompleta.Text.Length <= 5 && !tamañoTiempoNormalCompleta)
+            EnCambioTamaño(null, null);
     }
 
     private void ActualizarListaCarpetas()
@@ -752,7 +781,6 @@ public partial class MainWindow : Window
         Application.Current.Resources.Remove("fuenteBotonesCarpeta");
         Application.Current.Resources.Remove("fuenteVolumen");
         Application.Current.Resources.Remove("fuenteNúmeroVolumen");
-        Application.Current.Resources.Remove("fuenteTiempoCanción");
 
         Application.Current.Resources.Remove("fuenteNombreCanción");
         Application.Current.Resources.Remove("fuenteAutorCanción");
@@ -766,13 +794,49 @@ public partial class MainWindow : Window
         Application.Current.Resources.Add("fuenteBotonesCarpeta", Math.Clamp(((anchoPantalla / fuenteBotonesCarpeta) * multiplicador), 5, 40));
         Application.Current.Resources.Add("fuenteVolumen",        (anchoPantalla / fuenteVolumen) * multiplicador);
         Application.Current.Resources.Add("fuenteNúmeroVolumen",  (anchoPantalla / fuenteNúmeroVolumen) * multiplicador);
-        Application.Current.Resources.Add("fuenteTiempoCanción",  (anchoPantalla / fuenteTiempoCanción) * multiplicador);
         
         Application.Current.Resources.Add("fuenteNombreCanción",  (anchoPantalla / fuenteNombreCanción) * multiplicador);
         Application.Current.Resources.Add("fuenteAutorCanción",  (anchoPantalla / fuenteAutorCanción) * multiplicador);
         Application.Current.Resources.Add("fuenteÁlbumCanción",  (anchoPantalla / fuenteÁlbumCanción) * multiplicador);
-    }
 
+        // Cambio tamaño tiempos
+        Application.Current.Resources.Remove("fuenteTiempoActual");
+        Application.Current.Resources.Remove("fuenteTiempoCompleta");
+        Application.Current.Resources.Remove("fuenteTiempoObjetivo");
+
+        if (duraciónCompleta.Text.Length > 5)
+        {
+            tamañoTiempoNormalCompleta = false;
+            Application.Current.Resources.Add("fuenteTiempoCompleta", (anchoPantalla / (fuenteTiempoCompleta * 1.3)) * multiplicador);
+        }
+        else
+        {
+            tamañoTiempoNormalCompleta = true;
+            Application.Current.Resources.Add("fuenteTiempoCompleta", (anchoPantalla / fuenteTiempoCompleta) * multiplicador);
+        }
+
+        if (duraciónActual.Text.Length > 5)
+        {
+            tamañoTiempoNormalActual = false;
+            Application.Current.Resources.Add("fuenteTiempoActual", (anchoPantalla / (fuenteTiempoActual * 1.3)) * multiplicador);
+        }
+        else
+        {
+            tamañoTiempoNormalActual = true;
+            Application.Current.Resources.Add("fuenteTiempoActual", (anchoPantalla / fuenteTiempoActual) * multiplicador);
+        }
+
+        if (duraciónObjetivo.Text.Length > 5)
+        {
+            tamañoTiempoNormalObjetivo = false;
+            Application.Current.Resources.Add("fuenteTiempoObjetivo", (anchoPantalla / (fuenteTiempoObjetivo * 1.3)) * multiplicador);
+        }
+        else
+        {
+            tamañoTiempoNormalObjetivo = true;
+            Application.Current.Resources.Add("fuenteTiempoObjetivo", (anchoPantalla / fuenteTiempoObjetivo) * multiplicador);
+        }
+    }
 
     // --- Botones fuera de foco ---
 

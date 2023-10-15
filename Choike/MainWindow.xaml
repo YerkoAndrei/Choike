@@ -357,10 +357,10 @@
             </Grid.RowDefinitions>
 
             <!--Tiempo Canción-->
-            <TextBlock Grid.Row="0" Grid.Column="0" x:Name="duraciónActual" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{StaticResource ColorBlanco}" FontSize="{DynamicResource fuenteTiempoCanción}" Text="00:00" Margin="10,0,0,0"/>
-            <TextBlock Grid.Row="0" Grid.Column="2" x:Name="duraciónCompleta" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{StaticResource ColorBlanco}" FontSize="{DynamicResource fuenteTiempoCanción}" Text="00:00" Margin="0,0,10,0"/>
+            <TextBlock Grid.Row="0" Grid.Column="0" x:Name="duraciónActual" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{StaticResource ColorBlanco}" FontSize="{DynamicResource fuenteTiempoActual}" Text="00:00" Margin="10,0,0,0"/>
+            <TextBlock Grid.Row="0" Grid.Column="2" x:Name="duraciónCompleta" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{StaticResource ColorBlanco}" FontSize="{DynamicResource fuenteTiempoCompleta}" Text="00:00" Margin="0,0,10,0"/>
 
-            <TextBlock Grid.Row="1" Grid.Column="0" x:Name="duraciónObjetivo" VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="{StaticResource ColorBlanco}" FontSize="{DynamicResource fuenteTiempoCanción}" Text="00:00" Margin="10,0,0,0"/>
+            <TextBlock Grid.Row="1" Grid.Column="0" x:Name="duraciónObjetivo" VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="{StaticResource ColorBlanco}" FontSize="{DynamicResource fuenteTiempoObjetivo}" Text="00:00" Margin="10,0,0,0"/>
             
             <Slider Grid.Row="0" Grid.Column="1"
                     Maximum="1" SmallChange="0.005" LargeChange="0.01" TickFrequency="0.1" Focusable="False"
