@@ -28,6 +28,7 @@ public partial class MainWindow : Window
     private bool repetirCanción;
     private bool elejidoPorLista;
     private bool moviendoTiempoCanción;
+    private bool bloquearCambioCanción;
 
     private Carpeta carpetaActual;
     private Canción canciónActual;
@@ -302,8 +303,16 @@ public partial class MainWindow : Window
         if (listaCanciones.SelectedIndex < 0)
             return;
 
+        // En cambio de carpeta
+        if (bloquearCambioCanción)
+        {
+            bloquearCambioCanción = false;
+            return;
+        }
+
         botónPausa.Text = "⏸";
         duraciónObjetivo.Text = string.Empty;
+
         var canción = (Canción)listaCanciones.SelectedItem;
         MostrarDatosCanción(canción, canción.Ruta);
 
@@ -493,8 +502,8 @@ public partial class MainWindow : Window
 
         if (canciónActual.Ruta.Contains(carpetaActual.Nombre))
         {
-            listaCanciones.SelectedItem = canciónActual.Índice;
-
+            bloquearCambioCanción = true;
+            listaCanciones.SelectedIndex = canciónActual.Índice;
             listaCanciones.UpdateLayout();
             listaCanciones.Focus();
             listaCanciones.ScrollIntoView(listaCanciones.SelectedItem);
@@ -566,9 +575,6 @@ public partial class MainWindow : Window
         {
             cancionesActuales[i].Índice = i;
         }
-
-        if (aleatorio)
-            AleatorizarCanciones();
     }
 
 
