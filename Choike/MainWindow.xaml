@@ -251,8 +251,8 @@
             <!--Lista Carpetas-->
             <ListBox Grid.Row="0" AlternationCount="2" SelectionMode="Single" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                      Background="Transparent" BorderBrush="{StaticResource ColorBase}" Foreground="{StaticResource ColorBlanco}" Margin="5,5,2,5"
-                     x:Name="listaCarpetas" SelectionChanged="EnClicElegirCarpeta"
-                     VirtualizingStackPanel.IsVirtualizing="True" ScrollViewer.IsDeferredScrollingEnabled="True">
+                     VirtualizingStackPanel.IsVirtualizing="True" ScrollViewer.IsDeferredScrollingEnabled="True"
+                     x:Name="listaCarpetas" SelectionChanged="EnClicElegirCarpeta">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" FontSize="{DynamicResource fuentePrincipal}" Foreground="{Binding Color}" Text="{Binding Nombre}" />
@@ -290,8 +290,8 @@
         <Grid Grid.Row="1" Grid.Column="1">
             <ListBox Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" AlternationCount="2" SelectionMode="Single" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                      Background="Transparent" BorderBrush="{StaticResource ColorBase}" Foreground="{StaticResource ColorBlanco}" Margin="2,5,5,5"
-                     x:Name="listaCanciones" SelectionChanged="EnSeleccionarCanción" PreviewMouseDown="EnClicCanción"
-                     VirtualizingStackPanel.IsVirtualizing="True">
+                     VirtualizingStackPanel.IsVirtualizing="True"
+                     x:Name="listaCanciones" SelectionChanged="EnSeleccionarCanción" PreviewMouseDown="EnClicCanción">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -363,7 +363,7 @@
             <TextBlock Grid.Row="1" Grid.Column="0" x:Name="duraciónObjetivo" VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="{StaticResource ColorBlanco}" FontSize="{DynamicResource fuenteTiempoCanción}" Text="00:00" Margin="10,0,0,0"/>
             
             <Slider Grid.Row="0" Grid.Column="1"
-                    Maximum="1" SmallChange="0.005" LargeChange="0.01" TickFrequency="0.1"
+                    Maximum="1" SmallChange="0.005" LargeChange="0.01" TickFrequency="0.1" Focusable="False"
                     x:Name="porcentajeDuraciónActual" Thumb.DragStarted="EnMoverTiempoCanción" Thumb.DragCompleted="EnCambioTiempoCanción" />
 
             <!--Botones Control-->
@@ -487,11 +487,11 @@
                 </Button>
 
                 <Slider Grid.Column="7" Margin="10,0,10,0"
-                        Maximum="1" SmallChange="0.05" LargeChange="0.05" TickFrequency="0.25"
+                        Maximum="1" SmallChange="0.05" LargeChange="0.05" TickFrequency="0.25" Focusable="False"
                         x:Name="volumen" ValueChanged="EnCambioVolumen" />
 
                 <TextBlock Grid.Column="7" FontSize="{DynamicResource fuenteNúmeroVolumen}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Foreground="{StaticResource ColorBlanco}" Margin="0,0,0,2.5"
-                           x:Name="volumenActual" Text="75"/>
+                           x:Name="volumenActual" Text="75" />
             </Grid>
         </Grid>
     </Grid>
