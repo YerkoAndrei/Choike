@@ -28,6 +28,7 @@ public partial class MainWindow : Window
     private bool repetirCanción;
     private bool elejidoPorLista;
     private bool moviendoTiempoCanción;
+    private bool mirandoTiempoCanción;
     private bool bloquearCambioCanción;
 
     private bool tamañoTiempoNormalActual;
@@ -280,6 +281,26 @@ public partial class MainWindow : Window
             return;
 
         moviendoTiempoCanción = true;
+    }
+
+    private void EnCursorEntraDuración(object sender, MouseEventArgs e)
+    {
+        if (e.LeftButton != MouseButtonState.Pressed)
+            mirandoTiempoCanción = true;
+    }
+
+    private void EnCursorFueraDuración(object sender, MouseButtonEventArgs e)
+    {
+        mirandoTiempoCanción = true;
+    }
+
+    private void EnClicDuración(object sender, MouseEventArgs e)
+    {
+        if (moviendoTiempoCanción || e.LeftButton != MouseButtonState.Pressed || !mirandoTiempoCanción)
+            return;
+
+        mirandoTiempoCanción = false;
+        EnCambioTiempoCanción(sender, null);
     }
 
     private void EnCambioTiempoCanción(object sender, DragCompletedEventArgs e)
@@ -665,7 +686,6 @@ public partial class MainWindow : Window
 
         listaCarpetas.ItemsSource = carpetasActuales;
     }
-
 
     private void ActualizarListaCanciones()
     {
