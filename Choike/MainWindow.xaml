@@ -290,7 +290,7 @@
         <Grid Grid.Row="1" Grid.Column="1">
             <ListBox Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" AlternationCount="2" SelectionMode="Single" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                      Background="Transparent" BorderBrush="{StaticResource ColorBase}" Foreground="{StaticResource ColorBlanco}" Margin="2,5,5,5"
-                     x:Name="listaCanciones"  SelectionChanged="EnSeleccionarCanción" PreviewMouseDown="EnClicCanción"
+                     x:Name="listaCanciones" SelectionChanged="EnSeleccionarCanción" PreviewMouseDown="EnClicCanción"
                      VirtualizingStackPanel.IsVirtualizing="True">
                 <ListBox.ItemTemplate>
                     <DataTemplate>

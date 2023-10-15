@@ -12,7 +12,7 @@ using Color = System.Windows.Media.Color;
 
 namespace Choike;
 
-public class Constantes
+public static class Constantes
 {
     public static string extensionesMúsica = "*.mp3";
     private static string nombreCarpeta = "Choike";
