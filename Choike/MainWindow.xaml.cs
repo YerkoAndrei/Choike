@@ -189,7 +189,7 @@ public partial class MainWindow : Window
         }
     }
 
-    private void EnClicSiguiente(object? sender, RoutedEventArgs e)
+    private void EnClicSiguiente(object? sender, RoutedEventArgs? e)
     {
         if (Parado)
             return;
@@ -364,13 +364,10 @@ public partial class MainWindow : Window
 
     private void SiguienteCanción(object? sender, EventArgs? e)
     {
-        if (e == null)
-            return;
-
         if (RepetirCanción)
-            EnSeleccionarCanción(sender, (SelectionChangedEventArgs)e);
+            EnSeleccionarCanción(sender, null);
         else
-            EnClicSiguiente(sender, (SelectionChangedEventArgs)e);
+            EnClicSiguiente(sender, null);
     }
 
     private void AleatorizarCanciones()
