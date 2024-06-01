@@ -15,13 +15,13 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_7C2CB43EE3F34B2EB3A56C78F32D2F0A"
+        "MsmKey" = "8:_655EE3C10B9C4294A3FA6F71003F1EC9"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_E49D72779299472D891092FF32DAAB9E"
+        "MsmKey" = "8:_77126D3D7E694FC798E699F95C5D97EB"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -122,7 +122,7 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_7C2CB43EE3F34B2EB3A56C78F32D2F0A"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_77126D3D7E694FC798E699F95C5D97EB"
             {
             "SourcePath" = "8:..\\Choike\\Arte\\Choike.ico"
             "TargetName" = "8:Choike.ico"
@@ -216,13 +216,13 @@
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:Reproductor MP3"
         "ARPURLINFOABOUT" = "8:https://github.com/YerkoAndrei"
-        "ARPPRODUCTICON" = "8:_7C2CB43EE3F34B2EB3A56C78F32D2F0A"
+        "ARPPRODUCTICON" = "8:_77126D3D7E694FC798E699F95C5D97EB"
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"
         "TargetPlatform" = "3:1"
-        "PreBuildEvent" = "8:call \"C:\\Program Files (x86)\\Windows Kits\\10\\bin\\x64\\signtool.exe\" sign /sm /n \"YerkoAndrei\" /t http://timestamp.digicert.com /fd SHA256 \"C:\\Users\\YerkoAndrei\\Desktop\\Proyectos\\Choike\\Choike\\obj\\x64\\Release\\net6.0-windows\\apphost.exe\"\r\ncall \"C:\\Program Files (x86)\\Windows Kits\\10\\bin\\x64\\signtool.exe\" sign /sm /n \"YerkoAndrei\" /t http://timestamp.digicert.com /fd SHA256 \"C:\\Users\\YerkoAndrei\\Desktop\\Proyectos\\Choike\\Choike\\obj\\x64\\Release\\net6.0-windows\\Choike.dll\""
-        "PostBuildEvent" = "8:call \"C:\\Program Files (x86)\\Windows Kits\\10\\bin\\x64\\signtool.exe\" sign /sm /n \"YerkoAndrei\" /t http://timestamp.digicert.com /fd SHA256 $(BuiltOuputPath)"
+        "PreBuildEvent" = "8:call \"C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.20348.0\\x64\\signtool.exe\" sign /sm /n \"YerkoAndrei\" /t http://timestamp.digicert.com /fd SHA256 \"C:\\Users\\YerkoAndrei\\Desktop\\Proyectos\\Choike\\Choike\\obj\\x64\\Release\\net6.0-windows\\apphost.exe\"\r\ncall \"C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.20348.0\\x64\\signtool.exe\" sign /sm /n \"YerkoAndrei\" /t http://timestamp.digicert.com /fd SHA256 \"C:\\Users\\YerkoAndrei\\Desktop\\Proyectos\\Choike\\Choike\\obj\\x64\\Release\\net6.0-windows\\Choike.dll\""
+        "PostBuildEvent" = "8:call \"C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.20348.0\\x64\\signtool.exe\" sign /sm /n \"YerkoAndrei\" /t http://timestamp.digicert.com /fd SHA256 $(BuiltOuputPath)"
         "RunPostBuildEvent" = "3:0"
         }
         "Registry"
@@ -319,7 +319,7 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_280D8D888D424184AC39F3F3FE9D876B"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_0D58E5022F6145D38BBDF32097B64E5F"
             {
             "Name" = "8:Choike"
             "Arguments" = "8:"
@@ -327,13 +327,13 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_E49D72779299472D891092FF32DAAB9E"
+            "Target" = "8:_655EE3C10B9C4294A3FA6F71003F1EC9"
             "Folder" = "8:_13E8266029A7431399A28D0AD18DE6E1"
             "WorkingFolder" = "8:_0251A683756441F6B16B34A90FD8A39F"
-            "Icon" = "8:_7C2CB43EE3F34B2EB3A56C78F32D2F0A"
+            "Icon" = "8:"
             "Feature" = "8:"
             }
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_65073FD397994250AC54F1C26D8B2751"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_2408E23C1CE94E178FA9B7E137C121B5"
             {
             "Name" = "8:Choike"
             "Arguments" = "8:"
@@ -341,10 +341,10 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_E49D72779299472D891092FF32DAAB9E"
+            "Target" = "8:_655EE3C10B9C4294A3FA6F71003F1EC9"
             "Folder" = "8:_FFA4416FB2184F5D9A724C40C5424A0A"
             "WorkingFolder" = "8:_0251A683756441F6B16B34A90FD8A39F"
-            "Icon" = "8:_7C2CB43EE3F34B2EB3A56C78F32D2F0A"
+            "Icon" = "8:"
             "Feature" = "8:"
             }
         }
@@ -746,9 +746,9 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_E49D72779299472D891092FF32DAAB9E"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_655EE3C10B9C4294A3FA6F71003F1EC9"
             {
-            "SourcePath" = "8:..\\Choike\\obj\\x64\\Release\\net6.0-windows\\apphost.exe"
+            "SourcePath" = "8:..\\Choike\\obj\\Debug\\net8.0-windows\\Choike.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_0251A683756441F6B16B34A90FD8A39F"
@@ -767,8 +767,8 @@
             "IsolateTo" = "8:"
             "ProjectOutputGroupRegister" = "3:1"
             "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:PublishItems"
-            "OutputProjectGuid" = "8:{9AFD518E-9353-451E-A117-B28EFF04DF0D}"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{FE3823B5-E493-4443-B386-244C74C6DF95}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {
