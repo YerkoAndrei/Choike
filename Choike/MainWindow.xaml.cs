@@ -115,9 +115,7 @@ public partial class MainWindow : Window
         ActualizarListaCarpetas();
 
         // Escuchar teclado
-        oyente = new OyenteTeclado();
-        oyente.OnKeyPressed += EnTecla;
-        oyente.VincularTeclado();
+        oyente = new OyenteTeclado(EnTecla);
     }
 
     private void IntervaloTiempo(object sender, EventArgs e)

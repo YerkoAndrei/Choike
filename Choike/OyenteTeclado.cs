@@ -1,5 +1,4 @@
 ﻿// dylansweb.com
-using System;
 using System.Diagnostics;
 using System.Windows.Input;
 using System.Runtime.InteropServices;
@@ -32,13 +31,10 @@ public class OyenteTeclado
     private LowLevelKeyboardProc _proc;
     private IntPtr _hookID = IntPtr.Zero;
 
-    public OyenteTeclado()
+    public OyenteTeclado(EventHandler<KeyPressedArgs> enTecla)
     {
         _proc = HookCallback;
-    }
-
-    public void VincularTeclado()
-    {
+        OnKeyPressed = enTecla;
         _hookID = SetHook(_proc);
     }
 
