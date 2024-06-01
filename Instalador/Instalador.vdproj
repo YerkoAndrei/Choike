@@ -15,7 +15,7 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_655EE3C10B9C4294A3FA6F71003F1EC9"
+        "MsmKey" = "8:_26BF491A19D949E1B088BEA79BDB706E"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -198,8 +198,8 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Choike"
-        "ProductCode" = "8:{305E80B6-ABD0-49BF-9255-6200E004F091}"
-        "PackageCode" = "8:{0EE5B822-8090-433A-AED6-4ACE501ECA5D}"
+        "ProductCode" = "8:{946834B8-CA3E-4CB3-B7F3-B63AA54A4C12}"
+        "PackageCode" = "8:{E879D487-677E-4A1B-8B87-368765AE83C3}"
         "UpgradeCode" = "8:{3A31D9D4-0C2A-4F8A-8D69-50A28B9E94BD}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
@@ -319,7 +319,7 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_0D58E5022F6145D38BBDF32097B64E5F"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_64FF7A17DF4240679AB55453729435A2"
             {
             "Name" = "8:Choike"
             "Arguments" = "8:"
@@ -327,24 +327,24 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_655EE3C10B9C4294A3FA6F71003F1EC9"
-            "Folder" = "8:_13E8266029A7431399A28D0AD18DE6E1"
-            "WorkingFolder" = "8:_0251A683756441F6B16B34A90FD8A39F"
-            "Icon" = "8:"
-            "Feature" = "8:"
-            }
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_2408E23C1CE94E178FA9B7E137C121B5"
-            {
-            "Name" = "8:Choike"
-            "Arguments" = "8:"
-            "Description" = "8:"
-            "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
-            "Transitive" = "11:FALSE"
-            "Target" = "8:_655EE3C10B9C4294A3FA6F71003F1EC9"
+            "Target" = "8:_26BF491A19D949E1B088BEA79BDB706E"
             "Folder" = "8:_FFA4416FB2184F5D9A724C40C5424A0A"
             "WorkingFolder" = "8:_0251A683756441F6B16B34A90FD8A39F"
-            "Icon" = "8:"
+            "Icon" = "8:_77126D3D7E694FC798E699F95C5D97EB"
+            "Feature" = "8:"
+            }
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_E0DE9D04144740B0A367F7E6B3E8DDE3"
+            {
+            "Name" = "8:Choike"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_26BF491A19D949E1B088BEA79BDB706E"
+            "Folder" = "8:_13E8266029A7431399A28D0AD18DE6E1"
+            "WorkingFolder" = "8:_0251A683756441F6B16B34A90FD8A39F"
+            "Icon" = "8:_77126D3D7E694FC798E699F95C5D97EB"
             "Feature" = "8:"
             }
         }
@@ -746,7 +746,7 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_655EE3C10B9C4294A3FA6F71003F1EC9"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_26BF491A19D949E1B088BEA79BDB706E"
             {
             "SourcePath" = "8:..\\Choike\\obj\\Release\\net8.0-windows\\Choike.dll"
             "TargetName" = "8:"
