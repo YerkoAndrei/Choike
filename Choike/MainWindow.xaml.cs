@@ -92,11 +92,11 @@ public partial class MainWindow : Window
         BrochaResaltado = new SolidColorBrush(ColorResaltado);
 
         // Volumen predeterminado
-        volumen.Value = 0.75;
+        volumen.Value = 0.8;
         mediaPlayer.Volume = volumen.Value;
 
         // Tiempo canción
-        mostrarEstadoCanción = () => { MostrarEstadoCanción(); };
+        mostrarEstadoCanción = MostrarEstadoCanción;
 
         contador = new Timer
         {
@@ -865,7 +865,7 @@ public partial class MainWindow : Window
 
     // --- Botones fuera de foco ---
 
-    void EnTecla(object? sender, KeyPressedArgs? e)
+    private void EnTecla(object? sender, KeyPressedArgs? e)
     {
         if (e == null)
             return;
