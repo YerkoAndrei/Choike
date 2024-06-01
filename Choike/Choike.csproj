@@ -6,23 +6,9 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
-    <PackageIcon>Choike.png</PackageIcon>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <RepositoryUrl>https://github.com/YerkoAndrei/Choike</RepositoryUrl>
+    <ApplicationIcon>Arte\Choike.ico</ApplicationIcon>
+    <DelaySign>True</DelaySign>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="Arte\1FAB6.png" />
-    <None Remove="Arte\Choike.ico" />
-    <None Remove="Arte\SinCarátula.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="..\README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
@@ -34,13 +20,6 @@
     <Resource Include="Arte\1FAB6.png" />
     <Resource Include="Arte\Choike.ico" />
     <Resource Include="Arte\SinCarátula.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Arte\Choike.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
   </ItemGroup>
 
 </Project>

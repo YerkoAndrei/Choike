@@ -15,7 +15,7 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_26BF491A19D949E1B088BEA79BDB706E"
+        "MsmKey" = "8:_16B24586CD59430AB214B80B143EBED1"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -198,15 +198,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Choike"
-        "ProductCode" = "8:{946834B8-CA3E-4CB3-B7F3-B63AA54A4C12}"
-        "PackageCode" = "8:{E879D487-677E-4A1B-8B87-368765AE83C3}"
+        "ProductCode" = "8:{C15AAAEB-82AF-4891-A7DD-52DE534EE18C}"
+        "PackageCode" = "8:{A44B01EE-C436-4179-9FD5-719D05763450}"
         "UpgradeCode" = "8:{3A31D9D4-0C2A-4F8A-8D69-50A28B9E94BD}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:1.5"
+        "ProductVersion" = "8:1.6"
         "Manufacturer" = "8:YerkoAndrei"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -319,7 +319,7 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_64FF7A17DF4240679AB55453729435A2"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_330D10FF29C148B4A30E4F888EDA6B56"
             {
             "Name" = "8:Choike"
             "Arguments" = "8:"
@@ -327,13 +327,13 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_26BF491A19D949E1B088BEA79BDB706E"
-            "Folder" = "8:_FFA4416FB2184F5D9A724C40C5424A0A"
+            "Target" = "8:_16B24586CD59430AB214B80B143EBED1"
+            "Folder" = "8:_13E8266029A7431399A28D0AD18DE6E1"
             "WorkingFolder" = "8:_0251A683756441F6B16B34A90FD8A39F"
             "Icon" = "8:_77126D3D7E694FC798E699F95C5D97EB"
             "Feature" = "8:"
             }
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_E0DE9D04144740B0A367F7E6B3E8DDE3"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_73D1E60B37914839BC41B89C553C4095"
             {
             "Name" = "8:Choike"
             "Arguments" = "8:"
@@ -341,8 +341,8 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_26BF491A19D949E1B088BEA79BDB706E"
-            "Folder" = "8:_13E8266029A7431399A28D0AD18DE6E1"
+            "Target" = "8:_16B24586CD59430AB214B80B143EBED1"
+            "Folder" = "8:_FFA4416FB2184F5D9A724C40C5424A0A"
             "WorkingFolder" = "8:_0251A683756441F6B16B34A90FD8A39F"
             "Icon" = "8:_77126D3D7E694FC798E699F95C5D97EB"
             "Feature" = "8:"
@@ -746,9 +746,9 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_26BF491A19D949E1B088BEA79BDB706E"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_16B24586CD59430AB214B80B143EBED1"
             {
-            "SourcePath" = "8:..\\Choike\\obj\\Release\\net8.0-windows\\Choike.dll"
+            "SourcePath" = "8:..\\Choike\\obj\\Release\\net8.0-windows\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_0251A683756441F6B16B34A90FD8A39F"
@@ -767,7 +767,7 @@
             "IsolateTo" = "8:"
             "ProjectOutputGroupRegister" = "3:1"
             "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:Built"
+            "OutputGroupCanonicalName" = "8:PublishItems"
             "OutputProjectGuid" = "8:{FE3823B5-E493-4443-B386-244C74C6DF95}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
