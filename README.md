@@ -12,7 +12,7 @@ Código Abierto.
 ## Descargar Instalador
 <a href="https://github.com/YerkoAndrei/Choike/raw/main/Instalador/Release/InstaladorChoike.msi">Instalador Choike</a>
 
-Versión: 1.5 (x64)
+Versión: 1.6 (x64)
 
 ## Contacto
 Yerko Andrei Orellana Abello
