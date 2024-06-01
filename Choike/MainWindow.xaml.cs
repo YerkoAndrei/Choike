@@ -28,7 +28,7 @@ public partial class MainWindow : Window
     private static bool TamañoTiempoNormalCompleta;
     private static bool TamañoTiempoNormalObjetivo;
 
-    private static int ÍndiceActual;
+    private static int ÍndiceAleatorioActual;
     private static double VolumenAnterior;
 
     private MediaPlayer mediaPlayer;
@@ -71,7 +71,7 @@ public partial class MainWindow : Window
         RepetirCanción = false;
         ElejidoPorLista = false;
         MoviendoTiempoCanción = false;
-        ÍndiceActual = 0;
+        ÍndiceAleatorioActual = 0;
 
         TamañoTiempoNormalActual = true;
         TamañoTiempoNormalCompleta = true;
@@ -172,11 +172,16 @@ public partial class MainWindow : Window
         var mitadFinal = (mediaPlayer.Position.TotalSeconds / canciónActual.Duración.TotalSeconds) > 0.5;
         if (mitadFinal)
         {
-            EnfocarCanción(ÍndiceActual);
+            EnfocarCanción(ÍndiceAleatorioActual);
         }
         else
         {
-            var nuevoÍndice = ÍndiceActual - 1;
+            int nuevoÍndice;
+            if (Aleatorio)
+                nuevoÍndice = ÍndiceAleatorioActual - 1;
+            else
+                nuevoÍndice = canciónActual.Índice - 1;
+
             if (nuevoÍndice < 0)
                 nuevoÍndice = cancionesActuales.Count - 1;
 
@@ -189,7 +194,12 @@ public partial class MainWindow : Window
         if (Parado)
             return;
 
-        var nuevoÍndice = ÍndiceActual + 1;
+        int nuevoÍndice;
+        if (Aleatorio)
+            nuevoÍndice = ÍndiceAleatorioActual + 1;
+        else
+            nuevoÍndice = canciónActual.Índice + 1;
+
         if (nuevoÍndice >= cancionesActuales.Count)
             nuevoÍndice = 0;
 
@@ -227,7 +237,7 @@ public partial class MainWindow : Window
         porcentajeDuraciónActual.Value = 0;
         botónPausa.Text = "⏯";
         listaCanciones.SelectedIndex = -1;
-        ÍndiceActual = 0;
+        ÍndiceAleatorioActual = 0;
 
         // Datos
         nombreCanción.Text = "Canción";
@@ -247,7 +257,7 @@ public partial class MainWindow : Window
         else
         {
             cancionesActuales = cancionesActuales.OrderBy(o => o.Índice).ToList();
-            ÍndiceActual = listaCanciones.SelectedIndex;
+            ÍndiceAleatorioActual = listaCanciones.SelectedIndex;
         }
     }
 
@@ -304,11 +314,11 @@ public partial class MainWindow : Window
     private void EnfocarCanción(int nuevoÍndice)
     {
         // Permite repetir canción
-        if(nuevoÍndice == ÍndiceActual)
+        if(nuevoÍndice == ÍndiceAleatorioActual)
             listaCanciones.SelectedItem = null;
 
         listaCanciones.SelectedItem = cancionesActuales[nuevoÍndice];
-        ÍndiceActual = nuevoÍndice;
+        ÍndiceAleatorioActual = nuevoÍndice;
 
         listaCanciones.ScrollIntoView(listaCanciones.SelectedItem);
         Pausa = false;
@@ -371,7 +381,7 @@ public partial class MainWindow : Window
         if (listaCanciones.SelectedIndex < 0)
         {
             cancionesActuales = cancionesActuales.OrderBy(o => aleatorio.Next()).ToList();
-            ÍndiceActual = 0;
+            ÍndiceAleatorioActual = 0;
             return;
         }
 
@@ -389,7 +399,7 @@ public partial class MainWindow : Window
         listaFinal.AddRange(cancionesSinActual);
 
         cancionesActuales = listaFinal;
-        ÍndiceActual = 0;
+        ÍndiceAleatorioActual = 0;
     }
 
     // Se reconoce primero el clic antes del cambio de lista
@@ -625,7 +635,8 @@ public partial class MainWindow : Window
             return;
         }
 
-        porcentajeDuraciónActual.Value = (mediaPlayer.Position.TotalSeconds / canciónActual.Duración.TotalSeconds);
+        if(canciónActual.Duración.TotalSeconds > 0)
+            porcentajeDuraciónActual.Value = (mediaPlayer.Position.TotalSeconds / canciónActual.Duración.TotalSeconds);
     }
 
     private void MostrarDatosCanción(Canción canción, string nombreArchivo)
