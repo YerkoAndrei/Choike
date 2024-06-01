@@ -118,7 +118,7 @@ public partial class MainWindow : Window
         oyente = new OyenteTeclado(EnTecla);
     }
 
-    private void IntervaloTiempo(object sender, EventArgs e)
+    private void IntervaloTiempo(object? sender, EventArgs? e)
     {
         if (parado || pausa)
             return;
@@ -136,7 +136,7 @@ public partial class MainWindow : Window
     // --- Botones ---
 
 
-    private void EnClicPausa(object sender, RoutedEventArgs e)
+    private void EnClicPausa(object? sender, RoutedEventArgs e)
     {
         if (parado)
         {
@@ -171,7 +171,7 @@ public partial class MainWindow : Window
             botónPausa.Text = "⏸";
     }
 
-    private void EnClicAnterior(object sender, RoutedEventArgs e)
+    private void EnClicAnterior(object? sender, RoutedEventArgs e)
     {
         if (parado)
             return;
@@ -192,7 +192,7 @@ public partial class MainWindow : Window
         }
     }
 
-    private void EnClicSiguiente(object sender, RoutedEventArgs e)
+    private void EnClicSiguiente(object? sender, RoutedEventArgs e)
     {
         if (parado)
             return;
@@ -204,7 +204,7 @@ public partial class MainWindow : Window
         EnfocarCanción(nuevoÍndice);
     }
 
-    private void EnClicSilencio(object sender, RoutedEventArgs e)
+    private void EnClicSilencio(object? sender, RoutedEventArgs e)
     {
         if (volumen.Value > 0)
         {
@@ -218,7 +218,7 @@ public partial class MainWindow : Window
         MostrarVolumen();
     }
 
-    private void EnClicDetener(object sender, RoutedEventArgs e)
+    private void EnClicDetener(object? sender, RoutedEventArgs e)
     {
         if (parado)
             return;
@@ -245,7 +245,7 @@ public partial class MainWindow : Window
         imgCarátula.Source = ObtenerSinCarátula();
     }
 
-    private void EnClicAleatorio(object sender, RoutedEventArgs e)
+    private void EnClicAleatorio(object? sender, RoutedEventArgs e)
     {
         aleatorio = !aleatorio;
         MostrarAleatorio();
@@ -259,7 +259,7 @@ public partial class MainWindow : Window
         }
     }
 
-    private void EnClicRepetir(object sender, RoutedEventArgs e)
+    private void EnClicRepetir(object? sender, RoutedEventArgs e)
     {
         repetirCanción = !repetirCanción;
         MostrarRepetir();
@@ -299,7 +299,7 @@ public partial class MainWindow : Window
         EnCambioTiempoCanción(sender, null);
     }
 
-    private void EnCambioTiempoCanción(object sender, DragCompletedEventArgs e)
+    private void EnCambioTiempoCanción(object sender, DragCompletedEventArgs? e)
     {
         if (string.IsNullOrEmpty(canciónActual.Ruta))
             return;
@@ -326,7 +326,7 @@ public partial class MainWindow : Window
     // --- Órden canciones ---
 
 
-    private void EnSeleccionarCanción(object sender, SelectionChangedEventArgs e)
+    private void EnSeleccionarCanción(object? sender, SelectionChangedEventArgs? e)
     {
         if (listaCanciones.SelectedIndex < 0)
             return;
@@ -360,8 +360,11 @@ public partial class MainWindow : Window
         parado = false;
     }
 
-    private void SiguienteCanción(object sender, EventArgs e)
+    private void SiguienteCanción(object? sender, EventArgs? e)
     {
+        if (e == null)
+            return;
+
         if (repetirCanción)
             EnSeleccionarCanción(sender, (SelectionChangedEventArgs)e);
         else
@@ -427,6 +430,9 @@ public partial class MainWindow : Window
         if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
         {
             var rutaCarpeta = dialog.FileName;
+            if (rutaCarpeta == null)
+                return;
+
             var carpetaCortada = rutaCarpeta.Split('\\');
             var nombreCarpeta = carpetaCortada[carpetaCortada.Length - 1];
 
@@ -469,6 +475,9 @@ public partial class MainWindow : Window
         if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
         {
             var rutaArchivo = dialog.FileName;
+            if (rutaArchivo == null)
+                return;
+
             var rutaCortada = rutaArchivo.Split('\\');
             var rutaCarpeta = rutaArchivo.Replace(rutaCortada[rutaCortada.Length - 1], string.Empty);
 
@@ -766,7 +775,7 @@ public partial class MainWindow : Window
         Application.Current.Shutdown();
     }
 
-    public void EnCambioTamaño(object sender, SizeChangedEventArgs e)
+    public void EnCambioTamaño(object? sender, SizeChangedEventArgs? e)
     {
         var pantallaActual = System.Windows.Forms.Screen.FromHandle(new WindowInteropHelper(this).Handle);
 
@@ -856,8 +865,11 @@ public partial class MainWindow : Window
 
     // --- Botones fuera de foco ---
 
-    void EnTecla(object sender, KeyPressedArgs e)
+    void EnTecla(object? sender, KeyPressedArgs? e)
     {
+        if (e == null)
+            return;
+
         switch (e.KeyPressed)
         {
             case Key.MediaPlayPause:
