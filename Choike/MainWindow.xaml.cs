@@ -884,10 +884,10 @@ public partial class MainWindow : Window
                 volumen.Value -= volumen.LargeChange;
                 mediaPlayer.Volume = volumen.Value;
                 break;
-            case Key.F9:
+            case Key.F7:
                 EnClicAleatorio(sender, routedEvent);
                 break;
-            case Key.F10:
+            case Key.F8:
                 EnClicRepetir(sender, routedEvent);
                 break;
         }
