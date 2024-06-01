@@ -14,9 +14,7 @@
 # Visual Studio
 *.vs
 *.suo
-*.sln
 *.user
-*.csproj
 [Bb]in
 [Oo]bj
 package
