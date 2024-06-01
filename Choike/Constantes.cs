@@ -11,15 +11,18 @@ namespace Choike;
 
 public static class Constantes
 {
-    public static string extensionesMúsica = "*.mp3";
-    private static string nombreCarpeta = "Choike";
-    private static string archivoGuardado = "listaCarpetas.choike";
+    public static string ExtensionesMúsica = "*.mp3";
+    private static string NombreCarpeta = "Choike";
+    private static string ArchivoGuardado = "listaCarpetas.choike";
 
-    private static string colorCarpeta = "#ffc8ff";
-    private static string colorAutor = "#ffffc8";
-    
-    public static RoutedEventArgs routedEvent = new();
-    public static EnumerationOptions enumerationOptions = new()
+    private static string ColorCarpeta = "#ffc8ff";
+    private static string ColorAutor = "#ffffc8";
+
+    public static Color ColorGris = Color.FromRgb(120, 120, 100);
+    public static System.Windows.Media.Brush BrochaResaltado = new SolidColorBrush(Color.FromRgb(200, 200, 100));
+
+    public static RoutedEventArgs RoutedEvent = new();
+    public static EnumerationOptions EnumerationOptions = new()
     {
         // Solo normal
         AttributesToSkip = FileAttributes.ReadOnly |
@@ -80,8 +83,8 @@ public static class Constantes
 
     public static List<Carpeta> CargarCarpetasGuardadas()
     {
-        var carpetasGuardadas = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), nombreCarpeta);
-        var archivoCarpetasGuardadas = Path.Combine(carpetasGuardadas, archivoGuardado);
+        var carpetasGuardadas = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), NombreCarpeta);
+        var archivoCarpetasGuardadas = Path.Combine(carpetasGuardadas, ArchivoGuardado);
 
         if (!Directory.Exists(carpetasGuardadas))
             Directory.CreateDirectory(carpetasGuardadas);
@@ -108,8 +111,8 @@ public static class Constantes
 
     public static void ActualizarCarpetasGuardadas(List<Carpeta> listaCarpetas)
     {
-        var carpetasGuardadas = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), nombreCarpeta);
-        var archivoCarpetasGuardadas = Path.Combine(carpetasGuardadas, archivoGuardado);
+        var carpetasGuardadas = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), NombreCarpeta);
+        var archivoCarpetasGuardadas = Path.Combine(carpetasGuardadas, ArchivoGuardado);
 
         if (!Directory.Exists(carpetasGuardadas))
             Directory.CreateDirectory(carpetasGuardadas);
@@ -126,15 +129,22 @@ public static class Constantes
             return $"{(int)timeSpan.TotalMinutes:00}:{timeSpan.Seconds:00}";
     }
 
+    public static int CalcularSemilla()
+    {
+        var fecha = DateTime.Parse("08-02-1996");
+        var tiempo = fecha - DateTime.Now;
+        return (int)tiempo.TotalSeconds;
+    }
+
     public static string ObtenerColorPorTipoCarpeta(TipoCarpeta tipoCarpeta)
     {
         switch (tipoCarpeta)
         {
             default:
             case TipoCarpeta.carpeta:
-                return colorCarpeta;
+                return ColorCarpeta;
             case TipoCarpeta.autor:
-                return colorAutor;
+                return ColorAutor;
         }
     }
 
@@ -181,12 +191,7 @@ public static class Constantes
         }
         catch
         {
-            return ObtenerColorGris();
+            return ColorGris;
         }
-    }
-
-    public static Color ObtenerColorGris()
-    {
-        return Color.FromRgb(120, 120, 100);
     }
 }
