@@ -1,7 +1,5 @@
 ﻿// YerkoAndrei
-using System;
 using System.IO;
-using System.Linq;
 using System.Timers;
 using System.Windows;
 using System.Windows.Input;
@@ -9,8 +7,8 @@ using System.Windows.Media;
 using System.Windows.Interop;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Collections.Generic;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using Timer = System.Timers.Timer;
 
 namespace Choike;
 using static Constantes;
