@@ -1,7 +1,7 @@
 # Compilaciones
 *.app
 *.exe
-*.war
+*.msi
 
 # Archivos grandes
 *.mp4
