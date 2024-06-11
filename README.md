@@ -9,7 +9,7 @@ Posible futuras funciones.
 
 Código Abierto.
 
-## Descargar Instalador
+## Descargar
 <a href="https://github.com/YerkoAndrei/Choike/releases/download/estable/InstaladorChoike.msi">Instalador Choike</a>
 
 Versión: 1.6 (x64)
