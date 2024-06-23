@@ -492,7 +492,7 @@
                         x:Name="volumen" ValueChanged="EnCambioVolumen" />
 
                 <TextBlock Grid.Column="7" FontSize="{DynamicResource fuenteNúmeroVolumen}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Foreground="{StaticResource ColorBlanco}" Margin="0,0,0,2.5"
-                           x:Name="volumenActual" Text="75" />
+                           x:Name="volumenActual" Text="80" />
             </Grid>
         </Grid>
     </Grid>
