@@ -1,10 +1,13 @@
 ﻿// YerkoAndrei
+using System;
 using System.IO;
+using System.Linq;
 using System.Drawing;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Collections.Generic;
 using Color = System.Windows.Media.Color;
 
 namespace Choike;

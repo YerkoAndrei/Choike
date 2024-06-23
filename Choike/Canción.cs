@@ -1,4 +1,6 @@
-﻿namespace Choike;
+﻿using System;
+
+namespace Choike;
 
 public class Canción
 {
