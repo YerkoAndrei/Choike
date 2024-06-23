@@ -1,19 +1,21 @@
-﻿// YerkoAndrei
+﻿using Avalonia.Controls;
+using Avalonia.Interactivity;
+using LibVLCSharp.Shared;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Timers;
-using System.Windows;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Interop;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Collections.Generic;
-using Microsoft.WindowsAPICodePack.Dialogs;
+//using System.Windows;
+//using System.Windows.Input;
+//using System.Windows.Media;
+//using System.Windows.Interop;
+//using System.Windows.Controls;
+//using System.Windows.Controls.Primitives;
+//using Microsoft.WindowsAPICodePack.Dialogs;
 using Timer = System.Timers.Timer;
 
-namespace Choike;
+namespace Choike.Views;
 using static Constantes;
 
 public partial class MainWindow : Window
@@ -41,7 +43,7 @@ public partial class MainWindow : Window
 
     private Canción canciónActual;
     private Carpeta carpetaActual;
-    private OyenteTeclado oyente;
+    //private OyenteTeclado oyente;
     private Action mostrarEstadoCanción;
     private Timer contador;
 
@@ -62,10 +64,13 @@ public partial class MainWindow : Window
     public int fuenteAutorCanción = 130;         // 20
     public int fuenteÁlbumCanción = 130;         // 20
 
+    private LibVLC VLC;
+
     public MainWindow()
     {
         InitializeComponent();
-        mediaPlayer = new MediaPlayer();
+        VLC = new LibVLC();
+        mediaPlayer = new MediaPlayer(VLC);
 
         // Valores predeterminados
         Pausa = false;
@@ -73,7 +78,7 @@ public partial class MainWindow : Window
         Aleatorio = true;
         RepetirCanción = false;
         ElejidoPorLista = false;
-        MoviendoTiempoCanción = false;
+        //MoviendoTiempoCanción = false;
         ÍndiceAleatorioActual = 0;
 
         TamañoTiempoNormalActual = true;
@@ -88,7 +93,7 @@ public partial class MainWindow : Window
 
         // Volumen predeterminado
         volumen.Value = 0.8;
-        mediaPlayer.Volume = volumen.Value;
+        mediaPlayer.Volume = (int)volumen.Value;
 
         // Tiempo canción
         contador = new Timer
@@ -109,7 +114,7 @@ public partial class MainWindow : Window
         ActualizarListaCarpetas();
 
         // Escuchar teclado
-        oyente = new OyenteTeclado(EnTecla);
+        //oyente = new OyenteTeclado(EnTecla);
     }
 
     private void IntervaloTiempo(object? sender, EventArgs? e)
@@ -118,12 +123,12 @@ public partial class MainWindow : Window
             return;
 
         // TaskCanceledException
-        try
+        /*try
         {
             if (Application.Current != null)
                 Application.Current.Dispatcher.Invoke(mostrarEstadoCanción);
         }
-        catch{ }
+        catch { }*/
     }
 
 
@@ -172,8 +177,7 @@ public partial class MainWindow : Window
             return;
 
         // Mitad final repite canción
-        var mitadFinal = (mediaPlayer.Position.TotalSeconds / canciónActual.Duración.TotalSeconds) > 0.5;
-        if (mitadFinal)
+        if (mediaPlayer.Position > 0.5)
         {
             EnfocarCanción(ÍndiceAleatorioActual);
         }
@@ -219,7 +223,7 @@ public partial class MainWindow : Window
         else
             volumen.Value = VolumenAnterior;
 
-        mediaPlayer.Volume = volumen.Value;
+        mediaPlayer.Volume = (int)volumen.Value;
         MostrarVolumen();
     }
 
@@ -247,7 +251,7 @@ public partial class MainWindow : Window
         nombreAutor.Text = "Autor";
         nombreAlbum.Text = "Álbum";
         nombreDetalles.Text = string.Empty;
-        imgCarátula.Source = ObtenerSinCarátula();
+        //imgCarátula.Source = ObtenerSinCarátula();
     }
 
     private void EnClicAleatorio(object? sender, RoutedEventArgs e)
@@ -269,13 +273,13 @@ public partial class MainWindow : Window
         RepetirCanción = !RepetirCanción;
         MostrarRepetir();
     }
-
+    /*
     private void EnCambioVolumen(object sender, RoutedPropertyChangedEventArgs<double> e)
     {
-        mediaPlayer.Volume = volumen.Value;
+        mediaPlayer.Volume = (int)volumen.Value;
         MostrarVolumen();
     }
-
+    
     private void EnMoverTiempoCanción(object sender, DragStartedEventArgs e)
     {
         if (Parado)
@@ -312,12 +316,12 @@ public partial class MainWindow : Window
         duraciónObjetivo.Text = string.Empty;
         MoviendoTiempoCanción = false;
         mediaPlayer.Position = TimeSpan.FromSeconds(porcentajeDuraciónActual.Value * canciónActual.Duración.TotalSeconds);
-    }
+    }*/
 
     private void EnfocarCanción(int nuevoÍndice)
     {
         // Permite repetir canción
-        if(nuevoÍndice == ÍndiceAleatorioActual)
+        if (nuevoÍndice == ÍndiceAleatorioActual)
             listaCanciones.SelectedItem = null;
 
         listaCanciones.SelectedItem = cancionesActuales[nuevoÍndice];
@@ -357,8 +361,8 @@ public partial class MainWindow : Window
         }
 
         // Reproducción
-        mediaPlayer.Open(new Uri(canción.Ruta));
-        mediaPlayer.MediaEnded += new EventHandler(SiguienteCanción);
+        mediaPlayer.Media = new Media(VLC, canción.Ruta);
+        mediaPlayer.EndReached += SiguienteCanción;
         mediaPlayer.Play();
         contador.Start();
         Pausa = false;
@@ -401,19 +405,19 @@ public partial class MainWindow : Window
         cancionesActuales = listaFinal;
         ÍndiceAleatorioActual = 0;
     }
-
+    /*
     // Se reconoce primero el clic antes del cambio de lista
     private void EnClicCanción(object sender, MouseEventArgs e)
     {
         ElejidoPorLista = true;
-    }
+    }*/
 
 
     // --- Carpetas ---
 
 
     private void EnClicAgregarCarpeta(object sender, RoutedEventArgs e)
-    {
+    {/*
         var dialog = new CommonOpenFileDialog
         {
             DefaultDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
@@ -455,11 +459,11 @@ public partial class MainWindow : Window
             ActualizarCarpetasGuardadas(carpetasActuales);
             AgregarCanciones(rutaCarpeta);
             ActualizarListaCarpetas();
-        }
+        }*/
     }
 
     private void EnClicAgregarAutor(object sender, RoutedEventArgs e)
-    {
+    {/*
         var dialog = new CommonOpenFileDialog
         {
             DefaultDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
@@ -507,7 +511,7 @@ public partial class MainWindow : Window
             ActualizarCarpetasGuardadas(carpetasActuales);
             AgregarCanciones(rutaCarpeta);
             ActualizarListaCarpetas();
-        }
+        }*/
     }
 
     private void EnClicEliminarCarpeta(object sender, RoutedEventArgs e)
@@ -615,18 +619,18 @@ public partial class MainWindow : Window
 
     private void MostrarEstadoCanción()
     {
-        duraciónActual.Text = TimeSpanATexto(mediaPlayer.Position);
-       
+        duraciónActual.Text = TimeSpanATexto(mediaPlayer.Position * canciónActual.Duración);
+
         // Más de una hora
         if (duraciónActual.Text.Length > 5 && TamañoTiempoNormalActual)
             EnCambioTamaño(null, null);
         else if (duraciónActual.Text.Length <= 5 && !TamañoTiempoNormalActual)
             EnCambioTamaño(null, null);
-        
+
         if (MoviendoTiempoCanción)
         {
             duraciónObjetivo.Text = TimeSpanATexto(canciónActual.Duración * porcentajeDuraciónActual.Value);
-            
+
             // Más de una hora
             if (duraciónObjetivo.Text.Length > 5 && TamañoTiempoNormalObjetivo)
                 EnCambioTamaño(null, null);
@@ -635,8 +639,8 @@ public partial class MainWindow : Window
             return;
         }
 
-        if(canciónActual.Duración.TotalSeconds > 0)
-            porcentajeDuraciónActual.Value = (mediaPlayer.Position.TotalSeconds / canciónActual.Duración.TotalSeconds);
+        if (canciónActual.Duración.TotalSeconds > 0)
+            porcentajeDuraciónActual.Value = mediaPlayer.Position;
     }
 
     private void MostrarDatosCanción(Canción canción, string nombreArchivo)
@@ -652,13 +656,13 @@ public partial class MainWindow : Window
         if (imágenes.Length > 0 && imágenes[0].Data.Data != null)
         {
             var imagenÁlbum = (byte[])(imágenes[0].Data.Data);
-            imgCarátula.Source = ByteAImagen(imagenÁlbum);
-            colorCanción.Color = ObtenerColorDominante(imagenÁlbum);
+            //imgCarátula.Source = ByteAImagen(imagenÁlbum);
+            //colorCanción.Color = ObtenerColorDominante(imagenÁlbum);
         }
         else
         {
-            imgCarátula.Source = ObtenerSinCarátula();
-            colorCanción.Color = ColorGris;
+            //imgCarátula.Source = ObtenerSinCarátula();
+            //colorCanción.Color = ColorGris;
         }
 
         // Datos
@@ -671,7 +675,7 @@ public partial class MainWindow : Window
         // Más de una hora
         if (duraciónCompleta.Text.Length > 5 && TamañoTiempoNormalCompleta)
             EnCambioTamaño(null, null);
-        else if(duraciónCompleta.Text.Length <= 5 && !TamañoTiempoNormalCompleta)
+        else if (duraciónCompleta.Text.Length <= 5 && !TamañoTiempoNormalCompleta)
             EnCambioTamaño(null, null);
     }
 
@@ -696,7 +700,7 @@ public partial class MainWindow : Window
 
         listaCanciones.ItemsSource = cancionesActuales.OrderBy(o => o.Índice);
 
-        if(Aleatorio)
+        if (Aleatorio)
             AleatorizarCanciones();
 
         ContarCancionesEnCarpeta();
@@ -706,7 +710,7 @@ public partial class MainWindow : Window
     {
         var duracion = new TimeSpan();
 
-        for(int i=0; i < cancionesActuales.Count; i++)
+        for (int i = 0; i < cancionesActuales.Count; i++)
         {
             duracion += cancionesActuales[i].Duración;
         }
@@ -726,53 +730,38 @@ public partial class MainWindow : Window
         else
             botónSilencio.Text = "🔇";
     }
-
+    
     private void MostrarAleatorio()
-    {
+    {/*
         if (Aleatorio)
             botónAleatorio.Foreground = BrochaResaltado;
         else
-            botónAleatorio.Foreground = Brushes.Black;
+            botónAleatorio.Foreground = Brushes.Black;*/
     }
 
     private void MostrarRepetir()
-    {
+    {/*
         if (RepetirCanción)
             botónRepetir.Foreground = BrochaResaltado;
         else
-            botónRepetir.Foreground = Brushes.Black;
+            botónRepetir.Foreground = Brushes.Black;*/
     }
 
-    private void BloquearBotones(object sender, KeyEventArgs e)
-    {
+    private void BloquearBotones(object sender/*, KeyEventArgs e*/)
+    {/*
         if (e.Key == Key.PageUp || e.Key == Key.PageDown)
-            e.Handled = true;
+            e.Handled = true;*/
     }
 
     // Barra título
-    private void EnClicMinimizar(object sender, RoutedEventArgs e)
-    {
-        Application.Current.MainWindow.WindowState = WindowState.Minimized;
-    }
-
-    private void EnClicMaximizar(object sender, RoutedEventArgs e)
-    {
-        if (Application.Current.MainWindow.WindowState == WindowState.Maximized)
-            Application.Current.MainWindow.WindowState = WindowState.Normal;
-        else
-            Application.Current.MainWindow.WindowState = WindowState.Maximized;
-    }
-
     private void EnClicCerrar(object sender, RoutedEventArgs e)
     {
         mediaPlayer.Stop();
-        oyente.DesvincularTeclado();
-
-        Application.Current.Shutdown();
+        //oyente.DesvincularTeclado();
     }
-
+    
     public void EnCambioTamaño(object? sender, SizeChangedEventArgs? e)
-    {
+    {/*
         var pantallaActual = System.Windows.Forms.Screen.FromHandle(new WindowInteropHelper(this).Handle);
 
         // Diferencia bordes
@@ -793,7 +782,7 @@ public partial class MainWindow : Window
             anchoPantalla = Width + Height;
             botónMaximizar.Text = "🗖";
         }
-        
+
         // Fuentes
         Application.Current.Resources.Remove("fuentePrincipal");
 
@@ -813,12 +802,12 @@ public partial class MainWindow : Window
         Application.Current.Resources.Add("fuenteBotonesControlPequeño", (anchoPantalla / fuenteBotonesControlPequeño) * multiplicador);
         Application.Current.Resources.Add("fuenteBotonesControlGrande", (anchoPantalla / fuenteBotonesControlGrande) * multiplicador);
         Application.Current.Resources.Add("fuenteBotonesCarpeta", Math.Clamp(((anchoPantalla / fuenteBotonesCarpeta) * multiplicador), 5, 40));
-        Application.Current.Resources.Add("fuenteVolumen",        (anchoPantalla / fuenteVolumen) * multiplicador);
-        Application.Current.Resources.Add("fuenteNúmeroVolumen",  (anchoPantalla / fuenteNúmeroVolumen) * multiplicador);
-        
-        Application.Current.Resources.Add("fuenteNombreCanción",  (anchoPantalla / fuenteNombreCanción) * multiplicador);
-        Application.Current.Resources.Add("fuenteAutorCanción",  (anchoPantalla / fuenteAutorCanción) * multiplicador);
-        Application.Current.Resources.Add("fuenteÁlbumCanción",  (anchoPantalla / fuenteÁlbumCanción) * multiplicador);
+        Application.Current.Resources.Add("fuenteVolumen", (anchoPantalla / fuenteVolumen) * multiplicador);
+        Application.Current.Resources.Add("fuenteNúmeroVolumen", (anchoPantalla / fuenteNúmeroVolumen) * multiplicador);
+
+        Application.Current.Resources.Add("fuenteNombreCanción", (anchoPantalla / fuenteNombreCanción) * multiplicador);
+        Application.Current.Resources.Add("fuenteAutorCanción", (anchoPantalla / fuenteAutorCanción) * multiplicador);
+        Application.Current.Resources.Add("fuenteÁlbumCanción", (anchoPantalla / fuenteÁlbumCanción) * multiplicador);
 
         // Cambio tamaño tiempos
         Application.Current.Resources.Remove("fuenteTiempoActual");
@@ -856,11 +845,11 @@ public partial class MainWindow : Window
         {
             TamañoTiempoNormalObjetivo = true;
             Application.Current.Resources.Add("fuenteTiempoObjetivo", (anchoPantalla / fuenteTiempoObjetivo) * multiplicador);
-        }
+        }*/
     }
 
     // --- Botones fuera de foco ---
-
+    /*
     private void EnTecla(object? sender, KeyPressedArgs? e)
     {
         if (e == null)
@@ -899,5 +888,5 @@ public partial class MainWindow : Window
                 EnClicRepetir(sender, RoutedEvent);
                 break;
         }
-    }
+    }*/
 }

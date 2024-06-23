@@ -1,14 +1,16 @@
 ﻿// YerkoAndrei
-using System;
 using System.IO;
-using System.Linq;
 using System.Drawing;
 using System.Text.Json;
 using System.Windows;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
+//using System.Windows.Media;
+//using System.Windows.Media.Imaging;
+//using Color = System.Windows.Media.Color;
+using Avalonia.Interactivity;
+using Avalonia.Media;
 using System.Collections.Generic;
-using Color = System.Windows.Media.Color;
+using System.Linq;
+using System;
 
 namespace Choike;
 
@@ -16,13 +18,13 @@ public static class Constantes
 {
     public static string ExtensionesMúsica = "*.mp3";
     private static string NombreCarpeta = "Choike";
-    private static string ArchivoGuardado = "carpetas.choike";
+    private static string ArchivoGuardado = "listaCarpetas.choike";
 
     private static string ColorCarpeta = "#ffc8ff";
     private static string ColorAutor = "#ffffc8";
 
-    public static Color ColorGris = Color.FromRgb(120, 120, 100);
-    public static System.Windows.Media.Brush BrochaResaltado = new SolidColorBrush(Color.FromRgb(200, 200, 100));
+    //public static Color ColorGris = Color.FromRgb(120, 120, 100);
+    //public static System.Windows.Media.Brush BrochaResaltado = new SolidColorBrush(Color.FromRgb(200, 200, 100));
 
     public static RoutedEventArgs RoutedEvent = new();
     public static EnumerationOptions EnumerationOptions = new()
@@ -52,7 +54,7 @@ public static class Constantes
         carpeta,
         autor,
     }
-
+    /*
     public static ImageSource ByteAImagen(byte[] byteData)
     {
         try
@@ -83,10 +85,10 @@ public static class Constantes
         ImageSource imgSrc = bitImg as ImageSource;
         return imgSrc;
     }
-
+    */
     public static List<Carpeta> CargarCarpetasGuardadas()
     {
-        var carpetasGuardadas = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), NombreCarpeta);
+        var carpetasGuardadas = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), NombreCarpeta);
         var archivoCarpetasGuardadas = Path.Combine(carpetasGuardadas, ArchivoGuardado);
 
         if (!Directory.Exists(carpetasGuardadas))
@@ -101,7 +103,7 @@ public static class Constantes
             var json = File.ReadAllText(archivoCarpetasGuardadas);
             var array = JsonSerializer.Deserialize<Carpeta[]>(json);
 
-            if(array != null)
+            if (array != null)
                 return array.ToList();
             else
                 return new List<Carpeta>();
@@ -150,7 +152,7 @@ public static class Constantes
                 return ColorAutor;
         }
     }
-
+    /*
     public static Color ObtenerColorDominante(byte[] byteData)
     {
         try
@@ -196,5 +198,5 @@ public static class Constantes
         {
             return ColorGris;
         }
-    }
+    }*/
 }

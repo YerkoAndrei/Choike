@@ -1,24 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
-    <ImplicitUsings>disable</ImplicitUsings>
-    <UseWPF>true</UseWPF>
-    <ApplicationIcon>Arte\Choike.ico</ApplicationIcon>
-    <DelaySign>True</DelaySign>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
+  
   <ItemGroup>
+    <AvaloniaResource Include="Assets\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="$(AvaloniaVersion)" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="$(AvaloniaVersion)" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="$(AvaloniaVersion)" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+
+    <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />
+    <PackageReference Include="LibVLCSharp" Version="3.8.5" />
     <PackageReference Include="TagLibSharp" Version="2.3.0" />
-    <PackageReference Include="WindowsAPICodePack" Version="8.0.4" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Arte\1FAB6.png" />
-    <Resource Include="Arte\Choike.ico" />
-    <Resource Include="Arte\SinCarátula.png" />
-  </ItemGroup>
-
 </Project>

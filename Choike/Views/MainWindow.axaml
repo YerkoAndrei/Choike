@@ -1,0 +1,191 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Choike.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="clr-namespace:Choike.Views"
+        mc:Ignorable="d" d:DesignWidth="1280" d:DesignHeight="720"
+        x:Class="Choike.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Choike"
+        FontSize="18"
+        WindowStartupLocation="CenterScreen"
+        ExtendClientAreaToDecorationsHint="True">
+
+  <!--Error pantalla completa-->
+  <Window.Styles>
+    <Style Selector="Window[WindowState=Maximized]">
+      <Setter Property="Padding" Value="8" />
+    </Style>
+    
+  </Window.Styles>
+  
+  <Grid ColumnDefinitions="1.6*, 5.7*, 2.7*" RowDefinitions="24, 8.5*, 1.5*">
+    
+    <!--Barra Título-->
+        <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" 
+              ColumnDefinitions="1.85*, 8.35*, 45, 45, 45">
+
+            <!--Título-->
+          <!--<Image Width="29" Height="29" Grid.Column="0" HorizontalAlignment="Left" Stretch="Uniform" Margin="7,-2,0,0"/>-->
+            
+            <TextBlock Grid.Column="0" HorizontalAlignment="Center" Margin="0,4,0,0"
+                       Text="CHOIKE" FontSize="20" />
+        </Grid>
+
+    <!--Carpetas-->
+    <Grid Grid.Row="1" Grid.Column="0" RowDefinitions="8.5*, 0.5*, 1*">
+
+      <!--Lista Carpetas-->
+      <ListBox Grid.Row="0" x:Name="listaCarpetas" SelectionMode="Single" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+               Background="Transparent" BorderThickness="1" Margin="5,5,2,5">
+      </ListBox>
+
+      <!--Datos carpeta-->
+      <Grid Grid.Row="1">
+        <TextBlock x:Name="cantidadCanciones" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0,0,0" Text="0 Canciones"/>
+        <TextBlock x:Name="duraciónCanciones" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,5,0" Text="00:00"/>
+      </Grid>
+
+      <!--Botones Carpetas-->
+      <Grid Grid.Row="2" Margin="5,5,5,5" ColumnDefinitions="3.8*, 3.8*, 2.4*">
+        <Button Grid.Column="0" Margin="2,0,2,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+          <TextBlock Text="📁+" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Button>
+        <Button Grid.Column="1" Margin="2,0,2,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+          <TextBlock Text="🎙+" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Button>
+        <Button Grid.Column="2" Margin="2,0,2,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+          <TextBlock Text="-" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Button>
+      </Grid>
+    </Grid>
+
+    <!--Lista Canciones-->
+    <Grid Grid.Row="1" Grid.Column="1">
+      <ListBox Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" SelectionMode="Single"
+               Background="Transparent" Margin="2,5,5,5"               
+               x:Name="listaCanciones" BorderThickness="1">
+        <ListBox.ItemTemplate>
+          <DataTemplate>
+            <Grid ColumnDefinitions="4*, 3*, 2*, 1*">
+              <TextBlock Grid.Column="0" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" />
+              <TextBlock Grid.Column="1" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" />
+              <TextBlock Grid.Column="2" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" FontStyle="Italic"/>
+              <TextBlock Grid.Column="3" TextTrimming="CharacterEllipsis" HorizontalAlignment="Right" />
+            </Grid>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
+    </Grid>
+
+
+    <!--Canciones-->
+    <Grid Grid.Row="1" Grid.Column="2" RowDefinitions="5*, 5*">
+
+      <!--Carátula-->
+      <Image Grid.Row="0" HorizontalAlignment="Center" Margin="5,5,5,5"
+              x:Name="imgCarátula"/>
+
+      <!--Info Canción-->
+      <StackPanel Grid.Row="1" Orientation="Vertical" VerticalAlignment="Center" Margin="0,0,0,50">
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap"  Margin="50,0,10,0"
+                   x:Name="nombreCanción" Text="Canción"/>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Margin="50,0,10,0"
+                   x:Name="nombreAutor" Text="Autor"/>
+        <TextBlock HorizontalAlignment="Left" Foreground="Transparent"/>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" FontStyle="Italic" Margin="50,0,10,0"
+                   x:Name="nombreAlbum" Text="Álbum"/>
+      </StackPanel>
+      <TextBlock Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" TextWrapping="Wrap" Margin="50,0,10,2"
+                     x:Name="nombreDetalles" Text="Detalles"/>
+    </Grid>
+
+    
+    <!--Control-->
+    <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="6" ColumnDefinitions="0.6*, 8.8*, 0.6*" RowDefinitions="3*, 7*">
+
+      <!--Tiempo Canción-->
+      <TextBlock Grid.Row="0" Grid.Column="0" x:Name="duraciónActual" VerticalAlignment="Center" Text="00:00" Margin="10,0,0,0"/>
+      <TextBlock Grid.Row="0" Grid.Column="2" x:Name="duraciónCompleta" VerticalAlignment="Center" Text="00:00" Margin="0,0,10,0"/>
+
+      <TextBlock Grid.Row="1" Grid.Column="0" x:Name="duraciónObjetivo" VerticalAlignment="Top" Text="00:00" Margin="10,0,0,0"/>
+
+      <Slider Grid.Row="0" Grid.Column="1"
+              Maximum="1" SmallChange="0.005" LargeChange="0.01" TickFrequency="0.1"
+              Focusable="False"
+              x:Name="porcentajeDuraciónActual" />
+
+      <!--Botones Control-->
+      <Grid Grid.Row="1" Grid.Column="1" ColumnDefinitions="7*, 7*, 7*, 17*, 22*, 17*, 7*, 16*">
+
+        <Button Grid.Column="0" Margin="6,3,6,7"
+                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+          <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent"
+                ColumnDefinitions="1*, 8*, 1*" RowDefinitions="2*, 8*, 2*">
+
+            <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"
+                   x:Name="botónAleatorio" Text="🔀" FontSize="38"/>
+          </Grid>
+        </Button>
+        <Button Grid.Column="1" Margin="6,3,6,7"
+                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+          <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent"
+                ColumnDefinitions="1*, 8*, 1*" RowDefinitions="3*, 8*, 1*">
+
+            <TextBlock Grid.Row="1" Grid.Column="1"  HorizontalAlignment="Center" VerticalAlignment="Center"
+                   x:Name="botónRepetir" Text="🔂"/>
+          </Grid>
+        </Button>
+        <Button Grid.Column="2" Margin="6,3,6,7"
+                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+          <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent"
+                ColumnDefinitions="1*, 8*, 1*" RowDefinitions="2*, 8*, 2*">
+
+            <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"
+                   Text="⏹"/>
+          </Grid>
+        </Button>
+        <Button Grid.Column="3" Margin="6,3,6,7"
+                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+          <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent"
+                ColumnDefinitions="3.5*, 3*, 3.5*" RowDefinitions="1*, 8*, 1*">
+
+            <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"
+                   Text="⏪"/>
+          </Grid>
+        </Button>
+        <Button Grid.Column="4" Margin="6,3,6,7"
+                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+          <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent"
+                ColumnDefinitions="4*, 2*, 4*" RowDefinitions="1*, 8*, 1*">
+
+            <TextBlock Grid.Row="1" Grid.Column="1"  HorizontalAlignment="Center" VerticalAlignment="Center"
+                   x:Name="botónPausa" Text="⏯"/>
+          </Grid>
+        </Button>
+        <Button Grid.Column="5" Margin="6,3,6,7"
+                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+          <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent"
+                ColumnDefinitions="3.5*, 3*, 3.5*" RowDefinitions="1*, 8*, 1*">
+
+            <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"
+                   Text="⏩"/>
+          </Grid>
+        </Button>
+        <Button Grid.Column="6" Margin="6,3,6,7" 
+                HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+          <TextBlock Grid.Row="1" Grid.Column="1"  HorizontalAlignment="Center" VerticalAlignment="Center"
+                  x:Name="botónSilencio" Text="🔊"/>
+        </Button>
+
+        <Slider Grid.Column="7" Margin="10,0,10,0"
+                Maximum="1" SmallChange="0.05" LargeChange="0.05" TickFrequency="0.25" Focusable="False"
+                x:Name="volumen"  />
+
+        <TextBlock Grid.Column="7" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,2.5"
+                   x:Name="volumenActual" Text="80" />
+      </Grid>
+    </Grid>
+  </Grid>  
+</Window>
