@@ -10,7 +10,7 @@ Posible futuras funciones.
 Código Abierto.
 
 ## Descargar
-<a href="https://github.com/YerkoAndrei/Choike/releases/download/estable/InstaladorChoike.msi">Instalador</a>
+<a href="https://github.com/YerkoAndrei/Choike/releases/download/1.7/InstaladorChoike.msi">Instalador</a>
 
 Versión: 1.7 (x64)
 
