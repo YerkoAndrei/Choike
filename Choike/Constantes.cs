@@ -1,10 +1,10 @@
 ﻿// YerkoAndrei
 using System.IO;
 using System.Drawing;
+using System.Text.Json;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Newtonsoft.Json;
 using Color = System.Windows.Media.Color;
 
 namespace Choike;
@@ -96,7 +96,7 @@ public static class Constantes
         {
             // Carpetas guardadas
             var json = File.ReadAllText(archivoCarpetasGuardadas);
-            var array = JsonConvert.DeserializeObject<Carpeta[]>(json);
+            var array = JsonSerializer.Deserialize<Carpeta[]>(json);
 
             if(array != null)
                 return array.ToList();
@@ -117,7 +117,7 @@ public static class Constantes
         if (!Directory.Exists(carpetasGuardadas))
             Directory.CreateDirectory(carpetasGuardadas);
 
-        var json = JsonConvert.SerializeObject(listaCarpetas.ToArray());
+        var json = JsonSerializer.Serialize(listaCarpetas.ToArray());
         File.WriteAllText(archivoCarpetasGuardadas, json);
     }
 
