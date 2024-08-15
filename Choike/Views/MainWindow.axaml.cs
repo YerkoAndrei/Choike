@@ -93,7 +93,7 @@ public partial class MainWindow : Window
 
         // Volumen predeterminado
         volumen.Value = 0.8;
-        mediaPlayer.Volume = (int)volumen.Value;
+        mediaPlayer.Volume = (int)(volumen.Value * 100);
 
         // Tiempo canción
         contador = new Timer
@@ -223,7 +223,7 @@ public partial class MainWindow : Window
         else
             volumen.Value = VolumenAnterior;
 
-        mediaPlayer.Volume = (int)volumen.Value;
+        mediaPlayer.Volume = (int)(volumen.Value * 100);
         MostrarVolumen();
     }
 
@@ -276,7 +276,7 @@ public partial class MainWindow : Window
     /*
     private void EnCambioVolumen(object sender, RoutedPropertyChangedEventArgs<double> e)
     {
-        mediaPlayer.Volume = (int)volumen.Value;
+        mediaPlayer.Volume = (int)(volumen.Value * 100);
         MostrarVolumen();
     }
     
