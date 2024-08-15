@@ -4,10 +4,11 @@
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
-
   
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
+    <AvaloniaResource Include="Arte\Choike.ico" />
+    <AvaloniaResource Include="Arte\SinCarátula.png" />
   </ItemGroup>
 
   <ItemGroup>

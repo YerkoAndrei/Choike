@@ -94,7 +94,8 @@
 
       <!--Carátula-->
       <Image Grid.Row="0" HorizontalAlignment="Center" Margin="5,5,5,5"
-              x:Name="imgCarátula"/>
+              x:Name="imgCarátula" Source="/Arte/SinCarátula.png"
+             RenderOptions.BitmapInterpolationMode="HighQuality"/>
 
       <!--Info Canción-->
       <StackPanel Grid.Row="1" Orientation="Vertical" VerticalAlignment="Center" Margin="0,0,0,50">

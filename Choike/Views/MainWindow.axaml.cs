@@ -251,7 +251,7 @@ public partial class MainWindow : Window
         nombreAutor.Text = "Autor";
         nombreAlbum.Text = "Álbum";
         nombreDetalles.Text = string.Empty;
-        //imgCarátula.Source = ObtenerSinCarátula();
+        imgCarátula.Source = ObtenerSinCarátula();
     }
 
     private void EnClicAleatorio(object? sender, RoutedEventArgs e)
@@ -649,12 +649,12 @@ public partial class MainWindow : Window
         if (imágenes.Length > 0 && imágenes[0].Data.Data != null)
         {
             var imagenÁlbum = (byte[])(imágenes[0].Data.Data);
-            //imgCarátula.Source = ByteAImagen(imagenÁlbum);
+            imgCarátula.Source = ByteAImagen(imagenÁlbum);
             //colorCanción.Color = ObtenerColorDominante(imagenÁlbum);
         }
         else
         {
-            //imgCarátula.Source = ObtenerSinCarátula();
+            imgCarátula.Source = ObtenerSinCarátula();
             //colorCanción.Color = ColorGris;
         }
 

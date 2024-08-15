@@ -11,6 +11,11 @@ using Avalonia.Media;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using Avalonia.Platform;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Avalonia;
+using Avalonia.Media.Imaging;
 
 namespace Choike;
 
@@ -54,19 +59,14 @@ public static class Constantes
         carpeta,
         autor,
     }
-    /*
-    public static ImageSource ByteAImagen(byte[] byteData)
+
+    public static Bitmap ByteAImagen(byte[] byteData)
     {
         try
         {
-            var bitImg = new BitmapImage();
-            var ms = new MemoryStream(byteData);
-            bitImg.BeginInit();
-            bitImg.StreamSource = ms;
-            bitImg.EndInit();
-
-            ImageSource imgSrc = bitImg as ImageSource;
-            return imgSrc;
+            var stream = new MemoryStream(byteData);
+            var bitmap = new Bitmap(stream);
+            return bitmap;
         }
         catch
         {
@@ -74,18 +74,11 @@ public static class Constantes
         }
     }
 
-    public static ImageSource ObtenerSinCarátula()
+    public static Bitmap ObtenerSinCarátula()
     {
-        var bitImg = new BitmapImage();
-
-        bitImg.BeginInit();
-        bitImg.UriSource = new Uri("pack://application:,,,/Arte/SinCarátula.png");
-        bitImg.EndInit();
-
-        ImageSource imgSrc = bitImg as ImageSource;
-        return imgSrc;
+        return new Bitmap(AssetLoader.Open(new Uri("avares://Arte/SinCarátula.png")));
     }
-    */
+
     public static List<Carpeta> CargarCarpetasGuardadas()
     {
         var carpetasGuardadas = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), NombreCarpeta);
