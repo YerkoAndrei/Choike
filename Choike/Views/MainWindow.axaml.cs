@@ -416,102 +416,95 @@ public partial class MainWindow : Window
     // --- Carpetas ---
 
 
-    private void EnClicAgregarCarpeta(object sender, RoutedEventArgs e)
-    {/*
-        var dialog = new CommonOpenFileDialog
+    private async void EnClicAgregarCarpeta(object sender, RoutedEventArgs e)
+    {
+        var diálogo = new OpenFolderDialog
         {
-            DefaultDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
-            Title = "Agregar Carpeta",
-            Multiselect = false,
-            IsFolderPicker = true
+            Directory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+            Title = "Agregar Carpeta"
         };
 
-        if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+        var rutaCarpeta = await diálogo.ShowAsync(this);
+        if (string.IsNullOrEmpty(rutaCarpeta))
+            return;
+
+        var carpetaCortada = rutaCarpeta.Split('\\');
+        var nombreCarpeta = carpetaCortada[carpetaCortada.Length - 1];
+
+        // Si la carpeta existe
+        if (!Directory.Exists(rutaCarpeta))
+            return;
+
+        // Evita repetir carpetas
+        if (carpetasActuales.Any(o => o.Ruta == rutaCarpeta))
+            return;
+
+        // Agregar carpeta seleccionada
+        var nuevaCarpeta = new Carpeta
         {
-            var rutaCarpeta = dialog.FileName;
-            if (rutaCarpeta == null)
-                return;
+            Tipo = TipoCarpeta.carpeta,
+            Ruta = rutaCarpeta,
+            Nombre = nombreCarpeta
+        };
+        nuevaCarpeta.Color = ObtenerColorPorTipoCarpeta(nuevaCarpeta.Tipo);
 
-            var carpetaCortada = rutaCarpeta.Split('\\');
-            var nombreCarpeta = carpetaCortada[carpetaCortada.Length - 1];
+        carpetasActuales.Add(nuevaCarpeta);
+        carpetaActual = nuevaCarpeta;
 
-            // Si la carpeta existe
-            if (!Directory.Exists(rutaCarpeta))
-                return;
-
-            // Evita repetir carpetas
-            if (carpetasActuales.Any(o => o.Ruta == rutaCarpeta))
-                return;
-
-            // Agregar carpeta seleccionada
-            var nuevaCarpeta = new Carpeta
-            {
-                Tipo = TipoCarpeta.carpeta,
-                Ruta = rutaCarpeta,
-                Nombre = nombreCarpeta
-            };
-            nuevaCarpeta.Color = ObtenerColorPorTipoCarpeta(nuevaCarpeta.Tipo);
-
-            carpetasActuales.Add(nuevaCarpeta);
-            carpetaActual = nuevaCarpeta;
-
-            // Agregar canciones de carpeta
-            ActualizarCarpetasGuardadas(carpetasActuales);
-            AgregarCanciones(rutaCarpeta);
-            ActualizarListaCarpetas();
-        }*/
+        // Agregar canciones de carpeta
+        ActualizarCarpetasGuardadas(carpetasActuales);
+        AgregarCanciones(rutaCarpeta);
+        ActualizarListaCarpetas();
     }
 
-    private void EnClicAgregarAutor(object sender, RoutedEventArgs e)
-    {/*
-        var dialog = new CommonOpenFileDialog
+    private async void EnClicAgregarAutor(object sender, RoutedEventArgs e)
+    {
+        var diálogo = new OpenFileDialog
         {
-            DefaultDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+            Directory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
             Title = "Agregar Autor",
-            Multiselect = false
+            AllowMultiple = false
         };
 
-        if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+        var resultado = await diálogo.ShowAsync(this);
+        var rutaArchivo = resultado[0];
+        if (string.IsNullOrEmpty(rutaArchivo))
+            return;
+
+        var rutaCortada = rutaArchivo.Split('\\');
+        var rutaCarpeta = rutaArchivo.Replace(rutaCortada[rutaCortada.Length - 1], string.Empty);
+
+        // Si la carpeta existe
+        if (!Directory.Exists(rutaCarpeta))
+            return;
+
+        // Si contiene autores
+        var tagLib = TagLib.File.Create(rutaArchivo);
+        if (tagLib.Tag.Performers.Length <= 0)
+            return;
+
+        var nombreAutor = tagLib.Tag.Performers[0];
+
+        // Evita repetir autor
+        if (carpetasActuales.Any(o => o.Nombre == nombreAutor))
+            return;
+
+        // Agregar autor seleccionado
+        var nuevaCarpeta = new Carpeta
         {
-            var rutaArchivo = dialog.FileName;
-            if (rutaArchivo == null)
-                return;
+            Tipo = TipoCarpeta.autor,
+            Ruta = rutaCarpeta,
+            Nombre = nombreAutor
+        };
+        nuevaCarpeta.Color = ObtenerColorPorTipoCarpeta(nuevaCarpeta.Tipo);
 
-            var rutaCortada = rutaArchivo.Split('\\');
-            var rutaCarpeta = rutaArchivo.Replace(rutaCortada[rutaCortada.Length - 1], string.Empty);
+        carpetasActuales.Add(nuevaCarpeta);
+        carpetaActual = nuevaCarpeta;
 
-            // Si la carpeta existe
-            if (!Directory.Exists(rutaCarpeta))
-                return;
-
-            // Si contiene autores
-            var tagLib = TagLib.File.Create(rutaArchivo);
-            if (tagLib.Tag.Performers.Length <= 0)
-                return;
-
-            var nombreAutor = tagLib.Tag.Performers[0];
-
-            // Evita repetir autor
-            if (carpetasActuales.Any(o => o.Nombre == nombreAutor))
-                return;
-
-            // Agregar autor seleccionado
-            var nuevaCarpeta = new Carpeta
-            {
-                Tipo = TipoCarpeta.autor,
-                Ruta = rutaCarpeta,
-                Nombre = nombreAutor
-            };
-            nuevaCarpeta.Color = ObtenerColorPorTipoCarpeta(nuevaCarpeta.Tipo);
-
-            carpetasActuales.Add(nuevaCarpeta);
-            carpetaActual = nuevaCarpeta;
-
-            // Agregar canciones de autor
-            ActualizarCarpetasGuardadas(carpetasActuales);
-            AgregarCanciones(rutaCarpeta);
-            ActualizarListaCarpetas();
-        }*/
+        // Agregar canciones de autor
+        ActualizarCarpetasGuardadas(carpetasActuales);
+        AgregarCanciones(rutaCarpeta);
+        ActualizarListaCarpetas();
     }
 
     private void EnClicEliminarCarpeta(object sender, RoutedEventArgs e)
@@ -523,7 +516,7 @@ public partial class MainWindow : Window
         ActualizarListaCarpetas();
     }
 
-    private void EnClicElegirCarpeta(object sender, RoutedEventArgs e)
+    private void EnClicSeleccionarCarpeta(object sender, SelectionChangedEventArgs e)
     {
         if (listaCarpetas.SelectedIndex < 0)
             return;
@@ -680,16 +673,17 @@ public partial class MainWindow : Window
     }
 
     private void ActualizarListaCarpetas()
-    {
+    {/*
         listaCarpetas.ItemsSource = null;
         listaCarpetas.Items.Clear();
         listaCarpetas.SelectedIndex = -1;
         listaCanciones.SelectedIndex = -1;
-
+        */
         carpetasActuales = carpetasActuales.OrderBy(o => o.Nombre).ToList();
         carpetasActuales = carpetasActuales.OrderBy(o => o.Tipo).ToList();
 
-        listaCarpetas.ItemsSource = carpetasActuales;
+        if (listaCarpetas.ItemsSource == null)
+            listaCarpetas.ItemsSource = carpetasActuales;
     }
 
     private void ActualizarListaCanciones()

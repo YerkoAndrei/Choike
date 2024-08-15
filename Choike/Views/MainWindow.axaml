@@ -37,8 +37,16 @@
     <Grid Grid.Row="1" Grid.Column="0" RowDefinitions="8.5*, 0.5*, 1*">
 
       <!--Lista Carpetas-->
-      <ListBox Grid.Row="0" x:Name="listaCarpetas" SelectionMode="Single" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+      <ListBox Grid.Row="0" x:Name="listaCarpetas" SelectionChanged="EnClicSeleccionarCarpeta"
+               SelectionMode="Single" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                Background="Transparent" BorderThickness="1" Margin="5,5,2,5">
+        <ListBox.ItemTemplate>
+          <DataTemplate>
+            <StackPanel Orientation="Horizontal">
+              <TextBlock Text="{Binding Nombre}" Foreground="{Binding Color}"/>
+            </StackPanel>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
       </ListBox>
 
       <!--Datos carpeta-->
@@ -49,13 +57,13 @@
 
       <!--Botones Carpetas-->
       <Grid Grid.Row="2" Margin="5,5,5,5" ColumnDefinitions="3.8*, 3.8*, 2.4*">
-        <Button Grid.Column="0" Margin="2,0,2,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+        <Button Grid.Column="0" Margin="2,0,2,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="EnClicAgregarCarpeta">
           <TextBlock Text="📁+" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Button>
-        <Button Grid.Column="1" Margin="2,0,2,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+        <Button Grid.Column="1" Margin="2,0,2,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="EnClicAgregarAutor">
           <TextBlock Text="🎙+" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Button>
-        <Button Grid.Column="2" Margin="2,0,2,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+        <Button Grid.Column="2" Margin="2,0,2,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="EnClicEliminarCarpeta">
           <TextBlock Text="-" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Button>
       </Grid>
@@ -63,16 +71,17 @@
 
     <!--Lista Canciones-->
     <Grid Grid.Row="1" Grid.Column="1">
-      <ListBox Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" SelectionMode="Single"
+      <ListBox Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" SelectionChanged="EnSeleccionarCanción"
+               SelectionMode="Single"
                Background="Transparent" Margin="2,5,5,5"               
                x:Name="listaCanciones" BorderThickness="1">
         <ListBox.ItemTemplate>
           <DataTemplate>
             <Grid ColumnDefinitions="4*, 3*, 2*, 1*">
-              <TextBlock Grid.Column="0" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" />
-              <TextBlock Grid.Column="1" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" />
-              <TextBlock Grid.Column="2" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" FontStyle="Italic"/>
-              <TextBlock Grid.Column="3" TextTrimming="CharacterEllipsis" HorizontalAlignment="Right" />
+              <TextBlock Grid.Column="0" Text="{Binding Nombre}" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" />
+              <TextBlock Grid.Column="1" Text="{Binding Autor}" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" />
+              <TextBlock Grid.Column="2" Text="{Binding Álbum}" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" FontStyle="Italic"/>
+              <TextBlock Grid.Column="3" Text="{Binding DuraciónFormateada}" TextTrimming="CharacterEllipsis" HorizontalAlignment="Right" />
             </Grid>
           </DataTemplate>
         </ListBox.ItemTemplate>
@@ -119,7 +128,7 @@
       <!--Botones Control-->
       <Grid Grid.Row="1" Grid.Column="1" ColumnDefinitions="7*, 7*, 7*, 17*, 22*, 17*, 7*, 16*">
 
-        <Button Grid.Column="0" Margin="6,3,6,7"
+        <Button Grid.Column="0" Margin="6,3,6,7" Click="EnClicAleatorio"
                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
           <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent"
                 ColumnDefinitions="1*, 8*, 1*" RowDefinitions="2*, 8*, 2*">
@@ -128,7 +137,7 @@
                    x:Name="botónAleatorio" Text="🔀" FontSize="38"/>
           </Grid>
         </Button>
-        <Button Grid.Column="1" Margin="6,3,6,7"
+        <Button Grid.Column="1" Margin="6,3,6,7" Click="EnClicRepetir"
                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
           <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent"
                 ColumnDefinitions="1*, 8*, 1*" RowDefinitions="3*, 8*, 1*">
@@ -137,7 +146,7 @@
                    x:Name="botónRepetir" Text="🔂"/>
           </Grid>
         </Button>
-        <Button Grid.Column="2" Margin="6,3,6,7"
+        <Button Grid.Column="2" Margin="6,3,6,7" Click="EnClicDetener"
                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
           <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent"
                 ColumnDefinitions="1*, 8*, 1*" RowDefinitions="2*, 8*, 2*">
@@ -146,7 +155,7 @@
                    Text="⏹"/>
           </Grid>
         </Button>
-        <Button Grid.Column="3" Margin="6,3,6,7"
+        <Button Grid.Column="3" Margin="6,3,6,7" Click="EnClicAnterior"
                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
           <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent"
                 ColumnDefinitions="3.5*, 3*, 3.5*" RowDefinitions="1*, 8*, 1*">
@@ -155,7 +164,7 @@
                    Text="⏪"/>
           </Grid>
         </Button>
-        <Button Grid.Column="4" Margin="6,3,6,7"
+        <Button Grid.Column="4" Margin="6,3,6,7" Click="EnClicPausa"
                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
           <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent"
                 ColumnDefinitions="4*, 2*, 4*" RowDefinitions="1*, 8*, 1*">
@@ -164,7 +173,7 @@
                    x:Name="botónPausa" Text="⏯"/>
           </Grid>
         </Button>
-        <Button Grid.Column="5" Margin="6,3,6,7"
+        <Button Grid.Column="5" Margin="6,3,6,7" Click="EnClicSiguiente"
                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
           <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent"
                 ColumnDefinitions="3.5*, 3*, 3.5*" RowDefinitions="1*, 8*, 1*">
@@ -173,7 +182,7 @@
                    Text="⏩"/>
           </Grid>
         </Button>
-        <Button Grid.Column="6" Margin="6,3,6,7" 
+        <Button Grid.Column="6" Margin="6,3,6,7"  Click="EnClicSilencio"
                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
           <TextBlock Grid.Row="1" Grid.Column="1"  HorizontalAlignment="Center" VerticalAlignment="Center"
                   x:Name="botónSilencio" Text="🔊"/>

@@ -18,7 +18,7 @@ public static class Constantes
 {
     public static string ExtensionesMúsica = "*.mp3";
     private static string NombreCarpeta = "Choike";
-    private static string ArchivoGuardado = "listaCarpetas.choike";
+    private static string ArchivoGuardado = "carpetas.choike";
 
     private static string ColorCarpeta = "#ffc8ff";
     private static string ColorAutor = "#ffffc8";
