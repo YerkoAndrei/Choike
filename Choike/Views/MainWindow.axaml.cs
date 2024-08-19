@@ -1,21 +1,14 @@
-﻿using Avalonia.Controls;
-using Avalonia.Controls.Primitives;
-using Avalonia.Input;
-using Avalonia.Interactivity;
-using Avalonia.Threading;
-using LibVLCSharp.Shared;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Timers;
-//using System.Windows;
-//using System.Windows.Input;
-//using System.Windows.Media;
-//using System.Windows.Interop;
-//using System.Windows.Controls;
-//using System.Windows.Controls.Primitives;
-//using Microsoft.WindowsAPICodePack.Dialogs;
+using System.Collections.Generic;
+using Avalonia.Input;
+using Avalonia.Threading;
+using Avalonia.Interactivity;
+using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
+using LibVLCSharp.Shared;
 using Timer = System.Timers.Timer;
 
 namespace Choike.Views;
@@ -27,7 +20,6 @@ public partial class MainWindow : Window
     private static bool Parado;
     private static bool Aleatorio;
     private static bool RepetirCanción;
-    private static bool ElejidoPorLista;
     private static bool MoviendoTiempoCanción;
     private static bool BloquearCambioCanción;
 
@@ -79,8 +71,7 @@ public partial class MainWindow : Window
         Parado = true;
         Aleatorio = true;
         RepetirCanción = false;
-        ElejidoPorLista = false;
-        //MoviendoTiempoCanción = false;
+        MoviendoTiempoCanción = false;
         ÍndiceAleatorioActual = 0;
 
         TamañoTiempoNormalActual = true;
@@ -333,13 +324,6 @@ public partial class MainWindow : Window
         var canción = (Canción)listaCanciones.SelectedItem;
         MostrarDatosCanción(canción, canción.Ruta);
 
-        // Elige canción al seleccionar en lista
-        if (ElejidoPorLista && Aleatorio)
-        {
-            ElejidoPorLista = false;
-            AleatorizarCanciones();
-        }
-
         // Reproducción
         mediaPlayer.Media = new Media(VLC, canción.Ruta);
         mediaPlayer.EndReached += SiguienteCanción;
@@ -385,12 +369,6 @@ public partial class MainWindow : Window
         cancionesActuales = listaFinal;
         ÍndiceAleatorioActual = 0;
     }
-    /*
-    // Se reconoce primero el clic antes del cambio de lista
-    private void EnClicCanción(object sender, MouseEventArgs e)
-    {
-        ElejidoPorLista = true;
-    }*/
 
 
     // --- Carpetas ---
@@ -631,12 +609,12 @@ public partial class MainWindow : Window
         {
             var imagenÁlbum = (byte[])(imágenes[0].Data.Data);
             imgCarátula.Source = ByteAImagen(imagenÁlbum);
-            //colorCanción.Color = ObtenerColorDominante(imagenÁlbum);
+            //colorCanción.Fill = ObtenerColorDominante(imagenÁlbum);
         }
         else
         {
             imgCarátula.Source = ObtenerSinCarátula();
-            //colorCanción.Color = ColorGris;
+            colorCanción.Fill = BrochaGris;
         }
 
         // Datos
@@ -709,19 +687,19 @@ public partial class MainWindow : Window
     }
     
     private void MostrarAleatorio()
-    {/*
+    {
         if (Aleatorio)
             botónAleatorio.Foreground = BrochaResaltado;
         else
-            botónAleatorio.Foreground = Brushes.Black;*/
+            botónAleatorio.Foreground = BrochaNegra;
     }
 
     private void MostrarRepetir()
-    {/*
+    {
         if (RepetirCanción)
             botónRepetir.Foreground = BrochaResaltado;
         else
-            botónRepetir.Foreground = Brushes.Black;*/
+            botónRepetir.Foreground = BrochaNegra;
     }
 
     private void BloquearBotones(object sender/*, KeyEventArgs e*/)

@@ -1,21 +1,13 @@
 ﻿// YerkoAndrei
-using System.IO;
-using System.Drawing;
-using System.Text.Json;
-using System.Windows;
-//using System.Windows.Media;
-//using System.Windows.Media.Imaging;
-//using Color = System.Windows.Media.Color;
-using Avalonia.Interactivity;
-using Avalonia.Media;
-using System.Collections.Generic;
-using System.Linq;
 using System;
+using System.IO;
+using System.Linq;
+using System.Text.Json;
+using System.Collections.Generic;
+using Avalonia.Media;
 using Avalonia.Platform;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Avalonia;
 using Avalonia.Media.Imaging;
+using Avalonia.Interactivity;
 
 namespace Choike;
 
@@ -23,13 +15,14 @@ public static class Constantes
 {
     public static string ExtensionesMúsica = "*.mp3";
     private static string NombreCarpeta = "Choike";
-    private static string ArchivoGuardado = "carpetas.choike";
+    private static string ArchivoGuardado = "ccarpetas.choike";
 
     private static string ColorCarpeta = "#ffc8ff";
     private static string ColorAutor = "#ffffc8";
 
-    //public static Color ColorGris = Color.FromRgb(120, 120, 100);
-    //public static System.Windows.Media.Brush BrochaResaltado = new SolidColorBrush(Color.FromRgb(200, 200, 100));
+    public static Brush BrochaResaltado = new SolidColorBrush(Color.FromRgb(200, 200, 100));
+    public static Brush BrochaGris = new SolidColorBrush(Color.FromRgb(120, 120, 100));
+    public static Brush BrochaNegra = new SolidColorBrush(Color.FromRgb(0, 0, 0));
 
     public static RoutedEventArgs RoutedEvent = new();
     public static EnumerationOptions EnumerationOptions = new()
@@ -145,51 +138,68 @@ public static class Constantes
                 return ColorAutor;
         }
     }
-    /*
-    public static Color ObtenerColorDominante(byte[] byteData)
+
+    public static Brush ObtenerColorDominante(byte[] byteData)
     {
         try
         {
             var ms = new MemoryStream(byteData);
-            var bitmap = new Bitmap(ms);
+            var bitmap = WriteableBitmap.Decode(ms);
+            var buffer = bitmap.Lock();
 
-            float r = 0;
-            float g = 0;
-            float b = 0;
+            float red = 0;
+            float green = 0;
+            float blue = 0;
             int total = 0;
 
             // Revisa pixel por pixel
-            for (int x = 0; x < bitmap.Width; x++)
+            for (int x = 0; x < buffer.Size.Width; x++)
             {
-                for (int y = 0; y < bitmap.Height; y++)
+                for (int y = 0; y < buffer.Size.Height; y++)
                 {
-                    var clr = bitmap.GetPixel(x, y);
+                    var pixel = ObtenerPixel(buffer, x, y);
 
-                    // Se salta pixeles blancos y negros
-                    if (clr.R > 250 && clr.G > 250 && clr.B > 250 ||
-                        clr.R < 5 && clr.G < 5 && clr.B < 5)
+                    // Brga8888
+                    byte b = pixel[0];
+                    byte g = pixel[1];
+                    byte r = pixel[2];
+
+                    // Se salta pixeles muy blancos o negros
+                    if (r > 250 && g > 250 && b > 250 ||
+                        r < 5 && g < 5 && b < 5)
                     {
                         total++;
                         continue;
                     }
 
-                    r += clr.R;
-                    g += clr.G;
-                    b += clr.B;
+                    red += r;
+                    green += g;
+                    blue += b;
 
                     total++;
                 }
             }
 
-            r /= total;
-            g /= total;
-            b /= total;
-
-            return Color.FromRgb((byte)r, (byte)g, (byte)b);
+            red /= total;
+            green /= total;
+            blue /= total;
+            
+            return new SolidColorBrush(Color.FromRgb((byte)red, (byte)green, (byte)blue));
         }
         catch
         {
-            return ColorGris;
+            return BrochaGris;
         }
-    }*/
+    }
+
+    public static Span<byte> ObtenerPixel(ILockedFramebuffer buffer, int x, int y)
+    {
+        unsafe
+        {
+            var bytesPerPixel = buffer.Format.BitsPerPixel;
+            var zero = (byte*)buffer.Address;
+            var offset = buffer.RowBytes * y + bytesPerPixel * x;
+            return new Span<byte>(zero + offset, bytesPerPixel);
+        }
+    }
 }

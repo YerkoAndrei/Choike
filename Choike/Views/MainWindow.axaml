@@ -92,6 +92,20 @@
     <!--Canciones-->
     <Grid Grid.Row="1" Grid.Column="2" RowDefinitions="5*, 5*">
 
+      <!--Color-->
+      <Rectangle x:Name="colorCanción" Fill="#FF282800" Grid.Row="0">
+        <Rectangle.OpacityMask>
+          <LinearGradientBrush StartPoint="0,0" EndPoint="0%,100%">
+            <LinearGradientBrush.GradientStops>
+              <GradientStop Offset="0" Color="Transparent"/>
+              <GradientStop Offset="0.1" Color="White"/>
+              <GradientStop Offset="0.5" Color="White"/>
+              <GradientStop Offset="1" Color="Transparent"/>
+            </LinearGradientBrush.GradientStops>
+          </LinearGradientBrush>
+        </Rectangle.OpacityMask>
+      </Rectangle>
+
       <!--Carátula-->
       <Image Grid.Row="0" HorizontalAlignment="Center" Margin="5,5,5,5"
               x:Name="imgCarátula" Source="/Arte/SinCarátula.png"
