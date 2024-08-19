@@ -1,5 +1,8 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
+using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Threading;
 using LibVLCSharp.Shared;
 using System;
 using System.Collections.Generic;
@@ -26,7 +29,6 @@ public partial class MainWindow : Window
     private static bool RepetirCanción;
     private static bool ElejidoPorLista;
     private static bool MoviendoTiempoCanción;
-    private static bool MirandoTiempoCanción;
     private static bool BloquearCambioCanción;
 
     private static bool TamañoTiempoNormalActual;
@@ -113,6 +115,10 @@ public partial class MainWindow : Window
         carpetasActuales = CargarCarpetasGuardadas();
         ActualizarListaCarpetas();
 
+        // Slider duración
+        porcentajeDuraciónActual.AddHandler(PointerPressedEvent, EnCursorEntraDuración, RoutingStrategies.Tunnel);
+        porcentajeDuraciónActual.AddHandler(PointerReleasedEvent, EnCursorSaleDuración, RoutingStrategies.Tunnel);
+
         // Escuchar teclado
         //oyente = new OyenteTeclado(EnTecla);
     }
@@ -122,13 +128,7 @@ public partial class MainWindow : Window
         if (Parado || Pausa)
             return;
 
-        // TaskCanceledException
-        /*try
-        {
-            if (Application.Current != null)
-                Application.Current.Dispatcher.Invoke(mostrarEstadoCanción);
-        }
-        catch { }*/
+        Dispatcher.UIThread.Invoke(mostrarEstadoCanción);
     }
 
 
@@ -273,50 +273,30 @@ public partial class MainWindow : Window
         RepetirCanción = !RepetirCanción;
         MostrarRepetir();
     }
-    /*
-    private void EnCambioVolumen(object sender, RoutedPropertyChangedEventArgs<double> e)
+    
+    private void EnCambioVolumen(object sender, RangeBaseValueChangedEventArgs e)
     {
         mediaPlayer.Volume = (int)(volumen.Value * 100);
         MostrarVolumen();
     }
-    
-    private void EnMoverTiempoCanción(object sender, DragStartedEventArgs e)
+
+    private void EnCursorEntraDuración(object sender, PointerPressedEventArgs e)
     {
-        if (Parado)
+        if (string.IsNullOrEmpty(canciónActual.Ruta))
             return;
 
         MoviendoTiempoCanción = true;
     }
 
-    private void EnCursorEntraDuración(object sender, MouseEventArgs e)
-    {
-        if (e.LeftButton != MouseButtonState.Pressed)
-            MirandoTiempoCanción = true;
-    }
-
-    private void EnCursorFueraDuración(object sender, MouseButtonEventArgs e)
-    {
-        MirandoTiempoCanción = true;
-    }
-
-    private void EnClicDuración(object sender, MouseEventArgs e)
-    {
-        if (MoviendoTiempoCanción || e.LeftButton != MouseButtonState.Pressed || !MirandoTiempoCanción)
-            return;
-
-        MirandoTiempoCanción = false;
-        EnCambioTiempoCanción(sender, null);
-    }
-
-    private void EnCambioTiempoCanción(object sender, DragCompletedEventArgs? e)
+    private void EnCursorSaleDuración(object sender, PointerReleasedEventArgs e)
     {
         if (string.IsNullOrEmpty(canciónActual.Ruta))
             return;
 
-        duraciónObjetivo.Text = string.Empty;
         MoviendoTiempoCanción = false;
-        mediaPlayer.Position = TimeSpan.FromSeconds(porcentajeDuraciónActual.Value * canciónActual.Duración.TotalSeconds);
-    }*/
+        duraciónObjetivo.Text = string.Empty;
+        mediaPlayer.Position = (float)porcentajeDuraciónActual.Value;
+    }
 
     private void EnfocarCanción(int nuevoÍndice)
     {
@@ -629,6 +609,7 @@ public partial class MainWindow : Window
                 EnCambioTamaño(null, null);
             else if (duraciónObjetivo.Text.Length <= 5 && !TamañoTiempoNormalObjetivo)
                 EnCambioTamaño(null, null);
+
             return;
         }
 

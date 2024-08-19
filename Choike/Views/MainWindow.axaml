@@ -121,7 +121,7 @@
 
       <TextBlock Grid.Row="1" Grid.Column="0" x:Name="duraciónObjetivo" VerticalAlignment="Top" Text="00:00" Margin="10,0,0,0"/>
 
-      <Slider Grid.Row="0" Grid.Column="1"
+      <Slider Grid.Row="0" Grid.Column="1" PointerPressed="EnCursorEntraDuración" PointerReleased="EnCursorSaleDuración"
               Maximum="1" SmallChange="0.005" LargeChange="0.01" TickFrequency="0.1"
               Focusable="False"
               x:Name="porcentajeDuraciónActual" />
@@ -189,9 +189,9 @@
                   x:Name="botónSilencio" Text="🔊"/>
         </Button>
 
-        <Slider Grid.Column="7" Margin="10,0,10,0"
+        <Slider Grid.Column="7" Margin="10,0,10,0" ValueChanged="EnCambioVolumen"
                 Maximum="1" SmallChange="0.05" LargeChange="0.05" TickFrequency="0.25" Focusable="False"
-                x:Name="volumen"  />
+                x:Name="volumen" />
 
         <TextBlock Grid.Column="7" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,2.5"
                    x:Name="volumenActual" Text="80" />
