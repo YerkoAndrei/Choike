@@ -673,17 +673,19 @@ public partial class MainWindow : Window
     }
 
     private void ActualizarListaCarpetas()
-    {/*
-        listaCarpetas.ItemsSource = null;
-        listaCarpetas.Items.Clear();
-        listaCarpetas.SelectedIndex = -1;
-        listaCanciones.SelectedIndex = -1;
-        */
+    {
+        try
+        {
+            // Falla cuando se borra úlimo elemento
+            listaCarpetas.ItemsSource = null;
+            listaCarpetas.Items.Clear();
+            listaCarpetas.SelectedIndex = -1;
+        }
+        catch { }
+
         carpetasActuales = carpetasActuales.OrderBy(o => o.Nombre).ToList();
         carpetasActuales = carpetasActuales.OrderBy(o => o.Tipo).ToList();
-
-        if (listaCarpetas.ItemsSource == null)
-            listaCarpetas.ItemsSource = carpetasActuales;
+        listaCarpetas.ItemsSource = carpetasActuales;
     }
 
     private void ActualizarListaCanciones()
