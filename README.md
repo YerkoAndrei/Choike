@@ -10,9 +10,9 @@ Posible futuras funciones.
 Código Abierto.
 
 ## Descargar
-<a href="https://github.com/YerkoAndrei/Choike/releases/download/1.7/InstaladorChoike.msi">Instalador</a>
+<a href="https://github.com/YerkoAndrei/Choike/releases/download/1.8/InstaladorChoike.msi">Instalador</a>
 
-Versión: 1.7 (x64)
+Versión: 1.8 (x64)
 
 ## Contacto
 Yerko Andrei Orellana Abello
