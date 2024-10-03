@@ -17,6 +17,4 @@ Versión: 1.8 (x64)
 ## Contacto
 Yerko Andrei Orellana Abello
 
-Linkedin: https://www.linkedin.com/in/yerkoandrei
-
 Correo:  yerkoandrei@gmail.com
