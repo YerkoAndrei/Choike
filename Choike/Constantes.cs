@@ -114,7 +114,7 @@ public static class Constantes
 
     public static void ActualizarCarpetasGuardadas(List<Carpeta> listaCarpetas)
     {
-        var carpetasGuardadas = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), NombreCarpeta);
+        var carpetasGuardadas = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), NombreCarpeta);
         var archivoCarpetasGuardadas = Path.Combine(carpetasGuardadas, ArchivoGuardado);
 
         if (!Directory.Exists(carpetasGuardadas))
