@@ -15,6 +15,7 @@ namespace Choike;
 public static class Constantes
 {
     public static string ExtensionesMúsica = "*.mp3";
+    private static string NombreAutor = "YerkoAndrei";
     private static string NombreCarpeta = "Choike";
     private static string ArchivoGuardado = "carpetas.choike";
 
@@ -84,9 +85,14 @@ public static class Constantes
         return imgSrc;
     }
 
+    private static string ObtenerCarpetasGuardadas()
+    {
+        return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), NombreAutor, NombreCarpeta);
+    }
+
     public static List<Carpeta> CargarCarpetasGuardadas()
     {
-        var carpetasGuardadas = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), NombreCarpeta);
+        var carpetasGuardadas = ObtenerCarpetasGuardadas();
         var archivoCarpetasGuardadas = Path.Combine(carpetasGuardadas, ArchivoGuardado);
 
         if (!Directory.Exists(carpetasGuardadas))
@@ -114,7 +120,7 @@ public static class Constantes
 
     public static void ActualizarCarpetasGuardadas(List<Carpeta> listaCarpetas)
     {
-        var carpetasGuardadas = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), NombreCarpeta);
+        var carpetasGuardadas = ObtenerCarpetasGuardadas();
         var archivoCarpetasGuardadas = Path.Combine(carpetasGuardadas, ArchivoGuardado);
 
         if (!Directory.Exists(carpetasGuardadas))
