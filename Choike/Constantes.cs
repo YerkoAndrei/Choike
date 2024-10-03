@@ -138,7 +138,7 @@ public static class Constantes
                 return ColorAutor;
         }
     }
-
+    /*
     public static Brush ObtenerColorDominante(byte[] byteData)
     {
         try
@@ -157,7 +157,7 @@ public static class Constantes
             {
                 for (int y = 0; y < buffer.Size.Height; y++)
                 {
-                    var pixel = ObtenerPixel(buffer, x, y);
+                    //var pixel = bitmap.GetPixel(buffer, x, y);
 
                     // Brga8888
                     byte b = pixel[0];
@@ -190,16 +190,5 @@ public static class Constantes
         {
             return BrochaGris;
         }
-    }
-
-    public static Span<byte> ObtenerPixel(ILockedFramebuffer buffer, int x, int y)
-    {
-        unsafe
-        {
-            var bytesPerPixel = buffer.Format.BitsPerPixel;
-            var zero = (byte*)buffer.Address;
-            var offset = buffer.RowBytes * y + bytesPerPixel * x;
-            return new Span<byte>(zero + offset, bytesPerPixel);
-        }
-    }
+    }*/
 }
