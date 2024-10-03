@@ -637,7 +637,6 @@ public partial class MainWindow : Window
         {
             // Falla cuando se borra úlimo elemento
             listaCarpetas.ItemsSource = null;
-            listaCarpetas.Items.Clear();
             listaCarpetas.SelectedIndex = -1;
         }
         catch { }

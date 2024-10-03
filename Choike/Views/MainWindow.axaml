@@ -11,15 +11,23 @@
         FontSize="18"
         WindowStartupLocation="CenterScreen"
         ExtendClientAreaToDecorationsHint="True">
-
+  
   <!--Error pantalla completa-->
   <Window.Styles>
     <Style Selector="Window[WindowState=Maximized]">
       <Setter Property="Padding" Value="8" />
     </Style>
-    
+
+    <Style Selector="Slider">
+      <Setter Property="Focusable" Value="False" />
+      <Setter Property="Background" Value="Gray" />
+      <Setter Property="Foreground" Value="Yellow" />
+      <Setter Property="TickPlacement" Value="BottomRight" />
+    </Style>
+        
   </Window.Styles>
-  
+
+  <!--Estilos-->
   <Grid ColumnDefinitions="1.6*, 5.7*, 2.7*" RowDefinitions="24, 8.5*, 1.5*">
     
     <!--Barra Título-->
@@ -37,14 +45,23 @@
     <Grid Grid.Row="1" Grid.Column="0" RowDefinitions="8.5*, 0.5*, 1*">
 
       <!--Lista Carpetas-->
-      <ListBox Grid.Row="0" x:Name="listaCarpetas" SelectionChanged="EnClicSeleccionarCarpeta"
-               SelectionMode="Single" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-               Background="Transparent" BorderThickness="1" Margin="5,5,2,5">
+      <ListBox Grid.Row="0" x:Name="listaCarpetas"
+               SelectionChanged="EnClicSeleccionarCarpeta"
+               SelectionMode="Single"
+               ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+               
+               ScrollViewer.VerticalScrollBarVisibility="Visible"
+                              
+               Background="Transparent"
+               BorderThickness="1">
+        
         <ListBox.ItemTemplate>
           <DataTemplate>
-            <StackPanel Orientation="Horizontal">
-              <TextBlock Text="{Binding Nombre}" Foreground="{Binding Color}"/>
-            </StackPanel>
+            <Border Background="Blue" >
+              <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Nombre}" Foreground="{Binding Color} "/>
+              </StackPanel>
+            </Border>
           </DataTemplate>
         </ListBox.ItemTemplate>
       </ListBox>
@@ -135,10 +152,20 @@
 
       <TextBlock Grid.Row="1" Grid.Column="0" x:Name="duraciónObjetivo" VerticalAlignment="Top" Text="00:00" Margin="10,0,0,0"/>
 
-      <Slider Grid.Row="0" Grid.Column="1" PointerPressed="EnCursorEntraDuración" PointerReleased="EnCursorSaleDuración"
-              Maximum="1" SmallChange="0.005" LargeChange="0.01" TickFrequency="0.1"
-              Focusable="False"
-              x:Name="porcentajeDuraciónActual" />
+      <Grid Grid.Row="0" Grid.Column="1">
+        <Border Background="Gray" Height="18" CornerRadius="10" VerticalAlignment="Center"/>
+        <Slider Margin="0,-20,0,0" PointerPressed="EnCursorEntraDuración" PointerReleased="EnCursorSaleDuración"
+                Maximum="1" SmallChange="0.005" LargeChange="0.01" TickFrequency="0.1"
+                x:Name="porcentajeDuraciónActual" 
+                VerticalAlignment="Center">
+            <Slider.Resources>
+              <Color x:Key="SliderThumbBackground">#FFF</Color>
+              <CornerRadius x:Key="SliderThumbCornerRadius">12</CornerRadius>
+              <x:Double x:Key="SliderHorizontalThumbHeight">25</x:Double>
+              <x:Double x:Key="SliderHorizontalThumbWidth">25</x:Double>
+            </Slider.Resources>
+        </Slider>
+      </Grid>
 
       <!--Botones Control-->
       <Grid Grid.Row="1" Grid.Column="1" ColumnDefinitions="7*, 7*, 7*, 17*, 22*, 17*, 7*, 16*">
@@ -203,9 +230,19 @@
                   x:Name="botónSilencio" Text="🔊"/>
         </Button>
 
-        <Slider Grid.Column="7" Margin="10,0,10,0" ValueChanged="EnCambioVolumen"
-                Maximum="1" SmallChange="0.05" LargeChange="0.05" TickFrequency="0.25" Focusable="False"
-                x:Name="volumen" />
+        <Grid Grid.Column="7" Margin="10,0,10,0">
+          <Border Background="Gray" Height="18" CornerRadius="10" Margin="0,0,0,10" VerticalAlignment="Center"/>          
+            <Slider ValueChanged="EnCambioVolumen" Margin="0,0,0,10" VerticalAlignment="Center"
+                    Maximum="1" SmallChange="0.05" LargeChange="0.05" TickFrequency="0.25" Focusable="False"
+                    x:Name="volumen">
+              <Slider.Resources>
+                <Color x:Key="SliderThumbBackground">#FFF</Color>
+                <CornerRadius x:Key="SliderThumbCornerRadius">12</CornerRadius>
+                <x:Double x:Key="SliderHorizontalThumbHeight">25</x:Double>
+                <x:Double x:Key="SliderHorizontalThumbWidth">25</x:Double>
+              </Slider.Resources>
+            </Slider>
+        </Grid>
 
         <TextBlock Grid.Column="7" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,2.5"
                    x:Name="volumenActual" Text="80" />
