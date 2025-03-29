@@ -12,8 +12,6 @@ Código Abierto.
 ## Descargar
 <a href="https://github.com/YerkoAndrei/Choike/releases/download/1.8/InstaladorChoike.msi">Instalador</a>
 
-Versión: 1.8 (x64)
-
 ## Contacto
 Yerko Andrei Orellana Abello
 
